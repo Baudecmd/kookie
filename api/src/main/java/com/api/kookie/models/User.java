@@ -1,10 +1,14 @@
 package com.api.kookie.models;
 
 
+import com.api.kookie.models.Ustensil.Ustensil;
+import com.api.kookie.models.Ustensil.UstensilLine;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.annotation.security.DeclareRoles;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @DeclareRoles("USER")
@@ -17,11 +21,14 @@ public class User {
     @Column(unique = true)
     private String username;
     private String password;
+    @OneToMany
+    private List<UstensilLine> ustensilLineList;
 
     public User(String email, String username, String password) {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.ustensilLineList=new ArrayList<UstensilLine>();
     }
 
     public String getUsername() {
@@ -67,6 +74,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", ustensilLineList=" + ustensilLineList +
                 '}';
     }
 }

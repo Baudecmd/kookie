@@ -23,11 +23,11 @@ public class IngredientLineParser {
         IngredientLine ingredientLine = new IngredientLine();
         if (ingredientLineDTO != null) {
             if (ingredientLineDTO.getId() != null) ingredientLine.setId(ingredientLineDTO.getId());
-            ingredientLine.setRecette(RecetteParser.toEntity(ingredientLineDTO.getRecette()));
+            ingredientLine.setRecette(RecetteParser.toEntity(ingredientLineDTO.getRecetteDTO()));
             ingredientLine.setIngredient(IngredientParser.toEntity(ingredientLineDTO.getIngredientDTO()));
             ingredientLine.setQuantity(ingredientLineDTO.getQuantity());
         }
-        return ingredient;
+        return ingredientLine;
     }
 
     public static List<IngredientLineDTO> parseListToDTO(List<IngredientLine> ingredientLines) {

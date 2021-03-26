@@ -22,7 +22,7 @@ public class JwtUtils {
         }
     }
 
-    public static int getEmailInToken(String token) throws JWTDecodeException
+    public static int getIdFromToken(String token) throws JWTDecodeException
     {
             JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret))
                     .withIssuer("auth0")

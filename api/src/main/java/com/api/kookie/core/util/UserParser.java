@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserParser {
-    
+
     public static UserDTO toDTO(User user) {
         UserDTO userDTO = new UserDTO();
         if (user != null) {

@@ -8,7 +8,8 @@ import javax.persistence.Id;
 @Entity
 public class Ustensil {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY) long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    long id;
 
     String nom;
 

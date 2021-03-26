@@ -5,7 +5,8 @@ import javax.persistence.*;
 @Entity
 public class UstensilLine {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY) long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    long id;
 
     @OneToOne
     Ustensil ustensil;
@@ -14,6 +15,11 @@ public class UstensilLine {
 
     public UstensilLine() {
 
+    }
+
+    public UstensilLine(Ustensil ustensil, int nb) {
+        this.ustensil = ustensil;
+        this.nb = nb;
     }
 
     public long getId() {
@@ -37,11 +43,6 @@ public class UstensilLine {
     }
 
     public void setNb(int nb) {
-        this.nb = nb;
-    }
-
-    public UstensilLine(Ustensil ustensil, int nb) {
-        this.ustensil = ustensil;
         this.nb = nb;
     }
 

@@ -1,6 +1,5 @@
 package com.api.kookie.core.dto;
 
-import javax.persistence.Column;
 import java.util.Objects;
 
 public class UserDTO {

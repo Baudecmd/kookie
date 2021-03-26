@@ -8,7 +8,6 @@ import javax.persistence.*;
 public class Recette {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY) long id;
-
     @OneToOne(cascade= CascadeType.ALL)
     private User createur;
 

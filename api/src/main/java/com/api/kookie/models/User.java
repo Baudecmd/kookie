@@ -1,6 +1,8 @@
 package com.api.kookie.models;
 
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import javax.annotation.security.DeclareRoles;
 import javax.persistence.*;
 

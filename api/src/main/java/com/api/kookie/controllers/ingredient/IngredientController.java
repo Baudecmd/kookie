@@ -50,7 +50,7 @@ public class IngredientController {
 
         List<IngredientDTO> ingredients = ingredientService.getAllIngredientsByCategoryId(categoryId);
 
-        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(null);
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(ingredients);
 
     }
 

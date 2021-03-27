@@ -6,12 +6,14 @@ import java.util.Set;
 @Entity
 public class Category {
 
-    @OneToMany(cascade = CascadeType.ALL)
-    Set<Ingredient> ingredients;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
     private String name;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Ingredient> ingredients;
 
     public Category() {
     }

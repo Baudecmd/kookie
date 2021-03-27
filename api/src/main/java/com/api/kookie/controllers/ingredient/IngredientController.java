@@ -21,9 +21,9 @@ public class IngredientController {
     @Autowired
     IngredientService ingredientService;
 
-    @PostMapping
-    public ResponseEntity<?> add(@RequestBody IngredientDTO ingredientDTO) {
-        LOGGER.debug("[IngredientController, add] ingredientDTO: " + ingredientDTO.toString());
+    @PostMapping("/create")
+    public ResponseEntity<?> createIngredient(@RequestBody IngredientDTO ingredientDTO) {
+        LOGGER.debug("[IngredientController, createIngredient] ingredientDTO: " + ingredientDTO.toString());
 
         boolean isAdded = ingredientService.createIngredient(ingredientDTO);
 
@@ -36,7 +36,7 @@ public class IngredientController {
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllIngredients() {
-        LOGGER.debug("[IngredientController, add]");
+        LOGGER.debug("[IngredientController, getAllIngredients]");
 
         List<IngredientDTO> ingredients = ingredientService.getAllIngredients();
 
@@ -46,7 +46,7 @@ public class IngredientController {
 
     @GetMapping("/all/category")
     public ResponseEntity<?> getAllIngredientsByCategoryId(@RequestParam Integer categoryId) {
-        LOGGER.debug("[IngredientController, add] categoryId =  " + categoryId);
+        LOGGER.debug("[IngredientController, getAllIngredientsByCategoryId] categoryId =  " + categoryId);
 
         List<IngredientDTO> ingredients = ingredientService.getAllIngredientsByCategoryId(categoryId);
 

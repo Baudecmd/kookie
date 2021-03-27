@@ -13,6 +13,8 @@ public class RecetteDTO {
 
     private List<IngredientLineDTO> ingredientLinesDTO;
 
+    private List<StepLineDTO> stepLinesDTO;
+
     public RecetteDTO() {
     }
 
@@ -48,18 +50,27 @@ public class RecetteDTO {
         this.ingredientLinesDTO = ingredientLinesDTO;
     }
 
+    public List<StepLineDTO> getStepLinesDTO() {
+        return stepLinesDTO;
+    }
+
+    public void setStepLinesDTO(List<StepLineDTO> stepLinesDTO) {
+        this.stepLinesDTO = stepLinesDTO;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof RecetteDTO)) return false;
         RecetteDTO that = (RecetteDTO) o;
-        return getId() == that.getId() && Objects.equals(getUserDTO(), that.getUserDTO()) && Objects.equals(getName(), that.getName()) && Objects.equals(getIngredientLinesDTO(), that.getIngredientLinesDTO());
+        return getId() == that.getId() && Objects.equals(getUserDTO(), that.getUserDTO()) && Objects.equals(getName(), that.getName()) && Objects.equals(getIngredientLinesDTO(), that.getIngredientLinesDTO()) && Objects.equals(getStepLinesDTO(), that.getStepLinesDTO());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUserDTO(), getName(), getIngredientLinesDTO());
+        return Objects.hash(getId(), getUserDTO(), getName(), getIngredientLinesDTO(), getStepLinesDTO());
     }
+
 
     @Override
     public String toString() {
@@ -68,6 +79,8 @@ public class RecetteDTO {
                 ", userDTO=" + userDTO +
                 ", name='" + name + '\'' +
                 ", ingredientLinesDTO=" + ingredientLinesDTO.toString() +
+                ", stepLinesDTO=" + stepLinesDTO.toString() +
                 '}';
     }
+
 }

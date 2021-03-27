@@ -1,6 +1,7 @@
 package com.api.kookie.data.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Ingredient {
@@ -15,6 +16,9 @@ public class Ingredient {
 
     @OneToOne
     private Category category;
+
+    @OneToMany
+    private Set<IngredientLine> ingredientLines;
 
     public Ingredient() {
     }
@@ -42,6 +46,14 @@ public class Ingredient {
         this.name = name;
     }
 
+    public boolean isVegan() {
+        return isVegan;
+    }
+
+    public void setVegan(boolean vegan) {
+        isVegan = vegan;
+    }
+
     public boolean isIsVegan() {
         return isVegan;
     }
@@ -56,6 +68,14 @@ public class Ingredient {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Set<IngredientLine> getIngredientLines() {
+        return ingredientLines;
+    }
+
+    public void setIngredientLines(Set<IngredientLine> ingredientLines) {
+        this.ingredientLines = ingredientLines;
     }
 
     @Override

@@ -1,6 +1,9 @@
 package com.api.kookie.models;
 
+import com.api.kookie.data.entity.IngredientLine;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "RECETTE", schema = "PUBLIC")
@@ -12,6 +15,9 @@ public class Recette {
     private User createur;
 
     private String nom;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<IngredientLine> ingredientLines;
 
     public Recette() {
 
@@ -44,5 +50,13 @@ public class Recette {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public Set<IngredientLine> getIngredientLines() {
+        return ingredientLines;
+    }
+
+    public void setIngredientLines(Set<IngredientLine> ingredientLines) {
+        this.ingredientLines = ingredientLines;
     }
 }

@@ -35,7 +35,7 @@ public class IngredientController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<?> add() {
+    public ResponseEntity<?> getAllIngredients() {
         LOGGER.debug("[IngredientController, add]");
 
         List<IngredientDTO> ingredients = ingredientService.getAllIngredients();
@@ -44,8 +44,8 @@ public class IngredientController {
 
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<?> add(@RequestParam Integer categoryId) {
+    @GetMapping("/all/category")
+    public ResponseEntity<?> getAllIngredientsByCategoryId(@RequestParam Integer categoryId) {
         LOGGER.debug("[IngredientController, add] categoryId =  " + categoryId);
 
         List<IngredientDTO> ingredients = ingredientService.getAllIngredientsByCategoryId(categoryId);

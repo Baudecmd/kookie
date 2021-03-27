@@ -27,11 +27,11 @@ public class CategoryParser {
     }
 
     public static List<CategoryDTO> parseListToDTO(List<Category> categories) {
-        List<CategoryDTO> listCategoryDTOs = new ArrayList<>();
+        List<CategoryDTO> listCategoriesDTO = new ArrayList<>();
         for (Category cat : categories) {
-            listCategoryDTOs.add(toDTO(cat));
+            listCategoriesDTO.add(toDTO(cat));
         }
-        return listCategoryDTOs;
+        return listCategoriesDTO;
     }
 
 }

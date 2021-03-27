@@ -51,7 +51,7 @@ public class IngredientDTO {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", isVegan=" + isVegan +
-                ", categoryDTO=" + categoryDTO +
+                ", categoryDTO=" + categoryDTO.toString() +
                 '}';
     }
 }

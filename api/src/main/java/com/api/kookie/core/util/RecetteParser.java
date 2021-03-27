@@ -13,6 +13,7 @@ public class RecetteParser {
             recetteDTO.setId(recette.getId());
             recetteDTO.setUserDTO(UserParser.toDTO(recette.getCreateur()));
             recetteDTO.setName(recette.getNom());
+            recetteDTO.setIngredientLinesDTO(IngredientLineParser.parseListToDTO(recette.getIngredientLines()));
         }
         return recetteDTO;
     }
@@ -23,15 +24,16 @@ public class RecetteParser {
             recette.setId(recetteDTO.getId());
             recette.setCreateur(UserParser.toEntity(recetteDTO.getUserDTO()));
             recette.setNom(recetteDTO.getName());
+            recette.setIngredientLines(IngredientLineParser.parseListToEntity(recetteDTO.getIngredientLinesDTO()));
         }
         return recette;
     }
 
     public static List<RecetteDTO> parseListToDTO(List<Recette> recettes) {
-        List<RecetteDTO> listRecetteDTOs = new ArrayList<>();
+        List<RecetteDTO> listRecettesDTO = new ArrayList<>();
         for (Recette recette : recettes) {
-            listRecetteDTOs.add(toDTO(recette));
+            listRecettesDTO.add(toDTO(recette));
         }
-        return listRecetteDTOs;
+        return listRecettesDTO;
     }
 }

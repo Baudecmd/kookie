@@ -29,10 +29,10 @@ public class UserParser {
     }
 
     public static List<UserDTO> parseListToDTO(List<User> users) {
-        List<UserDTO> listUserDTOs = new ArrayList<>();
+        List<UserDTO> listUsersDTO = new ArrayList<>();
         for (User user : users) {
-            listUserDTOs.add(toDTO(user));
+            listUsersDTO.add(toDTO(user));
         }
-        return listUserDTOs;
+        return listUsersDTO;
     }
 }

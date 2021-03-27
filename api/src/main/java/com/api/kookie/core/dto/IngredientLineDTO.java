@@ -65,7 +65,7 @@ public class IngredientLineDTO {
         return "IngredientLineDTO{" +
                 "id=" + id +
                 ", recetteDTO=" + recetteDTO +
-                ", ingredientDTO=" + ingredientDTO +
+                ", ingredientDTO=" + ingredientDTO.toString() +
                 ", quantity=" + quantity +
                 '}';
     }

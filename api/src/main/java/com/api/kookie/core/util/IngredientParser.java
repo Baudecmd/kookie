@@ -31,10 +31,10 @@ public class IngredientParser {
     }
 
     public static List<IngredientDTO> parseListToDTO(List<Ingredient> ingredients) {
-        List<IngredientDTO> listIngredientDTOs = new ArrayList<>();
+        List<IngredientDTO> listIngredientsDTO = new ArrayList<>();
         for (Ingredient ingredient : ingredients) {
-            listIngredientDTOs.add(toDTO(ingredient));
+            listIngredientsDTO.add(toDTO(ingredient));
         }
-        return listIngredientDTOs;
+        return listIngredientsDTO;
     }
 }

@@ -3,6 +3,7 @@ package com.api.kookie.models;
 import com.api.kookie.data.entity.IngredientLine;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,7 +18,7 @@ public class Recette {
     private String nom;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private Set<IngredientLine> ingredientLines;
+    private List<IngredientLine> ingredientLines;
 
     public Recette() {
 
@@ -52,11 +53,11 @@ public class Recette {
         this.nom = nom;
     }
 
-    public Set<IngredientLine> getIngredientLines() {
+    public List<IngredientLine> getIngredientLines() {
         return ingredientLines;
     }
 
-    public void setIngredientLines(Set<IngredientLine> ingredientLines) {
+    public void setIngredientLines(List<IngredientLine> ingredientLines) {
         this.ingredientLines = ingredientLines;
     }
 }

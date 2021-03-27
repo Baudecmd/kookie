@@ -31,10 +31,18 @@ public class IngredientLineParser {
     }
 
     public static List<IngredientLineDTO> parseListToDTO(List<IngredientLine> ingredientLines) {
-        List<IngredientLineDTO> listIngredientLineDTOs = new ArrayList<>();
+        List<IngredientLineDTO> listIngredientLinesDTO = new ArrayList<>();
         for (IngredientLine ingredientLine : ingredientLines) {
-            listIngredientLineDTOs.add(toDTO(ingredientLine));
+            listIngredientLinesDTO.add(toDTO(ingredientLine));
         }
-        return listIngredientLineDTOs;
+        return listIngredientLinesDTO;
+    }
+
+    public static List<IngredientLine> parseListToEntity(List<IngredientLineDTO> ingredientLinesDTO) {
+        List<IngredientLine> listIngredientLines = new ArrayList<>();
+        for (IngredientLineDTO ingredientLineDTO : ingredientLinesDTO) {
+            listIngredientLines.add(toEntity(ingredientLineDTO));
+        }
+        return listIngredientLines;
     }
 }

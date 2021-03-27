@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class CategoryDTO {
 
-    Set<IngredientDTO> ingredientDTOs;
+    Set<IngredientDTO> ingredientsDTO;
     private Integer id;
     private String name;
 
@@ -28,12 +28,12 @@ public class CategoryDTO {
         this.name = name;
     }
 
-    public Set<IngredientDTO> getIngredientDTOs() {
-        return ingredientDTOs;
+    public Set<IngredientDTO> getIngredientsDTO() {
+        return ingredientsDTO;
     }
 
-    public void setIngredientDTOs(Set<IngredientDTO> ingredientDTOs) {
-        this.ingredientDTOs = ingredientDTOs;
+    public void setIngredientsDTO(Set<IngredientDTO> ingredientsDTO) {
+        this.ingredientsDTO = ingredientsDTO;
     }
 
     @Override
@@ -41,12 +41,12 @@ public class CategoryDTO {
         if (this == o) return true;
         if (!(o instanceof CategoryDTO)) return false;
         CategoryDTO that = (CategoryDTO) o;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getIngredientDTOs(), that.getIngredientDTOs());
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getIngredientsDTO(), that.getIngredientsDTO());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getIngredientDTOs());
+        return Objects.hash(getId(), getName(), getIngredientsDTO());
     }
 
     @Override
@@ -54,7 +54,6 @@ public class CategoryDTO {
         return "CategoryDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", ingredientDTOs=" + ingredientDTOs +
                 '}';
     }
 }

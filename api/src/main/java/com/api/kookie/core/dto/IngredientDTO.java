@@ -6,7 +6,7 @@ public class IngredientDTO {
 
     private String name;
 
-    private boolean vegan;
+    private boolean isVegan;
 
     private CategoryDTO categoryDTO;
 
@@ -30,11 +30,11 @@ public class IngredientDTO {
     }
 
     public boolean isVegan() {
-        return vegan;
+        return isVegan;
     }
 
     public void setVegan(boolean vegan) {
-        this.vegan = vegan;
+        this.isVegan = vegan;
     }
 
     public CategoryDTO getCategoryDTO() {
@@ -50,7 +50,7 @@ public class IngredientDTO {
         return "IngredientDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", vegan=" + vegan +
+                ", isVegan=" + isVegan +
                 ", categoryDTO=" + categoryDTO +
                 '}';
     }

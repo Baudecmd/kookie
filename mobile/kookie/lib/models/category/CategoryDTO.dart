@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:kookie/models/ingredient/IngredientDTO.dart';
 
 part 'CategoryDTO.g.dart';
 
@@ -7,9 +6,8 @@ part 'CategoryDTO.g.dart';
 class CategoryDTO {
   final int? id;
   final String name;
-  final Set<IngredientDTO>? ingredientDTOs;
 
-  CategoryDTO({this.id, required this.name, this.ingredientDTOs});
+  CategoryDTO({this.id, required this.name});
 
   factory CategoryDTO.fromJson(Map<String, dynamic> json) =>
       _$CategoryDTOFromJson(json);

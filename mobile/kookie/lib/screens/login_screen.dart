@@ -14,48 +14,51 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          image: DecorationImage(
-            image: AssetImage('assets/images/login_page_bg.png'),
-            fit: BoxFit.cover,
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            image: DecorationImage(
+              image: AssetImage('assets/images/login_page_bg.png'),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image(
-                width: 0.6 * MediaQuery.of(context).size.width,
-                image: AssetImage('assets/images/logo.png'),
-              ),
-              SizedBox(height: 60),
-              CustomTextField(
-                hintText: 'Email',
-                validator: isEmail,
-              ),
-              SizedBox(height: 30),
-              CustomTextField(
-                hintText: 'Password',
-                isObscureText: true,
-              ),
-              SizedBox(height: 30),
-              CustomButton(text: 'SE CONNECTER', onTap: _submitForm),
-              SizedBox(height: 60),
-              Center(
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Text(
-                    'Mot de passe oublié ?',
-                    style: TextStyle(
-                        color: Color(0xFF38784D),
-                        decoration: TextDecoration.underline),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                  width: 0.6 * MediaQuery.of(context).size.width,
+                  image: AssetImage('assets/images/logo.png'),
+                ),
+                SizedBox(height: 60),
+                CustomTextField(
+                  hintText: 'Email',
+                  validator: isEmail,
+                ),
+                SizedBox(height: 30),
+                CustomTextField(
+                  hintText: 'Password',
+                  isObscureText: true,
+                ),
+                SizedBox(height: 30),
+                CustomButton(text: 'SE CONNECTER', onTap: _submitForm),
+                SizedBox(height: 60),
+                Center(
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Text(
+                      'Mot de passe oublié ?',
+                      style: TextStyle(
+                          color: Color(0xFF38784D),
+                          decoration: TextDecoration.underline),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

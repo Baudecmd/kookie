@@ -1,7 +1,4 @@
-package com.api.kookie.models;
-
-import com.api.kookie.data.entity.IngredientLine;
-import com.api.kookie.data.entity.StepLine;
+package com.api.kookie.data.entity;
 
 import javax.persistence.*;
 import java.util.List;

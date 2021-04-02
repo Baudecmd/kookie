@@ -1,7 +1,5 @@
 package com.api.kookie.data.entity;
 
-import com.api.kookie.models.Recette;
-
 import javax.persistence.*;
 
 @Entity

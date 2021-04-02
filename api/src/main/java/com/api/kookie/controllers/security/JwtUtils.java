@@ -1,4 +1,4 @@
-package com.api.kookie.security;
+package com.api.kookie.controllers.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

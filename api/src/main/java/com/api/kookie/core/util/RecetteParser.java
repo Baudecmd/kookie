@@ -1,7 +1,7 @@
 package com.api.kookie.core.util;
 
 import com.api.kookie.core.dto.RecetteDTO;
-import com.api.kookie.models.Recette;
+import com.api.kookie.data.entity.Recette;
 
 import java.util.ArrayList;
 import java.util.List;

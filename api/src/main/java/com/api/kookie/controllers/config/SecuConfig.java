@@ -1,4 +1,4 @@
-package com.api.kookie.config;
+package com.api.kookie.controllers.config;
 
 
 import org.springframework.context.annotation.Bean;

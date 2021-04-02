@@ -1,8 +1,8 @@
-package com.api.kookie.controllers;
+package com.api.kookie.controllers.user;
 
-import com.api.kookie.models.User;
-import com.api.kookie.repositories.UserRepository;
-import com.api.kookie.security.JwtUtils;
+import com.api.kookie.data.entity.User;
+import com.api.kookie.data.user.UserRepository;
+import com.api.kookie.controllers.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;

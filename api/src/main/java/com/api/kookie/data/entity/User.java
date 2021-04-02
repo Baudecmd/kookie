@@ -1,7 +1,7 @@
-package com.api.kookie.models;
+package com.api.kookie.data.entity;
 
 
-import com.api.kookie.models.Ustensil.UstensilLine;
+import com.api.kookie.data.entity.Ustensil.UstensilLine;
 
 import javax.annotation.security.DeclareRoles;
 import javax.persistence.*;

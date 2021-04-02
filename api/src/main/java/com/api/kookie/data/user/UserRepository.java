@@ -1,6 +1,6 @@
-package com.api.kookie.repositories;
+package com.api.kookie.data.user;
 
-import com.api.kookie.models.User;
+import com.api.kookie.data.entity.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

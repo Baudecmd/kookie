@@ -1,4 +1,4 @@
-package com.api.kookie.models.Ustensil;
+package com.api.kookie.data.entity.Ustensil;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -1,6 +1,6 @@
-package com.api.kookie.repositories;
+package com.api.kookie.data.recette;
 
-import com.api.kookie.models.Recette;
+import com.api.kookie.data.entity.Recette;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

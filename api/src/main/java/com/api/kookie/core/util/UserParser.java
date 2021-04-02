@@ -1,7 +1,7 @@
 package com.api.kookie.core.util;
 
 import com.api.kookie.core.dto.UserDTO;
-import com.api.kookie.models.User;
+import com.api.kookie.data.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;

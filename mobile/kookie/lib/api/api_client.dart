@@ -5,7 +5,7 @@ class ApiClient {
   final http.Client httpClient = http.Client();
 
   Future<http.Response> getDataRequest(String url, String token) async {
-    return await httpClient.get(Uri.parse(url), headers: {
+    return await httpClient.get(Uri.parse(urlApi + url), headers: {
       "Authorization": "token" + token,
     });
   }
@@ -13,7 +13,7 @@ class ApiClient {
   Future<http.Response> postDataRequest(
       String url, String token, String body) async {
     return await httpClient.post(
-      Uri.parse(url),
+      Uri.parse(urlApi + url),
       headers: {
         "Authorization": "Bearer" + token,
         "Accept": "application/json",

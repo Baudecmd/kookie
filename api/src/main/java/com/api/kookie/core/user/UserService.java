@@ -12,4 +12,5 @@ public interface UserService {
     Boolean usernameAlreadyExists(String username);
 
     Boolean emailAlreadyExists(String email);
+
 }

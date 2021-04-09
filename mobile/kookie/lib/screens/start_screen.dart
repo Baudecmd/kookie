@@ -14,7 +14,6 @@ class _StartScreenState extends State<StartScreen> {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
           image: DecorationImage(
             image: AssetImage('assets/images/start_page_bg.png'),
             fit: BoxFit.cover,
@@ -71,7 +70,7 @@ class _StartScreenState extends State<StartScreen> {
                           onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => SignupScreen())),
+                                  builder: (_) => SignUpScreen())),
                           child: Container(
                             alignment: Alignment.center,
                             height: 52,

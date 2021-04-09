@@ -1,17 +1,18 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kookie/controllers/text_form_field.dart';
+import 'package:kookie/screens/signup_userinfo_screen.dart';
 import 'package:kookie/widgets/custom_button.dart';
 import 'package:kookie/widgets/custom_text_field.dart';
 
-import 'next_signup_screen.dart';
-
-class SignupScreen extends StatefulWidget {
+class SignUpScreen extends StatefulWidget {
   @override
-  _SignupScreenState createState() => _SignupScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
+  var passwordValue;
 
   @override
   Widget build(BuildContext context) {
@@ -20,43 +21,65 @@ class _SignupScreenState extends State<SignupScreen> {
         child: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(color: Colors.white),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 150,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image(
                       width: 0.6 * MediaQuery.of(context).size.width,
-                      image: AssetImage('assets/images/logo.png'),
+                      image: AssetImage('assets/images/logo.png')),
+                ],
+              ),
+              SizedBox(height: 30),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    CustomTextField(
+                      hintText: 'Email',
+                      validator: isEmail,
                     ),
-                    Text(
-                      'Créer un compte',
-                      style: TextStyle(fontSize: 18, color: Colors.black),
+                    SizedBox(height: 30),
+                    CustomTextField(
+                      hintText: 'Password',
+                      isObscureText: true,
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return "Please enter a password";
+                        } else if (value.length < 8) {
+                          return "Password length must be at least 8 characters long";
+                        } else {
+                          passwordValue = value;
+                          return null;
+                        }
+                      },
                     ),
+                    SizedBox(height: 30),
+                    CustomTextField(
+                      hintText: 'Verify password',
+                      isObscureText: true,
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return "Please enter a password";
+                        } else if (value.length < 8) {
+                          return "Password length must be at least 8 characters long";
+                        } else if (value != passwordValue) {
+                          return "Password must be the same as above";
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                    SizedBox(height: 30),
+                    CustomButton(text: 'SUIVANT', onTap: _submitForm)
                   ],
                 ),
-                SizedBox(height: 60),
-                CustomTextField(
-                  hintText: 'Email',
-                  validator: isEmail,
-                ),
-                SizedBox(height: 30),
-                CustomTextField(
-                  hintText: 'Password',
-                  isObscureText: true,
-                ),
-                SizedBox(height: 30),
-                CustomButton(text: 'SUIVANT', onTap: _submitForm),
-                SizedBox(height: 60),
-              ],
-            ),
+              )
+            ],
           ),
         ),
       ),
@@ -65,11 +88,8 @@ class _SignupScreenState extends State<SignupScreen> {
 
   _submitForm() {
     if (_formKey.currentState!.validate()) {
-      // TODO : IL FAUT VERIFIER SI LE MAIL EXISTE OU PAS
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Processing Data')));
       Navigator.push(
-          context, MaterialPageRoute(builder: (_) => NextSignupScreen()));
+          context, MaterialPageRoute(builder: (_) => SignUpUserInfoScreen()));
     }
   }
 }

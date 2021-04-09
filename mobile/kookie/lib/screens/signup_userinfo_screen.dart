@@ -80,8 +80,6 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
 
   _submitForm(){
     if(_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Processing Data')));
       Navigator.push(
           context,
           MaterialPageRoute(

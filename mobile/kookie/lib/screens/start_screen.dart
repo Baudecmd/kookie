@@ -14,7 +14,6 @@ class _StartScreenState extends State<StartScreen> {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
           image: DecorationImage(
             image: AssetImage('assets/images/start_page_bg.png'),
             fit: BoxFit.cover,

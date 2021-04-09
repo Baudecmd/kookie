@@ -34,6 +34,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       image: AssetImage('assets/images/logo.png')),
                 ],
               ),
+              SizedBox(height: 30),
               Form(
                 key: _formKey,
                 child: Column(

@@ -16,7 +16,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
           image: DecorationImage(
             image: AssetImage('assets/images/login_page_bg.png'),
             fit: BoxFit.cover,

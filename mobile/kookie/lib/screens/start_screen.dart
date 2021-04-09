@@ -71,7 +71,7 @@ class _StartScreenState extends State<StartScreen> {
                           onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => SignupScreen())),
+                                  builder: (_) => SignUpScreen())),
                           child: Container(
                             alignment: Alignment.center,
                             height: 52,

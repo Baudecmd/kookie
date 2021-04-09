@@ -37,6 +37,9 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
                         if(validCharacters.hasMatch(value)){
                           return null;
                         }
+                        else if(value.isEmpty){
+                          return "Name field is empty";
+                        }
                         else{
                           return "That doesn't look like a name...";
                         }
@@ -49,6 +52,9 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
                         var validCharacters = RegExp(r'^[a-zA-Z]+$');
                         if(validCharacters.hasMatch(value)){
                           return null;
+                        }
+                        else if(value.isEmpty){
+                          return "Firstname field is empty";
                         }
                         else{
                           return "That doesn't look like a firstname...";

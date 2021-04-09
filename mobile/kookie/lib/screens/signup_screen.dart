@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kookie/controllers/text_form_field.dart';
+import 'package:kookie/models/user/UserDTO.dart';
 import 'package:kookie/screens/signup_userinfo_screen.dart';
 import 'package:kookie/widgets/custom_button.dart';
 import 'package:kookie/widgets/custom_text_field.dart';
@@ -12,6 +13,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
+  final UserDTO user = UserDTO();
   var passwordValue;
 
   @override
@@ -41,7 +43,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   children: [
                     CustomTextField(
                       hintText: 'Email',
-                      validator: isEmail,
+                      validator: (String value) => {
+                        if (isEmail(value) == null) {user.email = value}
+                      },
                     ),
                     SizedBox(height: 30),
                     CustomTextField(
@@ -70,6 +74,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         } else if (value != passwordValue) {
                           return "Password must be the same as above";
                         } else {
+                          user.password = value;
                           return null;
                         }
                       },
@@ -88,8 +93,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   _submitForm() {
     if (_formKey.currentState!.validate()) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (_) => SignUpUserInfoScreen()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (_) => SignUpUserInfoScreen(user)));
     }
   }
 }

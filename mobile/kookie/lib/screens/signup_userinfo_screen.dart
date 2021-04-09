@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:kookie/models/profile/ProfileDTO.dart';
+import 'package:kookie/models/user/UserDTO.dart';
+import 'package:kookie/repositories/sign_up_repository.dart';
 import 'package:kookie/screens/confirmation_screen.dart';
 import 'package:kookie/widgets/custom_button.dart';
 import 'package:kookie/widgets/custom_text_field.dart';
 
 class SignUpUserInfoScreen extends StatefulWidget {
+  final UserDTO user;
+
+  SignUpUserInfoScreen(this.user);
+
   @override
   _SignUpUserInfoScreenState createState() => _SignUpUserInfoScreenState();
 }
@@ -11,6 +18,14 @@ class SignUpUserInfoScreen extends StatefulWidget {
 class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
 
   final _formKey = GlobalKey<FormState>();
+  final SignUpRepository repository = SignUpRepository();
+  final ProfileDTO profile = ProfileDTO();
+
+  @override
+  void initState() {
+    super.initState();
+    profile.user = widget.user;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +54,9 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
                           validator: (String value) {
                             var validCharacters = RegExp(r'^[a-zA-Z]+$');
                             if(validCharacters.hasMatch(value)){
-                              return null;
-                            }
+                              profile.lastName = value;
+                          return null;
+                        }
                             else if(value.isEmpty){
                               return "Name field is empty";
                             }
@@ -55,8 +71,9 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
                           validator: (String value) {
                             var validCharacters = RegExp(r'^[a-zA-Z]+$');
                             if(validCharacters.hasMatch(value)){
-                              return null;
-                            }
+                              profile.firstName = value;
+                          return null;
+                        }
                             else if(value.isEmpty){
                               return "Firstname field is empty";
                             }
@@ -78,14 +95,11 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
     );
   }
 
-  _submitForm(){
-    if(_formKey.currentState!.validate()) {
+  _submitForm() async {
+    if (_formKey.currentState!.validate()) {
+      await repository.createProfile(profile);
       Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (_) => ConfirmationScreen()
-          )
-      );
+          context, MaterialPageRoute(builder: (_) => ConfirmationScreen()));
     }
   }
 }

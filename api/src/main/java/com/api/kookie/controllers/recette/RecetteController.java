@@ -1,10 +1,10 @@
 package com.api.kookie.controllers.recette;
 
+import com.api.kookie.controllers.security.JwtUtils;
 import com.api.kookie.data.entity.Recette;
 import com.api.kookie.data.entity.User;
 import com.api.kookie.data.recette.RecetteRepository;
 import com.api.kookie.data.user.UserRepository;
-import com.api.kookie.controllers.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

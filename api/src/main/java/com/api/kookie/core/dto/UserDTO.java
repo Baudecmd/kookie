@@ -10,6 +10,8 @@ public class UserDTO {
 
     private String username;
 
+    private String password;
+
     private String token;
 
     public UserDTO() {
@@ -39,17 +41,12 @@ public class UserDTO {
         this.username = username;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof UserDTO)) return false;
-        UserDTO userDTO = (UserDTO) o;
-        return getId() == userDTO.getId() && Objects.equals(getEmail(), userDTO.getEmail()) && Objects.equals(getUsername(), userDTO.getUsername()) && Objects.equals(getToken(), userDTO.getToken());
+    public String getPassword() {
+        return password;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getEmail(), getUsername(), getToken());
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getToken() {
@@ -58,6 +55,19 @@ public class UserDTO {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserDTO)) return false;
+        UserDTO userDTO = (UserDTO) o;
+        return getId() == userDTO.getId() && Objects.equals(getEmail(), userDTO.getEmail()) && Objects.equals(getUsername(), userDTO.getUsername()) && Objects.equals(getPassword(), userDTO.getPassword()) && Objects.equals(getToken(), userDTO.getToken());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getEmail(), getUsername(), getPassword(), getToken());
     }
 
     @Override

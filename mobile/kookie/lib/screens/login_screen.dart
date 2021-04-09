@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kookie/controllers/text_form_field.dart';
 import 'package:kookie/widgets/custom_button.dart';
 import 'package:kookie/widgets/custom_text_field.dart';
+
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -36,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 60),
                 CustomTextField(
                   hintText: 'Email',
-                  validator: isEmail,
+                  /*validator: isEmail,*/
                 ),
                 SizedBox(height: 30),
                 CustomTextField(
@@ -69,8 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_formKey.currentState!.validate()) {
       // If the form is valid, display a snackbar. In the real world,
       // you'd often call a server or save the information in a database.
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Processing Data')));
+      Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()));
     }
   }
 }

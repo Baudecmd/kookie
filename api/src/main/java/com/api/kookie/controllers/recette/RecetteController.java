@@ -1,10 +1,12 @@
 package com.api.kookie.controllers.recette;
 
+import com.api.kookie.controllers.security.JwtUtils;
+import com.api.kookie.core.dto.RecetteDTO;
+import com.api.kookie.core.recette.RecetteService;
 import com.api.kookie.data.entity.Recette;
 import com.api.kookie.data.entity.User;
 import com.api.kookie.data.recette.RecetteRepository;
 import com.api.kookie.data.user.UserRepository;
-import com.api.kookie.controllers.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +24,8 @@ public class RecetteController {
     RecetteRepository recetteRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    RecetteService recetteService;
 
 
     @GetMapping("/recettes")
@@ -46,11 +50,15 @@ public class RecetteController {
             map.put("erreur_lib", "problème d'auth veuillez vous reconnecter");
 
         }
-
         return map;
-
-
     }
+
+    @GetMapping("/recette_search")
+    public List<RecetteDTO> recette_search() {
+        return recetteService.searchByString("test");
+    }
+
+
 
 
 }

@@ -12,6 +12,8 @@ public class UserDTO {
 
     private String password;
 
+    private String token;
+
     public UserDTO() {
     }
 
@@ -47,17 +49,25 @@ public class UserDTO {
         this.password = password;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof UserDTO)) return false;
         UserDTO userDTO = (UserDTO) o;
-        return getId() == userDTO.getId() && Objects.equals(getEmail(), userDTO.getEmail()) && Objects.equals(getUsername(), userDTO.getUsername()) && Objects.equals(getPassword(), userDTO.getPassword());
+        return getId() == userDTO.getId() && Objects.equals(getEmail(), userDTO.getEmail()) && Objects.equals(getUsername(), userDTO.getUsername()) && Objects.equals(getPassword(), userDTO.getPassword()) && Objects.equals(getToken(), userDTO.getToken());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getEmail(), getUsername(), getPassword());
+        return Objects.hash(getId(), getEmail(), getUsername(), getPassword(), getToken());
     }
 
     @Override
@@ -66,6 +76,7 @@ public class UserDTO {
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
+                ", token='" + token + '\'' +
                 '}';
     }
 }

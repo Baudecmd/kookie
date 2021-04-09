@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kookie/controllers/text_form_field.dart';
+import 'package:kookie/screens/signup_userinfo_screen.dart';
 import 'package:kookie/widgets/custom_button.dart';
 import 'package:kookie/widgets/custom_text_field.dart';
-
-import 'confirmation_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -86,8 +85,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   _submitForm(){
     if(_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Processing Data')));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (_) => SignUpUserInfoScreen()
+          )
+      );
     }
   }
 }

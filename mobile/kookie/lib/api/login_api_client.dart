@@ -2,23 +2,24 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:kookie/api/api_client.dart';
+import 'package:kookie/models/user/CredentialDTO.dart';
 import 'package:kookie/models/user/UserDTO.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginApiClient extends ApiClient {
-  Future<http.Response> authRequest(String login, String password) async {
+  Future<http.Response> authRequest(CredentialDTO credential) async {
     return await httpClient.post(
       Uri.parse(this.urlApi + "/user/auth"),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",
       },
-      body: jsonEncode({'user': login, 'password': password}),
+      body: jsonEncode(credential.toJson()),
     );
   }
 
-  Future<UserDTO> authentication(String login, String password) async {
-    final http.Response response = await authRequest(login, password);
+  Future<UserDTO> login(CredentialDTO credential) async {
+    final http.Response response = await authRequest(credential);
     if (response.statusCode == 200) {
       UserDTO user = UserDTO.fromJson(jsonDecode(response.body));
       SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -11,87 +11,84 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-
   final _formKey = GlobalKey<FormState>();
   var passwordValue;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(
-            height: 200,
-          ),
-          Image(
-            width: 0.6 * MediaQuery.of(context).size.width,
-              image: AssetImage('assets/images/logo.png')
-          ),
-          Expanded(
-              child: Form(
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 150,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image(
+                      width: 0.6 * MediaQuery.of(context).size.width,
+                      image: AssetImage('assets/images/logo.png')),
+                ],
+              ),
+              Form(
                 key: _formKey,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomTextField(
-                        hintText: 'Email',
+                      hintText: 'Email',
                       validator: isEmail,
                     ),
                     SizedBox(height: 30),
                     CustomTextField(
-                        hintText: 'Password',
-                        isObscureText: true,
-                        validator: (String value) {
-                          if(value.isEmpty) {
-                            return "Please enter a password";
-                          }
-                          else if(value.length < 8) {
-                            return "Password length must be at least 8 characters long";
-                          }
-                          else{
-                            passwordValue = value;
-                            return null;
-                          }
-                        },
+                      hintText: 'Password',
+                      isObscureText: true,
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return "Please enter a password";
+                        } else if (value.length < 8) {
+                          return "Password length must be at least 8 characters long";
+                        } else {
+                          passwordValue = value;
+                          return null;
+                        }
+                      },
                     ),
                     SizedBox(height: 30),
                     CustomTextField(
-                        hintText: 'Verify password',
-                        isObscureText: true,
-                        validator: (String value) {
-                          if(value.isEmpty) {
-                            return "Please enter a password";
-                          }
-                          else if(value.length < 8) {
-                            return "Password length must be at least 8 characters long";
-                          }
-                          else if(value != passwordValue){
-                            return "Password must be the same as above";
-                          }
-                          else{
-                            return null;
-                          }
-                        },
+                      hintText: 'Verify password',
+                      isObscureText: true,
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return "Please enter a password";
+                        } else if (value.length < 8) {
+                          return "Password length must be at least 8 characters long";
+                        } else if (value != passwordValue) {
+                          return "Password must be the same as above";
+                        } else {
+                          return null;
+                        }
+                      },
                     ),
                     SizedBox(height: 30),
                     CustomButton(text: 'SUIVANT', onTap: _submitForm)
                   ],
                 ),
               )
-          )
-        ],
+            ],
+          ),
+        ),
       ),
     );
   }
 
-  _submitForm(){
-    if(_formKey.currentState!.validate()) {
+  _submitForm() {
+    if (_formKey.currentState!.validate()) {
       Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (_) => SignUpUserInfoScreen()
-          )
-      );
+          context, MaterialPageRoute(builder: (_) => SignUpUserInfoScreen()));
     }
   }
 }

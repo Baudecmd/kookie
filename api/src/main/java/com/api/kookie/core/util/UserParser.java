@@ -24,6 +24,7 @@ public class UserParser {
             user.setId(userDTO.getId());
             user.setEmail(userDTO.getEmail());
             user.setUsername(userDTO.getUsername());
+            user.setPassword(userDTO.getPassword());
         }
         return user;
     }

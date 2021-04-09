@@ -20,14 +20,10 @@ public class User {
 
     private String password;
 
-    @OneToOne
-    private Profile profile;
-
-    public User(String email, String username, String password, Profile profile) {
+    public User(String email, String username, String password) {
         this.email = email;
         this.username = username;
         this.password = password;
-        this.profile = profile;
     }
 
     public User() {
@@ -66,21 +62,12 @@ public class User {
         this.password = password;
     }
 
-    public Profile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
-    }
-
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
-                ", profile=" + profile +
                 '}';
     }
 }

@@ -3,7 +3,6 @@ package com.api.kookie.core.user;
 import com.api.kookie.controllers.security.JwtUtils;
 import com.api.kookie.core.dto.CredentialDTO;
 import com.api.kookie.core.dto.ProfileDTO;
-import com.api.kookie.core.dto.UserDTO;
 import com.api.kookie.core.exceptions.UnknownUserException;
 import com.api.kookie.core.exceptions.WrongPasswordException;
 import com.api.kookie.core.util.ProfileParser;
@@ -41,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
         ProfileDTO profileDTO = ProfileParser.toDTO(profile);
 
-        if (!profileDTO.equals(new UserDTO())) {
+        if (!profileDTO.equals(new ProfileDTO())) {
             if (passwordEncoder.matches(credential.getPassword(), profile.getUser().getPassword())) {
                 profileDTO.getUser().setToken(JwtUtils.createToken((int) profileDTO.getUser().getId()));
                 return profileDTO;

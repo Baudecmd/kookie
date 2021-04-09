@@ -7,6 +7,7 @@ import com.api.kookie.data.profile.ProfileRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,9 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private ProfileRepository profileRepository;
@@ -32,6 +36,7 @@ public class ProfileServiceImpl implements ProfileService {
         Boolean usernameAlreadyExists = userService.usernameAlreadyExists(profile.getUser().getUsername());
         Boolean emailAlreadyExists = userService.emailAlreadyExists(profile.getUser().getEmail());
         if (!usernameAlreadyExists && !emailAlreadyExists) {
+            profile.getUser().setPassword(passwordEncoder.encode(profile.getUser().getPassword()));
             profileDTO = ProfileParser.toDTO(profileRepository.save(ProfileParser.toEntity(profile)));
         }
         return profileDTO;

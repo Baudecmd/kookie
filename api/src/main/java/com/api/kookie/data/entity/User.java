@@ -1,12 +1,8 @@
 package com.api.kookie.data.entity;
 
 
-import com.api.kookie.data.entity.Ustensil.UstensilLine;
-
 import javax.annotation.security.DeclareRoles;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @DeclareRoles("USER")
@@ -15,19 +11,23 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
+
     @Column(unique = true)
     private String email;
+
     @Column(unique = true)
     private String username;
-    private String password;
-    @OneToMany
-    private List<UstensilLine> ustensilLineList;
 
-    public User(String email, String username, String password) {
+    private String password;
+
+    @OneToOne
+    private Profile profile;
+
+    public User(String email, String username, String password, Profile profile) {
         this.email = email;
         this.username = username;
         this.password = password;
-        this.ustensilLineList = new ArrayList<UstensilLine>();
+        this.profile = profile;
     }
 
     public User() {
@@ -66,14 +66,21 @@ public class User {
         this.password = password;
     }
 
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", ustensilLineList=" + ustensilLineList +
+                ", profile=" + profile +
                 '}';
     }
 }

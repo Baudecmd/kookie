@@ -45,7 +45,7 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
                               return "Name field is empty";
                             }
                             else{
-                              return "That doesn't look like a name...";
+                              return "Alphabetical characters only !";
                             }
                           },
                         ),
@@ -61,7 +61,7 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
                               return "Firstname field is empty";
                             }
                             else{
-                              return "That doesn't look like a firstname...";
+                              return "Alphabetical characters only !";
                             }
                           },
                         ),

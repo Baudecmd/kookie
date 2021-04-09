@@ -31,7 +31,7 @@ class _ConfirmationScreenState extends State<ConfirmationScreen>{
                 image: AssetImage('assets/images/logo.png')
             ),
             SizedBox(height: 30),
-            Text("Votre inscription est terminée!"),
+            Text("Votre inscription est terminée !"),
             SizedBox(height: 60),
             CustomButton(
                 text: "C'est parti !",

@@ -53,18 +53,6 @@ public class UserController {
         } catch (UnknownUserException | WrongPasswordException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).contentType(MediaType.APPLICATION_JSON).body(e.getMessage());
         }
-
-        /*HashMap<String, String> map = new HashMap<>();
-        String username = arg.get("user");
-        String password = arg.get("password");
-        User u = userRepository.findByUsername(username);
-        if (u != null && passwordEncoder.matches(password, u.getPassword())) {
-            map.put("key", JwtUtils.createToken((int) u.getId()));
-        } else {
-            map.put("erreur_id", "404");
-            map.put("erreur_lib", "pas le bon username ou mot de passe");
-        }
-        return map;*/
     }
 
     @PostMapping("/user/signup")
@@ -75,7 +63,7 @@ public class UserController {
         String email = arg.get("email");
         ArrayList<User> userArrayList = (ArrayList<User>) userRepository.findByUsernameOrEmail(username, email);
         if (userArrayList.size() == 0) {
-            User u = new User(email, username, passwordEncoder.encode(password), new Profile());
+            User u = new User(email, username, passwordEncoder.encode(password));
             userRepository.save(u);
             map.put("ok", "ok");
         } else {

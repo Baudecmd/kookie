@@ -34,8 +34,7 @@ public class ProfileServiceImpl implements ProfileService {
 
         ProfileDTO profileDTO = new ProfileDTO();
         Boolean usernameAlreadyExists = userService.usernameAlreadyExists(profile.getUser().getUsername());
-        Boolean emailAlreadyExists = userService.emailAlreadyExists(profile.getUser().getEmail());
-        if (!usernameAlreadyExists && !emailAlreadyExists) {
+        if (!usernameAlreadyExists) {
             profile.getUser().setPassword(passwordEncoder.encode(profile.getUser().getPassword()));
             profileDTO = ProfileParser.toDTO(profileRepository.save(ProfileParser.toEntity(profile)));
         }

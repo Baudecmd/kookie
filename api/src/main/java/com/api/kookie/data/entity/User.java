@@ -12,16 +12,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
-    @Column(unique = true)
-    private String email;
-
+    /**
+     * The username is the email address
+     */
     @Column(unique = true)
     private String username;
 
     private String password;
 
-    public User(String email, String username, String password) {
-        this.email = email;
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
@@ -46,14 +45,6 @@ public class User {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -66,7 +57,6 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 '}';
     }

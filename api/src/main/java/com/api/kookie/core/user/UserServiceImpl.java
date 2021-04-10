@@ -58,12 +58,4 @@ public class UserServiceImpl implements UserService {
         return userRepository.existsUserByUsername(username);
     }
 
-    @Override
-    public Boolean emailAlreadyExists(String email) {
-
-        LOGGER.debug("[UserService, emailAlreadyExists] email = " + email);
-
-        return userRepository.existsUserByEmail(email);
-    }
-
 }

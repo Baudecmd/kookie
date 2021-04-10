@@ -61,9 +61,9 @@ public class UserController {
         String username = arg.get("user");
         String password = arg.get("password");
         String email = arg.get("email");
-        ArrayList<User> userArrayList = (ArrayList<User>) userRepository.findByUsernameOrEmail(username, email);
-        if (userArrayList.size() == 0) {
-            User u = new User(email, username, passwordEncoder.encode(password));
+        User userArrayList = userRepository.findByUsername(username);
+        if (userArrayList != null) {
+            User u = new User(username, passwordEncoder.encode(password));
             userRepository.save(u);
             map.put("ok", "ok");
         } else {

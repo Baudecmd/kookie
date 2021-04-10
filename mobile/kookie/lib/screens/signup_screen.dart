@@ -44,7 +44,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     CustomTextField(
                       hintText: 'Email',
                       validator: (String value) => {
-                        if (isEmail(value) == null) {user.email = value}
+                        if (isEmail(value) == null) {user.username = value}
                       },
                     ),
                     SizedBox(height: 30),

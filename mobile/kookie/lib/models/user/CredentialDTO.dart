@@ -4,10 +4,10 @@ part 'CredentialDTO.g.dart';
 
 @JsonSerializable()
 class CredentialDTO {
-  final String username;
-  final String password;
+  late final String? username;
+  late final String? password;
 
-  CredentialDTO({required this.username, required this.password});
+  CredentialDTO({this.username, this.password});
 
   factory CredentialDTO.fromJson(Map<String, dynamic> json) =>
       _$CredentialDTOFromJson(json);

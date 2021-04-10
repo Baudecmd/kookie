@@ -8,8 +8,8 @@ part of 'CredentialDTO.dart';
 
 CredentialDTO _$CredentialDTOFromJson(Map<String, dynamic> json) {
   return CredentialDTO(
-    username: json['username'] as String,
-    password: json['password'] as String,
+    username: json['username'] as String?,
+    password: json['password'] as String?,
   );
 }
 

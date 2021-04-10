@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:kookie/api/api_client.dart';
+import 'package:kookie/models/profile/ProfileDTO.dart';
 import 'package:kookie/models/user/CredentialDTO.dart';
-import 'package:kookie/models/user/UserDTO.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginApiClient extends ApiClient {
@@ -18,15 +18,15 @@ class LoginApiClient extends ApiClient {
     );
   }
 
-  Future<UserDTO> login(CredentialDTO credential) async {
+  Future<ProfileDTO> login(CredentialDTO credential) async {
     final http.Response response = await authRequest(credential);
     if (response.statusCode == 200) {
-      UserDTO user = UserDTO.fromJson(jsonDecode(response.body));
+      ProfileDTO profile = ProfileDTO.fromJson(jsonDecode(response.body));
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString("token", user.token!);
-      return user;
+      await prefs.setString("token", profile.user!.token!);
+      return profile;
     } else {
-      return new UserDTO();
+      return new ProfileDTO();
     }
   }
 

@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatefulWidget {
-  final validator;
+  final Function? validator;
   final TextEditingController? controller;
   final String hintText;
   final bool isObscureText;
-
-  static _defaultValidator(String s) => null;
 
   CustomTextField(
       {this.controller,
       required this.hintText,
       this.isObscureText = false,
-      this.validator = _defaultValidator});
+      this.validator});
 
   @override
   _CustomTextFieldState createState() => _CustomTextFieldState();
@@ -50,10 +48,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
         ),
         obscureText: widget.isObscureText,
         onChanged: (String input) {
-          _error = widget.validator(input);
+          _error = widget.validator!(input);
           setState(() {});
         },
-        validator: (input) => widget.validator(input!),
+        validator: (input) => widget.validator!(input!),
       ),
     );
   }

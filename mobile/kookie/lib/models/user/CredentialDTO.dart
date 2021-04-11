@@ -4,8 +4,8 @@ part 'CredentialDTO.g.dart';
 
 @JsonSerializable()
 class CredentialDTO {
-  late final String? username;
-  late final String? password;
+  final String? username;
+  final String? password;
 
   CredentialDTO({this.username, this.password});
 

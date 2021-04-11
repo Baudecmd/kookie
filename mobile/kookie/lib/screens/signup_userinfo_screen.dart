@@ -19,12 +19,12 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
 
   final _formKey = GlobalKey<FormState>();
   final SignUpRepository repository = SignUpRepository();
-  final ProfileDTO profile = ProfileDTO();
+  String? firstName;
+  String? lastName;
 
   @override
   void initState() {
     super.initState();
-    profile.user = widget.user;
   }
 
   @override
@@ -51,35 +51,31 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
                       children: [
                         CustomTextField(
                           hintText: 'Nom',
-                          validator: (String value) {
-                            var validCharacters = RegExp(r'^[a-zA-Z]+$');
-                            if(validCharacters.hasMatch(value)){
-                              profile.lastName = value;
-                          return null;
+                          onChanged: (String value) {
+                        var validCharacters = RegExp(r'^[a-zA-Z]+$');
+                        if (validCharacters.hasMatch(value)) {
+                          lastName = value;
+                          return '';
+                        } else if (value.isEmpty) {
+                          return "Name field is empty";
+                        } else {
+                          return "Alphabetical characters only !";
                         }
-                            else if(value.isEmpty){
-                              return "Name field is empty";
-                            }
-                            else{
-                              return "Alphabetical characters only !";
-                            }
                           },
                         ),
                         SizedBox(height: 30),
                         CustomTextField(
                           hintText: 'Prénom',
-                          validator: (String value) {
-                            var validCharacters = RegExp(r'^[a-zA-Z]+$');
-                            if(validCharacters.hasMatch(value)){
-                              profile.firstName = value;
-                          return null;
+                          onChanged: (String value) {
+                        var validCharacters = RegExp(r'^[a-zA-Z]+$');
+                        if (validCharacters.hasMatch(value)) {
+                          firstName = value;
+                          return '';
+                        } else if (value.isEmpty) {
+                          return "Firstname field is empty";
+                        } else {
+                          return "Alphabetical characters only !";
                         }
-                            else if(value.isEmpty){
-                              return "Firstname field is empty";
-                            }
-                            else{
-                              return "Alphabetical characters only !";
-                            }
                           },
                         ),
                         SizedBox(height: 30),
@@ -97,7 +93,8 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
 
   _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      await repository.createProfile(profile);
+      await repository.createProfile(ProfileDTO(
+          firstName: firstName, lastName: lastName, user: widget.user));
       Navigator.push(
           context, MaterialPageRoute(builder: (_) => ConfirmationScreen()));
     }

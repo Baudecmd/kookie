@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kookie/controllers/text_form_field.dart';
 import 'package:kookie/models/user/UserDTO.dart';
 import 'package:kookie/screens/signup_userinfo_screen.dart';
 import 'package:kookie/widgets/custom_button.dart';
@@ -14,7 +13,8 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
   final UserDTO user = UserDTO();
-  var passwordValue;
+  String? username;
+  String? password;
 
   @override
   Widget build(BuildContext context) {
@@ -42,23 +42,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: Column(
                   children: [
                     CustomTextField(
-                      hintText: 'Email',
-                      validator: (String value) => {
-                        if (isEmail(value) == null) {user.username = value}
-                      },
-                    ),
+                        hintText: 'Email',
+                        onChanged: (String value) {
+                          username = value;
+                          return '';
+                        }),
                     SizedBox(height: 30),
                     CustomTextField(
                       hintText: 'Password',
                       isObscureText: true,
-                      validator: (String value) {
+                      onChanged: (String value) {
                         if (value.isEmpty) {
-                          return "Please enter a password";
+                          return 'Please enter a password';
                         } else if (value.length < 8) {
-                          return "Password length must be at least 8 characters long";
+                          return 'Password length must be at least 8 characters long';
                         } else {
-                          passwordValue = value;
-                          return null;
+                          password = value;
+                          return '';
                         }
                       },
                     ),
@@ -66,16 +66,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     CustomTextField(
                       hintText: 'Verify password',
                       isObscureText: true,
-                      validator: (String value) {
+                      onChanged: (String value) {
                         if (value.isEmpty) {
                           return "Please enter a password";
                         } else if (value.length < 8) {
                           return "Password length must be at least 8 characters long";
-                        } else if (value != passwordValue) {
+                        } else if (value != password) {
                           return "Password must be the same as above";
                         } else {
-                          user.password = value;
-                          return null;
+                          return "";
                         }
                       },
                     ),
@@ -93,8 +92,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   _submitForm() {
     if (_formKey.currentState!.validate()) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (_) => SignUpUserInfoScreen(user)));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (_) => SignUpUserInfoScreen(
+                  UserDTO(username: username, password: password))));
     }
   }
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class RecipeCreation extends StatefulWidget {
+class RecipeCreationScreen extends StatefulWidget {
   @override
-  _RecipeCreation createState() => _RecipeCreation();
+  _RecipeCreationScreen createState() => _RecipeCreationScreen();
 }
 
-class _RecipeCreation extends State<RecipeCreation> {
+class _RecipeCreationScreen extends State<RecipeCreationScreen> {
   final _recipeFormKey = GlobalKey<FormState>();
 
   @override

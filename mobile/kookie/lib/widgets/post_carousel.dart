@@ -30,7 +30,6 @@ class PostCarousel extends StatelessWidget {
         Container(
           margin: EdgeInsets.all(10.0),
           decoration: BoxDecoration(
-              color: Colors.red,
               borderRadius: BorderRadius.circular(15.0),
               boxShadow: [
                 BoxShadow(

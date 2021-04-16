@@ -31,31 +31,39 @@ class CustomDrawer extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.15,
                 ),
                 _buildDrawerOption(
-                    Icon(
-                      Icons.account_circle_outlined,
-                      color: Colors.white,
-                    ),
-                    'Profil',
-                        () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => ProfileScreen(
-                                /*user: currentUser,*/
-                                )))),
+                  Icon(
+                    Icons.account_circle_outlined,
+                    color: Colors.white,
+                  ),
+                  'Profil',
+                  () {
+                    Navigator.of(context).pop();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ProfileScreen(
+                            /*user: currentUser,*/
+                            ),
+                      ),
+                    );
+                  },
+                ),
                 _buildDrawerOption(
                     Icon(
                       Icons.favorite_border,
                       color: Colors.white,
                     ),
-                    'Mes Favoris',
-                    () {}),
+                    'Mes Favoris', () {
+                  Navigator.of(context).pop();
+                }),
                 _buildDrawerOption(
                     Icon(
                       Icons.sticky_note_2_outlined,
                       color: Colors.white,
                     ),
-                    'Mes Recettes',
-                    () {}),
+                    'Mes Recettes', () {
+                  Navigator.of(context).pop();
+                }),
                 Expanded(
                   child: Align(
                     alignment: FractionalOffset.bottomCenter,

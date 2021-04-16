@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kookie/widgets/custom_text_field.dart';
+import 'package:kookie/widgets/multiselect_dialog.dart';
 
 class RecipeCreationScreen extends StatefulWidget {
   @override
@@ -9,8 +10,15 @@ class RecipeCreationScreen extends StatefulWidget {
 
 class _RecipeCreationScreen extends State<RecipeCreationScreen> {
   final _recipeFormKey = GlobalKey<FormState>();
+  final _recipeSelectIngredientsKey = GlobalKey<FormState>();
   var _image;
   var recipeName;
+
+  final items = <MultiSelectDialogItem<int>>[
+    MultiSelectDialogItem(1, "Pomme de terre"),
+    MultiSelectDialogItem(2, "Saucisse"),
+    MultiSelectDialogItem(3, "Carotte"),
+  ];
 
   Future<void> selectImage() async {
     var image = await ImagePicker().getImage(source: ImageSource.gallery);
@@ -53,6 +61,10 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
                       recipeName = value;
                       return '';
                     }),
+                MultiSelectDialog(
+                    key: _recipeSelectIngredientsKey,
+                    items: items,
+                    initialSelectedValues: [].toSet())
               ],
             ),
           ),

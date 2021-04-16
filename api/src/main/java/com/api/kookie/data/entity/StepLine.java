@@ -1,6 +1,7 @@
 package com.api.kookie.data.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class StepLine {
@@ -9,20 +10,20 @@ public class StepLine {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @ManyToOne
-    private Recette recette;
+    @OneToOne
+    private IngredientLine ingredientLine;
 
-    @ManyToOne
-    private Step step;
+    private String stepName;
 
-    public StepLine() {
-    }
+    private Integer duration;
 
-    public StepLine(Integer id, Recette recette, Step step) {
-        this.id = id;
-        this.recette = recette;
-        this.step = step;
-    }
+    private Integer stepNumber;
+
+    @OneToOne
+    private StepType stepType;
+
+    @OneToMany
+    private Set<StepLine> stepLineSet;
 
     public Integer getId() {
         return id;
@@ -32,28 +33,56 @@ public class StepLine {
         this.id = id;
     }
 
-    public Recette getRecette() {
-        return recette;
+    public IngredientLine getIngredientLine() {
+        return ingredientLine;
     }
 
-    public void setRecette(Recette recette) {
-        this.recette = recette;
+    public void setIngredientLine(IngredientLine ingredientLine) {
+        this.ingredientLine = ingredientLine;
     }
 
-    public Step getStep() {
-        return step;
+    public String getStepName() {
+        return stepName;
     }
 
-    public void setStep(Step step) {
-        this.step = step;
+    public void setStepName(String stepName) {
+        this.stepName = stepName;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
+    public Integer getStepNumber() {
+        return stepNumber;
+    }
+
+    public void setStepNumber(Integer stepNumber) {
+        this.stepNumber = stepNumber;
+    }
+
+    public StepLine() {
+    }
+
+    public StepLine(IngredientLine ingredientLine, String stepName, Integer duration, Integer stepNumber) {
+        this.ingredientLine = ingredientLine;
+        this.stepName = stepName;
+        this.duration = duration;
+        this.stepNumber = stepNumber;
     }
 
     @Override
     public String toString() {
         return "StepLine{" +
                 "id=" + id +
-                ", recetteId=" + recette.getId() +
-                ", stepId=" + step.getId() +
+                ", ingredientLine=" + ingredientLine +
+                ", stepName='" + stepName + '\'' +
+                ", duration=" + duration +
+                ", stepNumber=" + stepNumber +
                 '}';
     }
 }

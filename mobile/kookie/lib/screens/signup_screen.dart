@@ -55,7 +55,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         if (value.isEmpty) {
                           return 'Please enter a password';
                         } else if (value.length < 8) {
-                          return 'Password length must be at least 8 characters long';
+                          return 'Password length must be at least 8';
                         } else {
                           password = value;
                           return null;
@@ -70,7 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         if (value.isEmpty) {
                           return "Please enter a password";
                         } else if (value.length < 8) {
-                          return "Password length must be at least 8 characters long";
+                          return "Password length must be at least 8";
                         } else if (value != password) {
                           return "Password must be the same as above";
                         } else {

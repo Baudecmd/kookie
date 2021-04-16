@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 
 class ApiClient {
-  final String urlApi = "http://localhost:8080/";
+  final String urlApi = "http://10.0.2.2:8080";
   final http.Client httpClient = http.Client();
 
   Future<http.Response> getDataRequest(String url, String token) async {

@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:kookie/models/profile/ProfileDTO.dart';
+import 'package:kookie/models/user/UserDTO.dart';
+import 'package:kookie/repositories/sign_up_repository.dart';
 import 'package:kookie/screens/confirmation_screen.dart';
 import 'package:kookie/widgets/custom_button.dart';
 import 'package:kookie/widgets/custom_text_field.dart';
 
 class SignUpUserInfoScreen extends StatefulWidget {
+  final UserDTO user;
+
+  SignUpUserInfoScreen(this.user);
+
   @override
   _SignUpUserInfoScreenState createState() => _SignUpUserInfoScreenState();
 }
@@ -11,6 +18,14 @@ class SignUpUserInfoScreen extends StatefulWidget {
 class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
 
   final _formKey = GlobalKey<FormState>();
+  final SignUpRepository repository = SignUpRepository();
+  String? firstName;
+  String? lastName;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,33 +51,31 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
                       children: [
                         CustomTextField(
                           hintText: 'Nom',
-                          validator: (String value) {
-                            var validCharacters = RegExp(r'^[a-zA-Z]+$');
-                            if(validCharacters.hasMatch(value)){
-                              return null;
-                            }
-                            else if(value.isEmpty){
-                              return "Name field is empty";
-                            }
-                            else{
-                              return "Alphabetical characters only !";
-                            }
+                          onChanged: (String value) {
+                        var validCharacters = RegExp(r'^[a-zA-Z]+$');
+                        if (validCharacters.hasMatch(value)) {
+                          lastName = value;
+                          return '';
+                        } else if (value.isEmpty) {
+                          return "Name field is empty";
+                        } else {
+                          return "Alphabetical characters only !";
+                        }
                           },
                         ),
                         SizedBox(height: 30),
                         CustomTextField(
                           hintText: 'Prénom',
-                          validator: (String value) {
-                            var validCharacters = RegExp(r'^[a-zA-Z]+$');
-                            if(validCharacters.hasMatch(value)){
-                              return null;
-                            }
-                            else if(value.isEmpty){
-                              return "Firstname field is empty";
-                            }
-                            else{
-                              return "Alphabetical characters only !";
-                            }
+                          onChanged: (String value) {
+                        var validCharacters = RegExp(r'^[a-zA-Z]+$');
+                        if (validCharacters.hasMatch(value)) {
+                          firstName = value;
+                          return '';
+                        } else if (value.isEmpty) {
+                          return "Firstname field is empty";
+                        } else {
+                          return "Alphabetical characters only !";
+                        }
                           },
                         ),
                         SizedBox(height: 30),
@@ -78,14 +91,12 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
     );
   }
 
-  _submitForm(){
-    if(_formKey.currentState!.validate()) {
+  _submitForm() async {
+    if (_formKey.currentState!.validate()) {
+      await repository.createProfile(ProfileDTO(
+          firstName: firstName, lastName: lastName, user: widget.user));
       Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (_) => ConfirmationScreen()
-          )
-      );
+          context, MaterialPageRoute(builder: (_) => ConfirmationScreen()));
     }
   }
 }

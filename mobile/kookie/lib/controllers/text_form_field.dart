@@ -2,7 +2,7 @@
 /// Return null if it is valid.
 String? isEmail(String val) {
   // Null or empty string is invalid
-  if (val == null || val.isEmpty) {
+  if (val.isEmpty) {
     return 'Veuillez saisir votre email';
   }
 
@@ -12,6 +12,7 @@ String? isEmail(String val) {
   if (!regExp.hasMatch(val)) {
     return 'Email non valide';
   }
+
   return null;
 }
 

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kookie/screens/home_screen.dart';
+import 'package:kookie/services/storage_util.dart';
 
-void main() {
+void main() async {
+  await StorageUtil.getInstance();
   runApp(MyApp());
 }
 

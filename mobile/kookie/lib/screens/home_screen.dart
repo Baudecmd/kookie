@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kookie/datas/data.dart';
 import 'package:kookie/screens/start_screen.dart';
+import 'package:kookie/services/storage_util.dart';
 import 'package:kookie/widgets/custom_drawer.dart';
 import 'package:kookie/widgets/post_carousel.dart';
 
@@ -12,13 +12,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  final storage = new FlutterSecureStorage();
   late TabController _tabController;
   late PageController _pageController;
 
   isLogged() async {
-    String? value = await storage.read(key: 'token');
-    if (value == null) {
+    String value = await StorageUtil.getString(key: 'token');
+    if (value == '') {
       Navigator.push(context, MaterialPageRoute(builder: (_) => StartScreen()));
     }
   }

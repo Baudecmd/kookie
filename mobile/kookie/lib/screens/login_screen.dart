@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kookie/repositories/login_repository.dart';
+import 'package:kookie/services/storage_util.dart';
 import 'package:kookie/widgets/custom_button.dart';
 import 'package:kookie/widgets/custom_text_field.dart';
 
@@ -14,7 +14,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final storage = new FlutterSecureStorage();
   final _formKey = GlobalKey<FormState>();
   final LoginRepository loginRepository = LoginRepository();
   String? username;
@@ -85,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
       // ProfileDTO profile = await loginRepository.login(CredentialDTO(username: username, password: password));
       log('username : $username password: $password');
       //todo : store token
-      await storage.write(key: 'token', value: username);
+      await StorageUtil.putString(key: 'token', value: username!);
       Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()));
     }
   }

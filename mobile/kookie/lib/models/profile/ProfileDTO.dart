@@ -6,9 +6,9 @@ part 'ProfileDTO.g.dart';
 @JsonSerializable()
 class ProfileDTO {
   final int? id;
-  late final UserDTO? user;
-  late final String? firstName;
-  late final String? lastName;
+  final UserDTO? user;
+  final String? firstName;
+  final String? lastName;
 
   ProfileDTO({this.id, this.user, this.firstName, this.lastName});
 

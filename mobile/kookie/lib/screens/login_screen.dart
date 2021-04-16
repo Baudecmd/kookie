@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:kookie/models/profile/ProfileDTO.dart';
 import 'package:kookie/models/user/CredentialDTO.dart';
@@ -17,7 +15,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final LoginRepository loginRepository = LoginRepository();
-  final CredentialDTO credential = new CredentialDTO();
+  String? username;
+  String? password;
 
   @override
   Widget build(BuildContext context) {
@@ -43,17 +42,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(height: 60),
                 CustomTextField(
-                  hintText: 'Email',
-                  validator: (String value) => {
-                    credential.username = value,
-                  },
-                ),
+                    hintText: 'Email',
+                    onChanged: (String value) {
+                      username = value;
+                      return '';
+                    }),
                 SizedBox(height: 30),
                 CustomTextField(
                   hintText: 'Password',
                   isObscureText: true,
-                  validator: (String value) => {
-                    credential.password = value,
+                  onChanged: (String value) {
+                    password = value;
+                    return '';
                   },
                 ),
                 SizedBox(height: 30),
@@ -80,8 +80,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      ProfileDTO profile = await loginRepository.login(credential);
-      log(profile.toString());
+      ProfileDTO profile = await loginRepository
+          .login(CredentialDTO(username: username, password: password));
       // If the form is valid, display a snackbar. In the real world,
       // you'd often call a server or save the information in a database.
       Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()));

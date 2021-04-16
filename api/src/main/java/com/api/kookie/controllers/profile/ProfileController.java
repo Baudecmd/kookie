@@ -1,6 +1,7 @@
 package com.api.kookie.controllers.profile;
 
 import com.api.kookie.core.dto.ProfileDTO;
+import com.api.kookie.core.exceptions.UsernameUnavailableException;
 import com.api.kookie.core.profile.ProfileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,12 +27,12 @@ public class ProfileController {
     public ResponseEntity<?> createProfile(@RequestBody ProfileDTO profile) {
         LOGGER.debug("[ProfileController, createProfile] profile : " + profile.toString());
 
-        ProfileDTO profileDTO = profileService.createProfile(profile);
-
-        if (profileDTO.getId() != null) {
+        try {
+            ProfileDTO profileDTO = profileService.createProfile(profile);
             return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.APPLICATION_JSON).body(profileDTO);
+        } catch (UsernameUnavailableException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).contentType(MediaType.APPLICATION_JSON).body(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).contentType(MediaType.APPLICATION_JSON).body(null);
 
     }
 }

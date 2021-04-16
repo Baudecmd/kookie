@@ -16,7 +16,6 @@ RecetteDTO _$RecetteDTOFromJson(Map<String, dynamic> json) {
     ingredientLinesDTO: (json['ingredientLinesDTO'] as List<dynamic>)
         .map((e) => IngredientDTO.fromJson(e as Map<String, dynamic>))
         .toList(),
-    stepLinesDTO: json['stepLinesDTO'] as List<dynamic>,
   );
 }
 
@@ -26,5 +25,4 @@ Map<String, dynamic> _$RecetteDTOToJson(RecetteDTO instance) =>
       'userDTO': instance.userDTO,
       'name': instance.name,
       'ingredientLinesDTO': instance.ingredientLinesDTO,
-      'stepLinesDTO': instance.stepLinesDTO,
     };

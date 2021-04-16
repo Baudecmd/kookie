@@ -20,8 +20,7 @@ StepDTO _$StepDTOFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$StepDTOToJson(StepDTO instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$StepDTOToJson(StepDTO instance) => <String, dynamic>{
       'id': instance.id,
       'stepNumber': instance.stepNumber,
       'stepName': instance.stepName,

@@ -10,6 +10,7 @@ class RecipeCreationScreen extends StatefulWidget {
 class _RecipeCreationScreen extends State<RecipeCreationScreen> {
   final _recipeFormKey = GlobalKey<FormState>();
   var _image;
+  var recipeName;
 
   Future<void> selectImage() async {
     var image = await ImagePicker().getImage(source: ImageSource.gallery);
@@ -46,7 +47,12 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
                   child: Icon(Icons.add_a_photo),
                 ),
                 SizedBox(height: 30),
-                CustomTextField(hintText: "Nom de la recette")
+                CustomTextField(
+                    hintText: "Nom de la recette",
+                    onChanged: (String value) {
+                      recipeName = value;
+                      return '';
+                    }),
               ],
             ),
           ),

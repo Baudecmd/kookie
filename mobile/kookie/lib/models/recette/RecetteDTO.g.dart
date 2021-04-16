@@ -16,9 +16,7 @@ RecetteDTO _$RecetteDTOFromJson(Map<String, dynamic> json) {
     ingredientLinesDTO: (json['ingredientLinesDTO'] as List<dynamic>)
         .map((e) => IngredientDTO.fromJson(e as Map<String, dynamic>))
         .toList(),
-    stepLinesDTO: (json['stepLinesDTO'] as List<dynamic>)
-        .map((e) => StepLineDTO.fromJson(e as Map<String, dynamic>))
-        .toList(),
+    stepLinesDTO: json['stepLinesDTO'] as List<dynamic>,
   );
 }
 

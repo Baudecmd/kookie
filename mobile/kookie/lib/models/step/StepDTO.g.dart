@@ -9,15 +9,23 @@ part of 'StepDTO.dart';
 StepDTO _$StepDTOFromJson(Map<String, dynamic> json) {
   return StepDTO(
     id: json['id'] as int?,
-    name: json['name'] as String?,
-    description: json['description'] as String?,
+    stepNumber: json['stepNumber'] as int,
+    stepName: json['stepName'] as String,
+    ingredientLine: json['ingredientLine'] == null
+        ? null
+        : IngredientLineDTO.fromJson(
+            json['ingredientLine'] as Map<String, dynamic>),
     duration: json['duration'] as int?,
+    stepType: StepTypeDTO.fromJson(json['stepType'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$StepDTOToJson(StepDTO instance) => <String, dynamic>{
+Map<String, dynamic> _$StepDTOToJson(StepDTO instance) =>
+    <String, dynamic>{
       'id': instance.id,
-      'name': instance.name,
-      'description': instance.description,
+      'stepNumber': instance.stepNumber,
+      'stepName': instance.stepName,
+      'ingredientLine': instance.ingredientLine,
       'duration': instance.duration,
+      'stepType': instance.stepType,
     };

@@ -18,7 +18,7 @@ public class Recette {
     private List<IngredientLine> ingredientLines;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<StepLine> stepLines;
+    private List<Step> steps;
 
     public Recette() {
 
@@ -61,11 +61,11 @@ public class Recette {
         this.ingredientLines = ingredientLines;
     }
 
-    public List<StepLine> getStepLines() {
-        return stepLines;
+    public List<Step> getStepLines() {
+        return steps;
     }
 
-    public void setStepLines(List<StepLine> stepLines) {
-        this.stepLines = stepLines;
+    public void setStepLines(List<Step> steps) {
+        this.steps = steps;
     }
 }

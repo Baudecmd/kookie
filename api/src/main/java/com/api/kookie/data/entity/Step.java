@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class StepLine {
+public class Step {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,9 +21,6 @@ public class StepLine {
 
     @OneToOne
     private StepType stepType;
-
-    @OneToMany
-    private Set<StepLine> stepLineSet;
 
     public Integer getId() {
         return id;
@@ -65,24 +62,34 @@ public class StepLine {
         this.stepNumber = stepNumber;
     }
 
-    public StepLine() {
+    public StepType getStepType() {
+        return stepType;
     }
 
-    public StepLine(IngredientLine ingredientLine, String stepName, Integer duration, Integer stepNumber) {
+    public void setStepType(StepType stepType) {
+        this.stepType = stepType;
+    }
+
+    public Step() {
+    }
+
+    public Step(IngredientLine ingredientLine, String stepName, Integer duration, Integer stepNumber, StepType stepType) {
         this.ingredientLine = ingredientLine;
         this.stepName = stepName;
         this.duration = duration;
         this.stepNumber = stepNumber;
+        this.stepType = stepType;
     }
 
     @Override
     public String toString() {
-        return "StepLine{" +
+        return "Step{" +
                 "id=" + id +
                 ", ingredientLine=" + ingredientLine +
                 ", stepName='" + stepName + '\'' +
                 ", duration=" + duration +
                 ", stepNumber=" + stepNumber +
+                ", stepType=" + stepType +
                 '}';
     }
 }

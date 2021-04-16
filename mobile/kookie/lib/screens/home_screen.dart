@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kookie/datas/data.dart';
+import 'package:kookie/screens/start_screen.dart';
 import 'package:kookie/widgets/custom_drawer.dart';
 import 'package:kookie/widgets/post_carousel.dart';
 
@@ -10,12 +12,21 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
+  final storage = new FlutterSecureStorage();
   late TabController _tabController;
   late PageController _pageController;
+
+  isLogged() async {
+    String? value = await storage.read(key: 'token');
+    if (value == null) {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => StartScreen()));
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    isLogged();
     _tabController = TabController(length: 2, vsync: this);
     _pageController = PageController(initialPage: 0, viewportFraction: 0.8);
   }

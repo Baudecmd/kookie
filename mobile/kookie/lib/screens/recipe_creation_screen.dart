@@ -46,7 +46,12 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
                   child: Icon(Icons.add_a_photo),
                 ),
                 SizedBox(height: 30),
-                CustomTextField(hintText: "Nom de la recette")
+                CustomTextField(
+                  hintText: "Nom de la recette",
+                  onChanged: (String) {
+                    return '';
+                  },
+                )
               ],
             ),
           ),

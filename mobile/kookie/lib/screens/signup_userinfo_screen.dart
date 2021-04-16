@@ -80,10 +80,9 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
                         ),
                         SizedBox(height: 30),
                         CustomButton(text: 'VALIDER', onTap: _submitForm)
-                      ],
-                    ),
-                  )
-              )
+                  ],
+                ),
+              ))
             ],
           ),
         ),
@@ -91,8 +90,15 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
     );
   }
 
+  bool checkForm() {
+    if (firstName != null && lastName != null) {
+      return true;
+    }
+    return false;
+  }
+
   _submitForm() async {
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate() && checkForm()) {
       await repository.createProfile(ProfileDTO(
           firstName: firstName, lastName: lastName, user: widget.user));
       Navigator.push(

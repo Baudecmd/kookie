@@ -36,7 +36,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           fillColor: Colors.white,
           filled: true,
           hintText: widget.hintText,
-          errorText: _error != '' ? _error : null,
+          errorText: _error,
           errorStyle: TextStyle(height: 0),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(50),

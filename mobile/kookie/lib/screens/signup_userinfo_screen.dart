@@ -55,7 +55,7 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
                         var validCharacters = RegExp(r'^[a-zA-Z]+$');
                         if (validCharacters.hasMatch(value)) {
                           lastName = value;
-                          return '';
+                          return null;
                         } else if (value.isEmpty) {
                           return "Name field is empty";
                         } else {
@@ -70,7 +70,7 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
                         var validCharacters = RegExp(r'^[a-zA-Z]+$');
                         if (validCharacters.hasMatch(value)) {
                           firstName = value;
-                          return '';
+                          return null;
                         } else if (value.isEmpty) {
                           return "Firstname field is empty";
                         } else {

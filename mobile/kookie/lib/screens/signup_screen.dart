@@ -45,7 +45,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         hintText: 'Email',
                         onChanged: (String value) {
                           username = value;
-                          return '';
+                          return null;
                         }),
                     SizedBox(height: 30),
                     CustomTextField(
@@ -58,7 +58,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           return 'Password length must be at least 8 characters long';
                         } else {
                           password = value;
-                          return '';
+                          return null;
                         }
                       },
                     ),
@@ -74,7 +74,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         } else if (value != password) {
                           return "Password must be the same as above";
                         } else {
-                          return "";
+                          return null;
                         }
                       },
                     ),

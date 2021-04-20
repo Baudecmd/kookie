@@ -37,6 +37,7 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
+          margin: EdgeInsets.only(top: 20, bottom: 20),
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -53,9 +54,9 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
                     _image == null
                         ? Center(child: Text("No image selected."))
                         : Container(
-                            height: MediaQuery.of(context).size.height / 3,
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: Image.file(_image)),
+                        height: MediaQuery.of(context).size.height / 3,
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Image.file(_image)),
                     FloatingActionButton(
                       onPressed: selectImage,
                       tooltip: 'Pick Image',

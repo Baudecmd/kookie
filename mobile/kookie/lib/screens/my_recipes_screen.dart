@@ -28,12 +28,15 @@ class _MyRecipesScreen extends State<MyRecipesScreen> {
           Expanded(
             child: Align(
               alignment: FractionalOffset.bottomCenter,
-              child: CustomButton(
-                  text: 'CREER UNE RECETTE',
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => RecipeCreationScreen()))),
+              child: Container(
+                margin: EdgeInsets.only(bottom: 20),
+                child: CustomButton(
+                    text: 'CREER UNE RECETTE',
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => RecipeCreationScreen()))),
+              ),
             ),
           ),
         ],

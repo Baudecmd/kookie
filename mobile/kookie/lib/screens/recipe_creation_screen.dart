@@ -37,7 +37,7 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.only(top: 20, bottom: 20),
+          margin: EdgeInsets.only(bottom: 20),
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             color: Colors.white,

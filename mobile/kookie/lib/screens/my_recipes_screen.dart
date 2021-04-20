@@ -26,6 +26,32 @@ class _MyRecipesScreen extends State<MyRecipesScreen> {
       body: Column(
         children: [
           Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(height: 150),
+                      //TODO: error if sizedbox is too big or screen too small
+                      Icon(
+                        Icons.article_outlined,
+                        size: 100,
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+          SizedBox(height: 30),
+          Text("Pas de recette trouvée",
+              style: TextStyle(fontWeight: FontWeight.bold)),
+          SizedBox(height: 10),
+          Text(
+              "Il est peut-etre temps que \n tu nous montres tes talents culinaires !",
+              textAlign: TextAlign.center),
+          Expanded(
             child: Align(
               alignment: FractionalOffset.bottomCenter,
               child: Container(

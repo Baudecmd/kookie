@@ -51,17 +51,18 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
               Expanded(
                 child: ListView(
                   children: [
-                    _image == null
-                        ? Center(child: Text("No image selected."))
-                        : Container(
-                        height: MediaQuery.of(context).size.height / 3,
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: Image.file(_image)),
                     FloatingActionButton(
                       onPressed: selectImage,
                       tooltip: 'Pick Image',
                       child: Icon(Icons.add_a_photo),
                     ),
+                    SizedBox(height: 30),
+                    _image == null
+                        ? Center(child: Text("No image selected."))
+                        : Container(
+                            height: MediaQuery.of(context).size.height / 3,
+                            width: MediaQuery.of(context).size.width / 3,
+                            child: Image.file(_image)),
                     SizedBox(height: 30),
                     Form(
                       key: _recipeFormKey,

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kookie/widgets/custom_text_field.dart';
@@ -24,7 +26,9 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
     var image = await ImagePicker().getImage(source: ImageSource.gallery);
 
     setState(() {
-      _image = image;
+      if (image != null) {
+        _image = File(image.path);
+      }
     });
   }
 
@@ -41,33 +45,45 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
               fit: BoxFit.cover,
             ),
           ),
-          child: Form(
-            key: _recipeFormKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _image == null
-                    ? Text("No image selected.")
-                    : Image.file(_image),
-                FloatingActionButton(
-                  onPressed: selectImage,
-                  tooltip: 'Pick Image',
-                  child: Icon(Icons.add_a_photo),
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView(
+                  children: [
+                    _image == null
+                        ? Center(child: Text("No image selected."))
+                        : Container(
+                            height: MediaQuery.of(context).size.height / 3,
+                            width: MediaQuery.of(context).size.width / 3,
+                            child: Image.file(_image)),
+                    FloatingActionButton(
+                      onPressed: selectImage,
+                      tooltip: 'Pick Image',
+                      child: Icon(Icons.add_a_photo),
+                    ),
+                    SizedBox(height: 30),
+                    Form(
+                      key: _recipeFormKey,
+                      child: Column(
+                        children: [
+                          CustomTextField(
+                              hintText: "Nom de la recette",
+                              onChanged: (String value) {
+                                recipeName = value;
+                                return '';
+                              }),
+                          MultiSelectDialog(
+                              key: _recipeSelectIngredientsKey,
+                              title: "Select ingredients",
+                              items: items,
+                              initialSelectedValues: [].toSet())
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 30),
-                CustomTextField(
-                    hintText: "Nom de la recette",
-                    onChanged: (String value) {
-                      recipeName = value;
-                      return '';
-                    }),
-                MultiSelectDialog(
-                    key: _recipeSelectIngredientsKey,
-                    title: "Select ingredients",
-                    items: items,
-                    initialSelectedValues: [].toSet())
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

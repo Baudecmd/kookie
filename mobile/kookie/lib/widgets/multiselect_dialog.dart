@@ -57,17 +57,19 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
     return AlertDialog(
       title: Text(widget.title),
       contentPadding: EdgeInsets.only(top: 12.0),
-      content: SingleChildScrollView(
-        child: ListTileTheme(
-          contentPadding: EdgeInsets.fromLTRB(14.0, 0.0, 24.0, 0.0),
-          child: ListBody(
-            children: widget.items.map(_buildItem).toList(),
+      content: Container(
+        child: SingleChildScrollView(
+          child: ListTileTheme(
+            contentPadding: EdgeInsets.fromLTRB(14.0, 0.0, 24.0, 0.0),
+            child: ListBody(
+              children: widget.items.map(_buildItem).toList(),
+            ),
           ),
         ),
       ),
       actions: <Widget>[
         TextButton(
-          child: Text('CANCEL'),
+          child: Text('ANNULER'),
           onPressed: _onCancelTap,
         ),
         TextButton(

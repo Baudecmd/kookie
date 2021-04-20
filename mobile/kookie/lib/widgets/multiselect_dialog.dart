@@ -11,10 +11,12 @@ class MultiSelectDialogItem<V> {
 class MultiSelectDialog<V> extends StatefulWidget {
   MultiSelectDialog(
       {required Key key,
+      required this.title,
       required this.items,
       required this.initialSelectedValues})
       : super(key: key);
 
+  final String title;
   final List<MultiSelectDialogItem<V>> items;
   final Set<V> initialSelectedValues;
 
@@ -53,7 +55,7 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Select animals'),
+      title: Text(widget.title),
       contentPadding: EdgeInsets.only(top: 12.0),
       content: SingleChildScrollView(
         child: ListTileTheme(

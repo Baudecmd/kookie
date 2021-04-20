@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kookie/screens/recipe_creation_screen.dart';
+import 'package:kookie/widgets/custom_button.dart';
 
 class MyRecipesScreen extends StatefulWidget {
   @override
@@ -20,6 +22,21 @@ class _MyRecipesScreen extends State<MyRecipesScreen> {
         title: Text("Sample"),
         centerTitle: true,
         elevation: 0,
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: CustomButton(
+                  text: 'CREER UNE RECETTE',
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => RecipeCreationScreen()))),
+            ),
+          ),
+        ],
       ),
     );
   }

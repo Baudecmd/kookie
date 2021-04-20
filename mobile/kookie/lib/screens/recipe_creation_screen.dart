@@ -63,6 +63,7 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
                     }),
                 MultiSelectDialog(
                     key: _recipeSelectIngredientsKey,
+                    title: "Select ingredients",
                     items: items,
                     initialSelectedValues: [].toSet())
               ],

@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kookie/models/ingredient/IngredientDTO.dart';
+import 'package:kookie/widgets/custom_button.dart';
 import 'package:kookie/widgets/custom_text_field.dart';
 import 'package:kookie/widgets/multiselect_dialog.dart';
 
@@ -12,9 +14,9 @@ class RecipeCreationScreen extends StatefulWidget {
 
 class _RecipeCreationScreen extends State<RecipeCreationScreen> {
   final _recipeFormKey = GlobalKey<FormState>();
-  final _recipeSelectIngredientsKey = GlobalKey<FormState>();
+  var _ingredients = Set<int>();
   var _image;
-  var recipeName;
+  var _recipeName;
 
   final items = <MultiSelectDialogItem<int>>[
     MultiSelectDialogItem(1, "Pomme de terre"),
@@ -51,34 +53,37 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
               Expanded(
                 child: ListView(
                   children: [
-                    FloatingActionButton(
-                      onPressed: selectImage,
-                      tooltip: 'Pick Image',
-                      child: Icon(Icons.add_a_photo),
-                    ),
-                    SizedBox(height: 30),
-                    _image == null
-                        ? Center(child: Text("No image selected."))
-                        : Container(
-                            height: MediaQuery.of(context).size.height / 3,
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: Image.file(_image)),
-                    SizedBox(height: 30),
                     Form(
                       key: _recipeFormKey,
                       child: Column(
                         children: [
+                          SizedBox(height: 30),
                           CustomTextField(
                               hintText: "Nom de la recette",
                               onChanged: (String value) {
-                                recipeName = value;
+                                _recipeName = value;
                                 return '';
                               }),
-                          MultiSelectDialog(
-                              key: _recipeSelectIngredientsKey,
-                              title: "Select ingredients",
-                              items: items,
-                              initialSelectedValues: [].toSet())
+                          SizedBox(height: 30),
+                          FloatingActionButton(
+                            onPressed: selectImage,
+                            tooltip: 'Pick Image',
+                            child: Icon(Icons.add_a_photo),
+                          ),
+                          SizedBox(height: 30),
+                          _image == null
+                              ? Center(child: Text("No image selected."))
+                              : Container(
+                                  height:
+                                      MediaQuery.of(context).size.height / 3,
+                                  width: MediaQuery.of(context).size.width / 3,
+                                  child: Image.file(_image)),
+                          SizedBox(height: 30),
+                          CustomButton(
+                              text: "Ajouter des ingrédients",
+                              onTap: _testOnAlertTap),
+                          SizedBox(height: 30),
+                          CustomButton(text: "Valider !", onTap: _submitRecipe)
                         ],
                       ),
                     ),
@@ -92,13 +97,37 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
     );
   }
 
-  _submitForm() {
-    if (_recipeFormKey.currentState!.validate()) {
+  _testOnAlertTap() async {
+    final _recipeSelectIngredientsKey = GlobalKey<FormState>();
+    _ingredients = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => MultiSelectDialog(
+                key: _recipeSelectIngredientsKey,
+                title: "Select ingredients",
+                items: items,
+                initialSelectedValues: _ingredients)));
+  }
+
+  getIngredientsById(ingredients) {
+    List<IngredientDTO> resultList = <IngredientDTO>[];
+    ingredients.forEach(
+        (ingredient) => {resultList.add(IngredientDTO(name: "Carotte"))});
+    return resultList;
+  }
+
+  _submitRecipe() {
+    if (_ingredients == null || _recipeName == null || _image == null) {
+      ScaffoldMessenger.of(context)
+        ..removeCurrentSnackBar()
+        ..showSnackBar(SnackBar(
+            content: Text("Il manque des informations !",
+                textAlign: TextAlign.center)));
+    } else {
+      var tempIngredients = getIngredientsById(_ingredients);
       /*RecetteDTO recette = RecetteDTO(
-          name: recipeName,
-          ingredientLinesDTO: ingredientLinesDTO,
-          stepLinesDTO: stepLinesDTO
-      )*/
+          name: _recipeName,
+          ingredientLinesDTO: tempIngredients);*/
     }
   }
 }

@@ -117,7 +117,7 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
   }
 
   _submitRecipe() {
-    if (_ingredients == null || _recipeName == null || _image == null) {
+    if (_ingredients.isEmpty || _recipeName == null || _image == null) {
       ScaffoldMessenger.of(context)
         ..removeCurrentSnackBar()
         ..showSnackBar(SnackBar(

@@ -19,7 +19,7 @@ class _MyRecipesScreen extends State<MyRecipesScreen> {
           onPressed: () => Navigator.push(
               context, MaterialPageRoute(builder: (_) => MyRecipesScreen())),
         ),
-        title: Text("Sample"),
+        title: Text("Mes recettes"),
         centerTitle: true,
         elevation: 0,
       ),
@@ -49,7 +49,7 @@ class _MyRecipesScreen extends State<MyRecipesScreen> {
               style: TextStyle(fontWeight: FontWeight.bold)),
           SizedBox(height: 10),
           Text(
-              "Il est peut-etre temps que \n tu nous montres tes talents culinaires !",
+              "Il est peut-être temps que \n tu nous montres tes talents culinaires !",
               textAlign: TextAlign.center),
           Expanded(
             child: Align(

@@ -91,4 +91,14 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
       ),
     );
   }
+
+  _submitForm() {
+    if (_recipeFormKey.currentState!.validate()) {
+      /*RecetteDTO recette = RecetteDTO(
+          name: recipeName,
+          ingredientLinesDTO: ingredientLinesDTO,
+          stepLinesDTO: stepLinesDTO
+      )*/
+    }
+  }
 }

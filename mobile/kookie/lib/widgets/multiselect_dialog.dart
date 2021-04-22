@@ -1,31 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class MultiSelectDialogItem<V> {
+class MultiSelectDialogItem {
   const MultiSelectDialogItem(this.value, this.label);
 
-  final V value;
+  final int value;
   final String label;
 }
 
-class MultiSelectDialog<V> extends StatefulWidget {
-  MultiSelectDialog(
-      {required Key key,
-      required this.title,
-      required this.items,
-      required this.initialSelectedValues})
-      : super(key: key);
+class MultiSelectDialog extends StatefulWidget {
+  MultiSelectDialog({
+    required Key key,
+    required this.title,
+    required this.items,
+    required this.initialSelectedValues,
+    required this.onSubmitData,
+  }) : super(key: key);
 
   final String title;
-  final List<MultiSelectDialogItem<V>> items;
-  final Set<V> initialSelectedValues;
+  final List<MultiSelectDialogItem> items;
+  final Set<int> initialSelectedValues;
+  final onSubmitData;
 
   @override
-  State<StatefulWidget> createState() => _MultiSelectDialogState<V>();
+  State<StatefulWidget> createState() => _MultiSelectDialogState();
 }
 
-class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
-  final _selectedValues = Set<V>();
+class _MultiSelectDialogState extends State<MultiSelectDialog> {
+  final _selectedValues = Set<int>();
 
   void initState() {
     super.initState();
@@ -34,7 +36,7 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
     }
   }
 
-  void _onItemCheckedChange(V value, bool checked) {
+  void _onItemCheckedChange(int value, bool checked) {
     setState(() {
       if (checked) {
         _selectedValues.add(value);
@@ -44,12 +46,8 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
     });
   }
 
-  void _onCancelTap() {
-    Navigator.pop(context);
-  }
-
   void _onSubmitTap() {
-    Navigator.pop(context, _selectedValues);
+    widget.onSubmitData(_selectedValues);
   }
 
   @override
@@ -70,7 +68,7 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
       actions: <Widget>[
         TextButton(
           child: Text('ANNULER'),
-          onPressed: _onCancelTap,
+          onPressed: _onSubmitTap,
         ),
         TextButton(
           child: Text('OK'),
@@ -80,7 +78,7 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
     );
   }
 
-  Widget _buildItem(MultiSelectDialogItem<V> item) {
+  Widget _buildItem(MultiSelectDialogItem item) {
     final checked = _selectedValues.contains(item.value);
     return CheckboxListTile(
       value: checked,

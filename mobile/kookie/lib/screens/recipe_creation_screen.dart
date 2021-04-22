@@ -17,8 +17,9 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
   var _ingredients = Set<int>();
   var _image;
   var _recipeName;
+  var overlayEntry;
 
-  final items = <MultiSelectDialogItem<int>>[
+  final items = <MultiSelectDialogItem>[
     MultiSelectDialogItem(1, "Pomme de terre"),
     MultiSelectDialogItem(2, "Saucisse"),
     MultiSelectDialogItem(3, "Carotte"),
@@ -81,7 +82,8 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
                           SizedBox(height: 30),
                           CustomButton(
                               text: "Ajouter des ingrédients",
-                              onTap: _testOnAlertTap),
+                              onTap: (() => Overlay.of(context)?.insert(
+                                  overlayEntry = _createOverlayEntry()))),
                           SizedBox(height: 30),
                           CustomButton(text: "Valider !", onTap: _submitRecipe)
                         ],
@@ -97,16 +99,24 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
     );
   }
 
-  _testOnAlertTap() async {
-    final _recipeSelectIngredientsKey = GlobalKey<FormState>();
-    _ingredients = await Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => MultiSelectDialog(
-                key: _recipeSelectIngredientsKey,
-                title: "Select ingredients",
-                items: items,
-                initialSelectedValues: _ingredients)));
+  _createOverlayEntry() {
+    final _recipeIngredientsKey = GlobalKey<FormState>();
+    return OverlayEntry(builder: (BuildContext context) {
+      return MultiSelectDialog(
+          key: _recipeIngredientsKey,
+          title: "Select ingredients",
+          items: items,
+          initialSelectedValues: _ingredients,
+          onSubmitData: (recoveredSetData) =>
+              _handleRecoveredSetData(recoveredSetData));
+    });
+  }
+
+  _handleRecoveredSetData(Set<int> _recoveredSet) {
+    if (_recoveredSet.isNotEmpty) {
+      _ingredients = _recoveredSet;
+    }
+    overlayEntry.remove();
   }
 
   getIngredientsById(ingredients) {
@@ -124,6 +134,7 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
             content: Text("Il manque des informations !",
                 textAlign: TextAlign.center)));
     } else {
+      debugPrint(_ingredients.toString());
       var tempIngredients = getIngredientsById(_ingredients);
       /*RecetteDTO recette = RecetteDTO(
           name: _recipeName,

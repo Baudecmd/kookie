@@ -16,8 +16,7 @@ class _MyRecipesScreen extends State<MyRecipesScreen> {
         backgroundColor: Colors.white,
         leading: IconButton(
           icon: Icon(Icons.chevron_left, color: Colors.black),
-          onPressed: () => Navigator.push(
-              context, MaterialPageRoute(builder: (_) => MyRecipesScreen())),
+          onPressed: () => Navigator.pop(context),
         ),
         title: Text("Mes recettes"),
         centerTitle: true,

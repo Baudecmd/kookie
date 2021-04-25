@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kookie/models/ingredient/IngredientDTO.dart';
+import 'package:kookie/screens/recipe_steps_creation_screen.dart';
 import 'package:kookie/widgets/custom_button.dart';
 import 'package:kookie/widgets/custom_text_field.dart';
 import 'package:kookie/widgets/multiselect_dialog.dart';
@@ -85,7 +86,8 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
                               onTap: (() => Overlay.of(context)?.insert(
                                   overlayEntry = _createOverlayEntry()))),
                           SizedBox(height: 30),
-                          CustomButton(text: "Valider !", onTap: _submitRecipe)
+                          CustomButton(
+                              text: "Valider !", onTap: _pushStepsScreen)
                         ],
                       ),
                     ),
@@ -140,5 +142,10 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
           name: _recipeName,
           ingredientLinesDTO: tempIngredients);*/
     }
+  }
+
+  _pushStepsScreen() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (_) => RecipesStepsCreationScreen()));
   }
 }

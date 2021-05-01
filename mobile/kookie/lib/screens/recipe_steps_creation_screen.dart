@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kookie/screens/step_creation_screen.dart';
+import 'package:kookie/widgets/custom_button.dart';
 
 class RecipesStepsCreationScreen extends StatefulWidget {
   @override
@@ -16,26 +18,50 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
     final Color evenItemColor = colorScheme.primary.withOpacity(0.15);
 
     return Scaffold(
-      body: ReorderableListView(
-        padding: const EdgeInsets.symmetric(horizontal: 40),
-        children: <Widget>[
-          for (int index = 0; index < _items.length; index++)
-            ListTile(
-              key: Key('$index'),
-              tileColor: _items[index].isOdd ? oddItemColor : evenItemColor,
-              title: Text('Item ${_items[index]}'),
+      body: Container(
+        margin: EdgeInsets.symmetric(vertical: 40),
+        child: Column(
+          children: [
+            Expanded(
+              child: ReorderableListView(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                children: <Widget>[
+                  for (int index = 0; index < _items.length; index++)
+                    ListTile(
+                      contentPadding: EdgeInsets.all(10),
+                      key: Key('$index'),
+                      tileColor:
+                          _items[index].isOdd ? oddItemColor : evenItemColor,
+                      title: Text('Etape ${_items[index]}'),
+                      onTap: _openTileInfo,
+                      trailing: Icon(Icons.drag_handle_outlined),
+                    ),
+                ],
+                onReorder: (int oldIndex, int newIndex) {
+                  setState(() {
+                    if (oldIndex < newIndex) {
+                      newIndex -= 1;
+                    }
+                    final int item = _items.removeAt(oldIndex);
+                    _items.insert(newIndex, item);
+                  });
+                },
+              ),
             ),
-        ],
-        onReorder: (int oldIndex, int newIndex) {
-          setState(() {
-            if (oldIndex < newIndex) {
-              newIndex -= 1;
-            }
-            final int item = _items.removeAt(oldIndex);
-            _items.insert(newIndex, item);
-          });
-        },
+            SizedBox(height: 30),
+            CustomButton(text: "Valider la recette !", onTap: _submitInfo)
+          ],
+        ),
       ),
     );
+  }
+
+  _openTileInfo() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (_) => StepCreationScreen()));
+  }
+
+  _submitInfo() {
+    debugPrint("Pouet");
   }
 }

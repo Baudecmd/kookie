@@ -14,8 +14,6 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
-    final Color oddItemColor = colorScheme.primary.withOpacity(0.05);
-    final Color evenItemColor = colorScheme.primary.withOpacity(0.15);
 
     return Scaffold(
       body: Container(
@@ -23,20 +21,20 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
         child: Column(
           children: [
             Expanded(
-              child: ReorderableListView(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
-                children: <Widget>[
-                  for (int index = 0; index < _items.length; index++)
-                    ListTile(
-                      contentPadding: EdgeInsets.all(10),
-                      key: Key('$index'),
-                      tileColor:
-                          _items[index].isOdd ? oddItemColor : evenItemColor,
-                      title: Text('Etape ${_items[index]}'),
-                      onTap: _openTileInfo,
+              child: ReorderableListView.builder(
+                itemCount: _items.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    key: ValueKey(index),
+                    margin: const EdgeInsets.all(10),
+                    color: Color.fromRGBO(205, 205, 205, 1),
+                    child: ListTile(
+                      title: Text('Étape ${_items[index]}'),
                       trailing: Icon(Icons.drag_handle_outlined),
+                      onTap: _openTileInfo,
                     ),
-                ],
+                  );
+                },
                 onReorder: (int oldIndex, int newIndex) {
                   setState(() {
                     if (oldIndex < newIndex) {

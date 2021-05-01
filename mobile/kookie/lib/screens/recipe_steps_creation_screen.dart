@@ -13,8 +13,6 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
-
     return Scaffold(
       body: Container(
         margin: EdgeInsets.symmetric(vertical: 40),

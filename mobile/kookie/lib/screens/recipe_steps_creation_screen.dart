@@ -45,7 +45,13 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
               ),
             ),
             SizedBox(height: 30),
-            CustomButton(text: "Valider la recette !", onTap: _submitInfo)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CustomButton(text: "Ajouter une étape", onTap: _addStep),
+                CustomButton(text: "Valider la recette !", onTap: _submitInfo)
+              ],
+            )
           ],
         ),
       ),
@@ -55,6 +61,12 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
   _openTileInfo() {
     Navigator.push(
         context, MaterialPageRoute(builder: (_) => StepCreationScreen()));
+  }
+
+  _addStep() {
+    setState(() {
+      _items.insert(_items.length, _items.length);
+    });
   }
 
   _submitInfo() {

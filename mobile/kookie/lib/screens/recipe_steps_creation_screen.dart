@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kookie/screens/home_screen.dart';
 import 'package:kookie/screens/step_creation_screen.dart';
 import 'package:kookie/widgets/custom_button.dart';
 
@@ -9,7 +10,7 @@ class RecipesStepsCreationScreen extends StatefulWidget {
 }
 
 class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
-  final List<int> _items = List<int>.generate(50, (int index) => index);
+  final List<int> _items = List<int>.generate(1, (int index) => index);
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +80,8 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
   }
 
   _submitInfo() {
-    debugPrint("Pouet");
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+        (Route<dynamic> route) => false);
   }
 }

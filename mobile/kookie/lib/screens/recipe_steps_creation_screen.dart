@@ -22,14 +22,19 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
               child: ReorderableListView.builder(
                 itemCount: _items.length,
                 itemBuilder: (context, index) {
-                  return Card(
-                    key: ValueKey(index),
-                    margin: const EdgeInsets.all(10),
-                    color: Color.fromRGBO(205, 205, 205, 1),
-                    child: ListTile(
-                      title: Text('Étape ${_items[index]}'),
-                      trailing: Icon(Icons.drag_handle_outlined),
-                      onTap: _openTileInfo,
+                  return Dismissible(
+                    key: Key(_items[index].toString()),
+                    onDismissed: (direction) =>
+                        {_items.removeAt(index), _refreshListView()},
+                    child: Card(
+                      key: ValueKey(index),
+                      margin: const EdgeInsets.all(10),
+                      color: Color.fromRGBO(205, 205, 205, 1),
+                      child: ListTile(
+                        title: Text('Étape ${_items[index]}'),
+                        trailing: Icon(Icons.drag_handle_outlined),
+                        onTap: _openTileInfo,
+                      ),
                     ),
                   );
                 },
@@ -61,6 +66,10 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
   _openTileInfo() {
     Navigator.push(
         context, MaterialPageRoute(builder: (_) => StepCreationScreen()));
+  }
+
+  _refreshListView() {
+    setState(() {});
   }
 
   _addStep() {

@@ -18,6 +18,10 @@ class _StepCreationScreen extends State<StepCreationScreen> {
               Center(
                 child: Text("Décrivez cette étape !"),
               ),
+              TextField(
+                key: GlobalKey<FormState>(),
+                keyboardType: TextInputType.multiline,
+              ),
               SizedBox(height: 10),
               Center(child: Text("Quel est le matériel requis ?")),
               SizedBox(height: 10)

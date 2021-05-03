@@ -74,8 +74,17 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
   }
 
   _addStep() {
+    var stepNumber = 0;
+    var isInList = true;
+    while (isInList) {
+      if (_items.contains(stepNumber)) {
+        stepNumber++;
+      } else {
+        isInList = false;
+      }
+    }
     setState(() {
-      _items.insert(_items.length, _items.length);
+      _items.insert(_items.length, stepNumber);
     });
   }
 

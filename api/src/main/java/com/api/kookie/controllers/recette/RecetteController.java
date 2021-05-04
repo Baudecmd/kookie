@@ -1,8 +1,6 @@
 package com.api.kookie.controllers.recette;
 
-import com.api.kookie.controllers.ingredient.IngredientController;
 import com.api.kookie.controllers.security.JwtUtils;
-import com.api.kookie.core.dto.IngredientDTO;
 import com.api.kookie.core.dto.RecetteDTO;
 import com.api.kookie.core.dto.RecetteThumbnailDTO;
 import com.api.kookie.core.recette.RecetteService;
@@ -49,7 +47,9 @@ public class RecetteController {
         int id_utilisateur = JwtUtils.getIdFromToken(jwt);
         User u = userRepository.findById(Long.valueOf(id_utilisateur)).get();
         if (u != null) {
-            Recette recette = new Recette(u, nom_recette);
+            Recette recette = new Recette();
+            recette.setCreateur(u);
+            recette.setNom(nom_recette);
             recetteRepository.save(recette);
             map.put("ok", "ok");
 
@@ -74,8 +74,6 @@ public class RecetteController {
     public List<RecetteDTO> recette_search() {
         return recetteService.searchByString("test");
     }
-
-
 
 
 }

@@ -1,5 +1,8 @@
 package com.api.kookie.data.entity;
 
+import com.api.kookie.data.entity.ingredient.IngredientCategory;
+import com.api.kookie.data.entity.ingredient.IngredientLine;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,6 +17,9 @@ public class Recette {
 
     private String nom;
 
+    @OneToOne
+    private RecetteCategory category;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<IngredientLine> ingredientLines;
 
@@ -27,9 +33,13 @@ public class Recette {
 
     }
 
-    public Recette(User createur, String nom) {
+    public Recette(long id, User createur, String nom, RecetteCategory category, List<IngredientLine> ingredientLines, List<Step> steps) {
+        this.id = id;
         this.createur = createur;
         this.nom = nom;
+        this.category = category;
+        this.ingredientLines = ingredientLines;
+        this.steps = steps;
     }
 
     public long getId() {
@@ -54,6 +64,14 @@ public class Recette {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public RecetteCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(RecetteCategory category) {
+        this.category = category;
     }
 
     public List<IngredientLine> getIngredientLines() {
@@ -86,6 +104,9 @@ public class Recette {
                 "id=" + id +
                 ", createur=" + createur +
                 ", nom='" + nom + '\'' +
+                ", category=" + category +
+                ", ingredientLines=" + ingredientLines +
+                ", steps=" + steps +
                 '}';
     }
 }

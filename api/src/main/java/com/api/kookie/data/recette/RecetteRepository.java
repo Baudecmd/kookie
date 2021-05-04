@@ -13,5 +13,5 @@ public interface RecetteRepository extends CrudRepository<Recette, Integer> {
 
     List<Recette> findAll();
 
-
+    Recette findOneById(Integer recetteId);
 }

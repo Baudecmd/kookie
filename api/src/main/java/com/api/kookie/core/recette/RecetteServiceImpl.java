@@ -2,11 +2,11 @@ package com.api.kookie.core.recette;
 
 import com.api.kookie.core.dto.RecetteDTO;
 import com.api.kookie.core.dto.RecetteThumbnailDTO;
-import com.api.kookie.core.profile.ProfileService;
 import com.api.kookie.core.util.RecetteParser;
 import com.api.kookie.data.entity.Opinion;
 import com.api.kookie.data.entity.Profile;
 import com.api.kookie.data.entity.Recette;
+import com.api.kookie.data.profile.ProfileRepository;
 import com.api.kookie.data.recette.RecetteRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,7 @@ public class RecetteServiceImpl implements RecetteService {
     RecetteRepository recetteRepository;
 
     @Autowired
-    ProfileService profileService;
+    ProfileRepository profileRepository;
 
     @Override
     public List<RecetteDTO> searchByString(String s) {
@@ -40,7 +40,7 @@ public class RecetteServiceImpl implements RecetteService {
     public List<RecetteThumbnailDTO> getAllRecettesThumbnails(Integer profileId) {
         LOGGER.debug("[RecetteServiceImpl, getAllRecettesThumbnails] profileId = " + profileId);
 
-        Profile profile = profileService.getByProfileId(profileId);
+        Profile profile = profileRepository.findOneById(profileId);
 
         List<Recette> recettes = recetteRepository.findAll();
         List<RecetteThumbnailDTO> thumbnails = new ArrayList<>();

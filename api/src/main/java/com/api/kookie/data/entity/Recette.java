@@ -20,6 +20,9 @@ public class Recette {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Step> steps;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Opinion> opinions;
+
     public Recette() {
 
     }
@@ -61,11 +64,28 @@ public class Recette {
         this.ingredientLines = ingredientLines;
     }
 
-    public List<Step> getStepLines() {
+    public List<Step> getSteps() {
         return steps;
     }
 
-    public void setStepLines(List<Step> steps) {
+    public void setSteps(List<Step> steps) {
         this.steps = steps;
+    }
+
+    public List<Opinion> getOpinions() {
+        return opinions;
+    }
+
+    public void setOpinions(List<Opinion> opinions) {
+        this.opinions = opinions;
+    }
+
+    @Override
+    public String toString() {
+        return "Recette{" +
+                "id=" + id +
+                ", createur=" + createur +
+                ", nom='" + nom + '\'' +
+                '}';
     }
 }

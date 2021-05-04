@@ -1,7 +1,8 @@
 package com.api.kookie.data.entity;
 
+import com.api.kookie.data.entity.ingredient.IngredientLine;
+
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 public class Step {

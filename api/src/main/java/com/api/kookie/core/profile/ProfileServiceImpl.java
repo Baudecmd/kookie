@@ -66,6 +66,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
+    @Transactional
     public Boolean addFavorite(Integer profileId, Integer recetteId) {
         LOGGER.debug("[ProfileService, addFavorite] profileId = " + profileId + ", recetteID = " + recetteId);
         Profile profile = profileRepository.findOneById(profileId);

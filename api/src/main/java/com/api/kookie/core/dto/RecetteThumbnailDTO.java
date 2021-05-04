@@ -4,6 +4,8 @@ import java.util.Objects;
 
 public class RecetteThumbnailDTO {
 
+    private Long id;
+
     private String name;
 
     private Integer note;
@@ -11,6 +13,14 @@ public class RecetteThumbnailDTO {
     private boolean isFavorite;
 
     public RecetteThumbnailDTO() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -42,18 +52,19 @@ public class RecetteThumbnailDTO {
         if (this == o) return true;
         if (!(o instanceof RecetteThumbnailDTO)) return false;
         RecetteThumbnailDTO that = (RecetteThumbnailDTO) o;
-        return isFavorite() == that.isFavorite() && Objects.equals(getName(), that.getName()) && Objects.equals(getNote(), that.getNote());
+        return isFavorite() == that.isFavorite() && Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getNote(), that.getNote());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getNote(), isFavorite());
+        return Objects.hash(getId(), getName(), getNote(), isFavorite());
     }
 
     @Override
     public String toString() {
         return "RecetteThumbnailDTO{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", note=" + note +
                 ", isFavorite=" + isFavorite +
                 '}';

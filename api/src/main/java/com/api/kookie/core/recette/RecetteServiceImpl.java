@@ -49,6 +49,7 @@ public class RecetteServiceImpl implements RecetteService {
             ArrayList<Long> favoritesRecettesId = profile.getFavoriteRecettes().stream().map(Recette::getId).collect(Collectors.toCollection(ArrayList::new));
             for (Recette r : recettes) {
                 RecetteThumbnailDTO thumbnailDTO = new RecetteThumbnailDTO();
+                thumbnailDTO.setId(r.getId());
                 thumbnailDTO.setName(r.getNom());
                 int sumNotes = r.getOpinions().stream().map(Opinion::getNote).reduce(0, Integer::sum);
                 thumbnailDTO.setNote(sumNotes / r.getOpinions().size());

@@ -6,6 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 public interface ProfileRepository extends CrudRepository<Profile, Integer> {
 
     Profile findOneByUser_Username(String username);
-
-    Profile findOneByProfileId(Integer profileId);
+    Profile findOneById(Integer profileId);
 }

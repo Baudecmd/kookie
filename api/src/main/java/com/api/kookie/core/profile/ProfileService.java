@@ -1,12 +1,18 @@
 package com.api.kookie.core.profile;
 
 import com.api.kookie.core.dto.ProfileDTO;
+import com.api.kookie.core.dto.RecetteDTO;
 import com.api.kookie.core.exceptions.UsernameUnavailableException;
-import com.api.kookie.data.entity.Profile;
+
+import java.util.List;
 
 public interface ProfileService {
 
     ProfileDTO createProfile(ProfileDTO profile) throws UsernameUnavailableException;
 
-    Profile getByProfileId(Integer profileId);
+    ProfileDTO getByProfileId(Integer profileId);
+
+    Boolean addFavorite(Integer profileId, Integer recetteId);
+
+    List<RecetteDTO> getFavorites(Integer profileId);
 }

@@ -1,6 +1,7 @@
 package com.api.kookie.controllers.profile;
 
 import com.api.kookie.core.dto.ProfileDTO;
+import com.api.kookie.core.dto.RecetteDTO;
 import com.api.kookie.core.exceptions.UsernameUnavailableException;
 import com.api.kookie.core.profile.ProfileService;
 import org.slf4j.Logger;
@@ -9,10 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/profile")
@@ -33,6 +33,41 @@ public class ProfileController {
         } catch (UsernameUnavailableException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).contentType(MediaType.APPLICATION_JSON).body(e.getMessage());
         }
+    }
 
+    @GetMapping("/favorite/add")
+    public ResponseEntity<Boolean> addFavorite(@RequestParam Integer profileId, @RequestParam Integer recetteId) {
+        LOGGER.debug("[ProfileController, addFavorite] profileId : " + profileId + " recetteId : " + recetteId);
+
+        if (profileId == null || recetteId == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON).body(false);
+        } else {
+            Boolean added = profileService.addFavorite(profileId, recetteId);
+            if (added != null) {
+                if (added) {
+                    return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(true);
+                } else {
+                    return ResponseEntity.status(HttpStatus.CONFLICT).contentType(MediaType.APPLICATION_JSON).body(false);
+                }
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.APPLICATION_JSON).body(false);
+            }
+        }
+    }
+
+    @GetMapping("/favorite/all")
+    public ResponseEntity<List<RecetteDTO>> getFavorites(@RequestParam Integer profileId) {
+        LOGGER.debug("[ProfileController, addFavorite] profileId : " + profileId);
+
+        if (profileId == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON).body(null);
+        } else {
+            List<RecetteDTO> recettes = profileService.getFavorites(profileId);
+            if (recettes != null) {
+                return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(recettes);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.APPLICATION_JSON).body(null);
+            }
+        }
     }
 }

@@ -5,6 +5,7 @@ import com.api.kookie.core.dto.ProfileDTO;
 import com.api.kookie.core.exceptions.UsernameUnavailableException;
 import com.api.kookie.core.user.UserService;
 import com.api.kookie.core.util.ProfileParser;
+import com.api.kookie.data.entity.Profile;
 import com.api.kookie.data.profile.ProfileRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,5 +50,13 @@ public class ProfileServiceImpl implements ProfileService {
         }
         else throw new UsernameUnavailableException();
         return profileDTO;
+    }
+
+    @Override
+    public Profile getByProfileId(Integer profileId) {
+
+        LOGGER.debug("[ProfileService, getByProfileId] profileId = " + profileId);
+
+        return profileRepository.findOneByProfileId(profileId);
     }
 }

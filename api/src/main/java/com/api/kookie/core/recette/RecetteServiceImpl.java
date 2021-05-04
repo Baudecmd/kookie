@@ -53,11 +53,7 @@ public class RecetteServiceImpl implements RecetteService {
                 thumbnailDTO.setName(r.getNom());
                 int sumNotes = r.getOpinions().stream().map(Opinion::getNote).reduce(0, Integer::sum);
                 thumbnailDTO.setNote(sumNotes / r.getOpinions().size());
-                if (favoritesRecettesId.contains(favoritesRecettesId)) {
-                    thumbnailDTO.setFavorite(true);
-                } else {
-                    thumbnailDTO.setFavorite(false);
-                }
+                thumbnailDTO.setFavorite(favoritesRecettesId.contains(favoritesRecettesId));
                 thumbnails.add(thumbnailDTO);
             }
         }

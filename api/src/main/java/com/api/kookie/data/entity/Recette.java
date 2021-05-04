@@ -1,6 +1,5 @@
 package com.api.kookie.data.entity;
 
-import com.api.kookie.data.entity.ingredient.IngredientCategory;
 import com.api.kookie.data.entity.ingredient.IngredientLine;
 
 import javax.persistence.*;

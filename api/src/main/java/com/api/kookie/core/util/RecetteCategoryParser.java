@@ -2,7 +2,6 @@ package com.api.kookie.core.util;
 
 import com.api.kookie.core.dto.CategoryDTO;
 import com.api.kookie.data.entity.RecetteCategory;
-import com.api.kookie.data.entity.ingredient.IngredientCategory;
 
 import java.util.ArrayList;
 import java.util.List;

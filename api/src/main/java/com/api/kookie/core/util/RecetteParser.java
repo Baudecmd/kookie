@@ -14,7 +14,7 @@ public class RecetteParser {
             recetteDTO.setUserDTO(UserParser.toDTO(recette.getCreateur()));
             recetteDTO.setName(recette.getNom());
             recetteDTO.setIngredientLinesDTO(IngredientLineParser.parseListToDTO(recette.getIngredientLines()));
-           // recetteDTO.setStepLinesDTO(StepLineParser.parseListToDTO(recette.getStepLines()));
+            // recetteDTO.setStepLinesDTO(StepLineParser.parseListToDTO(recette.getStepLines()));
         }
         return recetteDTO;
     }
@@ -26,7 +26,7 @@ public class RecetteParser {
             recette.setCreateur(UserParser.toEntity(recetteDTO.getUserDTO()));
             recette.setNom(recetteDTO.getName());
             recette.setIngredientLines(IngredientLineParser.parseListToEntity(recetteDTO.getIngredientLinesDTO()));
-           // recette.setStepLines(StepLineParser.parseListToEntity(recetteDTO.getStepLinesDTO()));
+            // recette.setStepLines(StepLineParser.parseListToEntity(recetteDTO.getStepLinesDTO()));
         }
         return recette;
     }

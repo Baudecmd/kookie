@@ -1,10 +1,6 @@
 package com.api.kookie.data.entity;
 
-import org.hibernate.annotations.Check;
-
 import javax.persistence.*;
-import java.util.Objects;
-import java.util.Set;
 
 @Entity
 public class Opinion {

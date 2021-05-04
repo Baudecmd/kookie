@@ -23,6 +23,17 @@ public class Step {
     @OneToOne
     private StepType stepType;
 
+    public Step() {
+    }
+
+    public Step(IngredientLine ingredientLine, String stepName, Integer duration, Integer stepNumber, StepType stepType) {
+        this.ingredientLine = ingredientLine;
+        this.stepName = stepName;
+        this.duration = duration;
+        this.stepNumber = stepNumber;
+        this.stepType = stepType;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -68,17 +79,6 @@ public class Step {
     }
 
     public void setStepType(StepType stepType) {
-        this.stepType = stepType;
-    }
-
-    public Step() {
-    }
-
-    public Step(IngredientLine ingredientLine, String stepName, Integer duration, Integer stepNumber, StepType stepType) {
-        this.ingredientLine = ingredientLine;
-        this.stepName = stepName;
-        this.duration = duration;
-        this.stepNumber = stepNumber;
         this.stepType = stepType;
     }
 

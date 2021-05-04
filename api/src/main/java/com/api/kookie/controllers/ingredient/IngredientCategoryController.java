@@ -1,7 +1,7 @@
 package com.api.kookie.controllers.ingredient;
 
-import com.api.kookie.core.ingredient.IngredientCategoryService;
 import com.api.kookie.core.dto.CategoryDTO;
+import com.api.kookie.core.ingredient.IngredientCategoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -35,7 +35,7 @@ public class RecetteController {
 
     @GetMapping("/recettes")
     public List<Recette> liste_recette() {
-        return (List<Recette>) recetteRepository.findAll();
+        return recetteRepository.findAll();
     }
 
     @PostMapping("/recette/add")

@@ -1,7 +1,6 @@
 package com.api.kookie.data.entity;
 
 import com.api.kookie.data.entity.Ustensil.Ustensil;
-import com.api.kookie.data.entity.Ustensil.UstensilLine;
 
 import javax.persistence.*;
 import java.util.List;

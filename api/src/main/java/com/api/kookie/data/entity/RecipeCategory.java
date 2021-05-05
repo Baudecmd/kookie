@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class RecetteCategory {
+public class RecipeCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -13,12 +13,12 @@ public class RecetteCategory {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Recette> recettes;
+    private List<Recette> recipes;
 
-    public RecetteCategory() {
+    public RecipeCategory() {
     }
 
-    public RecetteCategory(int id, String name) {
+    public RecipeCategory(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -39,17 +39,17 @@ public class RecetteCategory {
         this.name = name;
     }
 
-    public List<Recette> getRecettes() {
-        return recettes;
+    public List<Recette> getRecipes() {
+        return recipes;
     }
 
-    public void setRecettes(List<Recette> recettes) {
-        this.recettes = recettes;
+    public void setRecipes(List<Recette> recipes) {
+        this.recipes = recipes;
     }
 
     @Override
     public String toString() {
-        return "RecetteCategory{" +
+        return "RecipeCategory{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

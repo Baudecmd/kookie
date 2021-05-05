@@ -5,7 +5,7 @@ import com.api.kookie.core.dto.RecetteDTO;
 
 import java.util.List;
 
-public interface RecetteCategoryService {
+public interface RecipeCategoryService {
     List<CategoryDTO> getAllCategories();
 
     List<RecetteDTO> getAllByCategoryId(Integer categoryId);

@@ -17,7 +17,7 @@ public class Recette {
     private String nom;
 
     @OneToOne
-    private RecetteCategory category;
+    private RecipeCategory category;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<IngredientLine> ingredientLines;
@@ -32,7 +32,7 @@ public class Recette {
 
     }
 
-    public Recette(long id, User createur, String nom, RecetteCategory category, List<IngredientLine> ingredientLines, List<Step> steps) {
+    public Recette(long id, User createur, String nom, RecipeCategory category, List<IngredientLine> ingredientLines, List<Step> steps) {
         this.id = id;
         this.createur = createur;
         this.nom = nom;
@@ -65,11 +65,11 @@ public class Recette {
         this.nom = nom;
     }
 
-    public RecetteCategory getCategory() {
+    public RecipeCategory getCategory() {
         return category;
     }
 
-    public void setCategory(RecetteCategory category) {
+    public void setCategory(RecipeCategory category) {
         this.category = category;
     }
 

@@ -46,7 +46,7 @@ class _StepCreationScreen extends State<StepCreationScreen> {
               fit: BoxFit.cover,
             ),
           ),
-          child: Column(
+          child: ListView(
             children: [
               SizedBox(height: 50),
               Center(
@@ -66,29 +66,31 @@ class _StepCreationScreen extends State<StepCreationScreen> {
                     Text("Quels sont les ustensiles requis pour cette étape ?"),
               ),
               SizedBox(height: 20),
-              ListBody(
-                children: widget._utensilsList.map(_buildItem).toList(),
-              ),
+              ...widget._utensilsList.map((item) {
+                return CheckboxListTile(
+                  value: _selectedUtensils.contains(item.value),
+                  title: Text(item.label),
+                  controlAffinity: ListTileControlAffinity.leading,
+                  onChanged: (checked) =>
+                      _onUtensilCheckedChange(item.value, checked!),
+                );
+              }).toList(),
               Spacer(),
-              CustomButton(
-                text: "Valider",
-                onTap: _submitStepData,
+              SizedBox(height: 20),
+              Center(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width / 2,
+                  child: CustomButton(
+                    text: "Valider",
+                    onTap: _submitStepData,
+                  ),
+                ),
               ),
               SizedBox(height: 20),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildItem(MultiSelectItem item) {
-    final checked = _selectedUtensils.contains(item.value);
-    return CheckboxListTile(
-      value: checked,
-      title: Text(item.label),
-      controlAffinity: ListTileControlAffinity.leading,
-      onChanged: (checked) => _onUtensilCheckedChange(item.value, checked!),
     );
   }
 

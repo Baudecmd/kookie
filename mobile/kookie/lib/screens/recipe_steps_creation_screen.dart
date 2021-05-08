@@ -64,9 +64,12 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
     );
   }
 
-  _openTileInfo() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (_) => StepCreationScreen()));
+  _openTileInfo() async {
+    var result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (_) => StepCreationScreen(), fullscreenDialog: true),
+    );
   }
 
   _refreshListView() {

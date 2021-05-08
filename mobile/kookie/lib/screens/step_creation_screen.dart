@@ -104,5 +104,7 @@ class _StepCreationScreen extends State<StepCreationScreen> {
     });
   }
 
-  _submitStepData() {}
+  _submitStepData() {
+    Navigator.pop(context, _selectedUtensils);
+  }
 }

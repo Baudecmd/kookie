@@ -62,8 +62,8 @@ class _StepCreationScreen extends State<StepCreationScreen> {
               ),
               SizedBox(height: 20),
               Center(
-                child:
-                    Text("Quels sont les ustensiles requis pour cette étape ?"),
+                child: Text(
+                    "Quels sont le matériel et les ustensiles requis pour cette étape ?"),
               ),
               SizedBox(height: 20),
               ...widget._utensilsList.map((item) {
@@ -75,7 +75,6 @@ class _StepCreationScreen extends State<StepCreationScreen> {
                       _onUtensilCheckedChange(item.value, checked!),
                 );
               }).toList(),
-              Spacer(),
               SizedBox(height: 20),
               Center(
                 child: SizedBox(

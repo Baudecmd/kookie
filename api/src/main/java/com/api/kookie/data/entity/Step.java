@@ -1,8 +1,8 @@
 package com.api.kookie.data.entity;
 
+import com.api.kookie.data.entity.ingredient.IngredientLine;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 public class Step {
@@ -11,23 +11,27 @@ public class Step {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private String name;
+    @OneToOne
+    private IngredientLine ingredientLine;
 
-    private String description;
+    private String stepName;
 
     private Integer duration;
 
-    @OneToMany
-    private Set<StepLine> stepLines;
+    private Integer stepNumber;
+
+    @OneToOne
+    private StepType stepType;
 
     public Step() {
     }
 
-    public Step(Integer id, String name, String description, Integer duration) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
+    public Step(IngredientLine ingredientLine, String stepName, Integer duration, Integer stepNumber, StepType stepType) {
+        this.ingredientLine = ingredientLine;
+        this.stepName = stepName;
         this.duration = duration;
+        this.stepNumber = stepNumber;
+        this.stepType = stepType;
     }
 
     public Integer getId() {
@@ -38,20 +42,20 @@ public class Step {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public IngredientLine getIngredientLine() {
+        return ingredientLine;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setIngredientLine(IngredientLine ingredientLine) {
+        this.ingredientLine = ingredientLine;
     }
 
-    public String getDescription() {
-        return description;
+    public String getStepName() {
+        return stepName;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setStepName(String stepName) {
+        this.stepName = stepName;
     }
 
     public Integer getDuration() {
@@ -62,21 +66,31 @@ public class Step {
         this.duration = duration;
     }
 
-    public Set<StepLine> getStepLines() {
-        return stepLines;
+    public Integer getStepNumber() {
+        return stepNumber;
     }
 
-    public void setStepLines(Set<StepLine> stepLines) {
-        this.stepLines = stepLines;
+    public void setStepNumber(Integer stepNumber) {
+        this.stepNumber = stepNumber;
+    }
+
+    public StepType getStepType() {
+        return stepType;
+    }
+
+    public void setStepType(StepType stepType) {
+        this.stepType = stepType;
     }
 
     @Override
     public String toString() {
         return "Step{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
+                ", ingredientLine=" + ingredientLine +
+                ", stepName='" + stepName + '\'' +
                 ", duration=" + duration +
+                ", stepNumber=" + stepNumber +
+                ", stepType=" + stepType +
                 '}';
     }
 }

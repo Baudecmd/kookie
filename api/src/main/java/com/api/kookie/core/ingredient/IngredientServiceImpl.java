@@ -2,7 +2,7 @@ package com.api.kookie.core.ingredient;
 
 import com.api.kookie.core.dto.IngredientDTO;
 import com.api.kookie.core.util.IngredientParser;
-import com.api.kookie.data.entity.Ingredient;
+import com.api.kookie.data.entity.ingredient.Ingredient;
 import com.api.kookie.data.ingredient.IngredientRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

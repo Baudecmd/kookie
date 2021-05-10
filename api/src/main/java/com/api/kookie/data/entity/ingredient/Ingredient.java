@@ -1,4 +1,4 @@
-package com.api.kookie.data.entity;
+package com.api.kookie.data.entity.ingredient;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -15,7 +15,7 @@ public class Ingredient {
     private boolean isVegan;
 
     @OneToOne
-    private Category category;
+    private IngredientCategory ingredientCategory;
 
     @OneToMany
     private Set<IngredientLine> ingredientLines;
@@ -23,11 +23,11 @@ public class Ingredient {
     public Ingredient() {
     }
 
-    public Ingredient(int id, String name, boolean isVegan, Category category) {
+    public Ingredient(int id, String name, boolean isVegan, IngredientCategory ingredientCategory) {
         this.id = id;
         this.name = name;
         this.isVegan = isVegan;
-        this.category = category;
+        this.ingredientCategory = ingredientCategory;
     }
 
     public Integer getId() {
@@ -62,12 +62,12 @@ public class Ingredient {
         this.isVegan = vegan;
     }
 
-    public Category getCategory() {
-        return category;
+    public IngredientCategory getCategory() {
+        return ingredientCategory;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategory(IngredientCategory ingredientCategory) {
+        this.ingredientCategory = ingredientCategory;
     }
 
     public Set<IngredientLine> getIngredientLines() {
@@ -84,7 +84,7 @@ public class Ingredient {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", isVegan=" + isVegan +
-                ", categoryId=" + category.getId() +
+                ", categoryId=" + ingredientCategory.getId() +
                 '}';
     }
 }

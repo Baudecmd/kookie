@@ -1,5 +1,7 @@
 package com.api.kookie.data.entity;
 
+import com.api.kookie.data.entity.ingredient.IngredientLine;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,19 +16,29 @@ public class Recette {
 
     private String nom;
 
+    @OneToOne
+    private RecipeCategory category;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<IngredientLine> ingredientLines;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<StepLine> stepLines;
+    private List<Step> steps;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Opinion> opinions;
 
     public Recette() {
 
     }
 
-    public Recette(User createur, String nom) {
+    public Recette(long id, User createur, String nom, RecipeCategory category, List<IngredientLine> ingredientLines, List<Step> steps) {
+        this.id = id;
         this.createur = createur;
         this.nom = nom;
+        this.category = category;
+        this.ingredientLines = ingredientLines;
+        this.steps = steps;
     }
 
     public long getId() {
@@ -53,6 +65,14 @@ public class Recette {
         this.nom = nom;
     }
 
+    public RecipeCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(RecipeCategory category) {
+        this.category = category;
+    }
+
     public List<IngredientLine> getIngredientLines() {
         return ingredientLines;
     }
@@ -61,11 +81,31 @@ public class Recette {
         this.ingredientLines = ingredientLines;
     }
 
-    public List<StepLine> getStepLines() {
-        return stepLines;
+    public List<Step> getSteps() {
+        return steps;
     }
 
-    public void setStepLines(List<StepLine> stepLines) {
-        this.stepLines = stepLines;
+    public void setSteps(List<Step> steps) {
+        this.steps = steps;
+    }
+
+    public List<Opinion> getOpinions() {
+        return opinions;
+    }
+
+    public void setOpinions(List<Opinion> opinions) {
+        this.opinions = opinions;
+    }
+
+    @Override
+    public String toString() {
+        return "Recette{" +
+                "id=" + id +
+                ", createur=" + createur +
+                ", nom='" + nom + '\'' +
+                ", category=" + category +
+                ", ingredientLines=" + ingredientLines +
+                ", steps=" + steps +
+                '}';
     }
 }

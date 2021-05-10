@@ -5,7 +5,6 @@ import com.api.kookie.core.dto.ProfileDTO;
 import com.api.kookie.core.exceptions.UnknownUserException;
 import com.api.kookie.core.exceptions.WrongPasswordException;
 import com.api.kookie.core.user.UserService;
-import com.api.kookie.data.entity.Profile;
 import com.api.kookie.data.entity.User;
 import com.api.kookie.data.user.UserRepository;
 import org.slf4j.Logger;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

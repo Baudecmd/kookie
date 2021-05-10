@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:kookie/screens/favourites_screen.dart';
+import 'package:kookie/screens/my_recipes_screen.dart';
 import 'package:kookie/screens/profile_screen.dart';
 import 'package:kookie/screens/start_screen.dart';
 import 'package:kookie/services/storage_util.dart';
@@ -53,17 +55,17 @@ class CustomDrawer extends StatelessWidget {
                       Icons.favorite_border,
                       color: Colors.white,
                     ),
-                    'Mes Favoris', () {
-                  Navigator.of(context).pop();
-                }),
+                    'Mes Favoris',
+                    () => Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (_) => FavouritesScreen()))),
                 _buildDrawerOption(
                     Icon(
                       Icons.sticky_note_2_outlined,
                       color: Colors.white,
                     ),
-                    'Mes Recettes', () {
-                  Navigator.of(context).pop();
-                }),
+                    'Mes Recettes',
+                    () => Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (_) => MyRecipesScreen()))),
                 Expanded(
                   child: Align(
                     alignment: FractionalOffset.bottomCenter,

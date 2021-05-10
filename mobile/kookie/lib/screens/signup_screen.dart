@@ -14,7 +14,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
   final UserDTO user = UserDTO();
   String? username;
-  String? password;
+  String? password1;
+  String? password2;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         hintText: 'Email',
                         onChanged: (String value) {
                           username = value;
-                          return '';
+                          return null;
                         }),
                     SizedBox(height: 30),
                     CustomTextField(
@@ -55,10 +56,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         if (value.isEmpty) {
                           return 'Please enter a password';
                         } else if (value.length < 8) {
-                          return 'Password length must be at least 8 characters long';
+                          return 'Password length must be at least 8';
                         } else {
-                          password = value;
-                          return '';
+                          password1 = value;
+                          return null;
                         }
                       },
                     ),
@@ -70,11 +71,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         if (value.isEmpty) {
                           return "Please enter a password";
                         } else if (value.length < 8) {
-                          return "Password length must be at least 8 characters long";
-                        } else if (value != password) {
+                          return "Password length must be at least 8";
+                        } else if (value != password1) {
                           return "Password must be the same as above";
                         } else {
-                          return "";
+                          password2 = value;
+                          return null;
                         }
                       },
                     ),
@@ -90,13 +92,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
+  bool checkForm() {
+    if (username != null && password1 == password2) {
+      return true;
+    }
+    return false;
+  }
+
   _submitForm() {
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate() && checkForm()) {
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (_) => SignUpUserInfoScreen(
-                  UserDTO(username: username, password: password))));
+                  UserDTO(username: username, password: password2))));
     }
   }
 }

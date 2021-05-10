@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatefulWidget {
-  final String Function(String) onChanged;
+  final String? Function(String) onChanged;
   final TextEditingController? controller;
   final String hintText;
   final bool isObscureText;
@@ -36,7 +36,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           fillColor: Colors.white,
           filled: true,
           hintText: widget.hintText,
-          errorText: _error != '' ? _error : null,
+          errorText: _error,
           errorStyle: TextStyle(height: 0),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(50),
@@ -49,7 +49,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         ),
         obscureText: widget.isObscureText,
         onChanged: (String input) {
-          widget.onChanged(input);
+          _error = widget.onChanged(input);
           setState(() {});
         },
       ),

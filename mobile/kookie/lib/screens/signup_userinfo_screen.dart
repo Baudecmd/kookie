@@ -52,38 +52,37 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
                         CustomTextField(
                           hintText: 'Nom',
                           onChanged: (String value) {
-                        var validCharacters = RegExp(r'^[a-zA-Z]+$');
+                        var validCharacters = RegExp(r'^[a-zA-Z ]+$');
                         if (validCharacters.hasMatch(value)) {
                           lastName = value;
-                          return '';
+                          return null;
                         } else if (value.isEmpty) {
                           return "Name field is empty";
                         } else {
                           return "Alphabetical characters only !";
                         }
-                          },
+                      },
                         ),
                         SizedBox(height: 30),
                         CustomTextField(
                           hintText: 'Prénom',
                           onChanged: (String value) {
-                        var validCharacters = RegExp(r'^[a-zA-Z]+$');
+                            var validCharacters = RegExp(r'^[a-zA-Z ]+$');
                         if (validCharacters.hasMatch(value)) {
                           firstName = value;
-                          return '';
+                          return null;
                         } else if (value.isEmpty) {
                           return "Firstname field is empty";
                         } else {
                           return "Alphabetical characters only !";
                         }
-                          },
+                      },
                         ),
                         SizedBox(height: 30),
                         CustomButton(text: 'VALIDER', onTap: _submitForm)
-                      ],
-                    ),
-                  )
-              )
+                  ],
+                ),
+              ))
             ],
           ),
         ),
@@ -91,8 +90,15 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
     );
   }
 
+  bool checkForm() {
+    if (firstName != null && lastName != null) {
+      return true;
+    }
+    return false;
+  }
+
   _submitForm() async {
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate() && checkForm()) {
       await repository.createProfile(ProfileDTO(
           firstName: firstName, lastName: lastName, user: widget.user));
       Navigator.push(

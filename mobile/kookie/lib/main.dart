@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kookie/screens/start_screen.dart';
+import 'package:kookie/screens/home_screen.dart';
+import 'package:kookie/services/storage_util.dart';
 
-void main() {
+void main() async {
+  await StorageUtil.getInstance();
   runApp(MyApp());
 }
 
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Color(0xFF66C586),
       ),
-      home: StartScreen(),
+      home: HomeScreen(),
     );
   }
 }

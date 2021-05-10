@@ -52,7 +52,7 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
                         CustomTextField(
                           hintText: 'Nom',
                           onChanged: (String value) {
-                        var validCharacters = RegExp(r'^[a-zA-Z]+$');
+                        var validCharacters = RegExp(r'^[a-zA-Z ]+$');
                         if (validCharacters.hasMatch(value)) {
                           lastName = value;
                           return null;
@@ -61,13 +61,13 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
                         } else {
                           return "Alphabetical characters only !";
                         }
-                          },
+                      },
                         ),
                         SizedBox(height: 30),
                         CustomTextField(
                           hintText: 'Prénom',
                           onChanged: (String value) {
-                        var validCharacters = RegExp(r'^[a-zA-Z]+$');
+                            var validCharacters = RegExp(r'^[a-zA-Z ]+$');
                         if (validCharacters.hasMatch(value)) {
                           firstName = value;
                           return null;
@@ -76,7 +76,7 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
                         } else {
                           return "Alphabetical characters only !";
                         }
-                          },
+                      },
                         ),
                         SizedBox(height: 30),
                         CustomButton(text: 'VALIDER', onTap: _submitForm)

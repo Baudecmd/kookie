@@ -1,10 +1,10 @@
 package com.api.kookie.data.entity;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
-public class Category {
+public class RecipeCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -13,12 +13,12 @@ public class Category {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private Set<Ingredient> ingredients;
+    private List<Recette> recipes;
 
-    public Category() {
+    public RecipeCategory() {
     }
 
-    public Category(int id, String name) {
+    public RecipeCategory(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -39,17 +39,17 @@ public class Category {
         this.name = name;
     }
 
-    public Set<Ingredient> getIngredients() {
-        return ingredients;
+    public List<Recette> getRecipes() {
+        return recipes;
     }
 
-    public void setIngredients(Set<Ingredient> ingredients) {
-        this.ingredients = ingredients;
+    public void setRecipes(List<Recette> recipes) {
+        this.recipes = recipes;
     }
 
     @Override
     public String toString() {
-        return "Category{" +
+        return "RecipeCategory{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

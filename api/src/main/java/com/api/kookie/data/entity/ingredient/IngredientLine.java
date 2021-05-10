@@ -1,4 +1,6 @@
-package com.api.kookie.data.entity;
+package com.api.kookie.data.entity.ingredient;
+
+import com.api.kookie.data.entity.Recette;
 
 import javax.persistence.*;
 

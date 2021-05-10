@@ -1,7 +1,7 @@
 package com.api.kookie.core.util;
 
 import com.api.kookie.core.dto.IngredientLineDTO;
-import com.api.kookie.data.entity.IngredientLine;
+import com.api.kookie.data.entity.ingredient.IngredientLine;
 
 import java.util.ArrayList;
 import java.util.List;

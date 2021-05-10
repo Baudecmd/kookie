@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kookie/datas/data.dart';
+import 'package:kookie/screens/start_screen.dart';
+import 'package:kookie/services/storage_util.dart';
 import 'package:kookie/widgets/custom_drawer.dart';
 import 'package:kookie/widgets/post_carousel.dart';
 
@@ -13,9 +15,17 @@ class _HomeScreenState extends State<HomeScreen>
   late TabController _tabController;
   late PageController _pageController;
 
+  isLogged() async {
+    String value = await StorageUtil.getString(key: 'token');
+    if (value == '') {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => StartScreen()));
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    isLogged();
     _tabController = TabController(length: 2, vsync: this);
     _pageController = PageController(initialPage: 0, viewportFraction: 0.8);
   }

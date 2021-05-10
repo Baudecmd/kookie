@@ -4,6 +4,7 @@ import 'package:kookie/screens/favourites_screen.dart';
 import 'package:kookie/screens/my_recipes_screen.dart';
 import 'package:kookie/screens/profile_screen.dart';
 import 'package:kookie/screens/start_screen.dart';
+import 'package:kookie/services/storage_util.dart';
 
 class CustomDrawer extends StatelessWidget {
   _buildDrawerOption(Icon icon, String title, onTap) {
@@ -32,17 +33,23 @@ class CustomDrawer extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.15,
                 ),
                 _buildDrawerOption(
-                    Icon(
-                      Icons.account_circle_outlined,
-                      color: Colors.white,
-                    ),
-                    'Profil',
-                    () => Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => ProfileScreen(
-                                /*user: currentUser,*/
-                                )))),
+                  Icon(
+                    Icons.account_circle_outlined,
+                    color: Colors.white,
+                  ),
+                  'Profil',
+                  () {
+                    Navigator.of(context).pop();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ProfileScreen(
+                            /*user: currentUser,*/
+                            ),
+                      ),
+                    );
+                  },
+                ),
                 _buildDrawerOption(
                     Icon(
                       Icons.favorite_border,
@@ -60,17 +67,22 @@ class CustomDrawer extends StatelessWidget {
                     () => Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (_) => MyRecipesScreen()))),
                 Expanded(
-                    child: Align(
-                  alignment: FractionalOffset.bottomCenter,
-                  child: _buildDrawerOption(
+                  child: Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    child: _buildDrawerOption(
                       Icon(
                         Icons.directions_run,
                         color: Colors.white,
                       ),
                       'Se déconnecter',
-                      () => Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (_) => StartScreen()))),
-                )),
+                      () {
+                        StorageUtil.logout();
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (_) => StartScreen()));
+                      },
+                    ),
+                  ),
+                ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.15,
                 ),

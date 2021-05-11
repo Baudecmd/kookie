@@ -11,6 +11,7 @@ class RecipesStepsCreationScreen extends StatefulWidget {
 
 class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
   final List<int> _items = List<int>.generate(1, (int index) => index);
+  final Map<int, Set<int>> _itemsMap = {0: {}};
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
                       child: ListTile(
                         title: Text('Étape ${_items[index]}'),
                         trailing: Icon(Icons.drag_handle_outlined),
-                        onTap: _openTileInfo,
+                        onTap: () => _openTileInfo(index),
                       ),
                     ),
                   );
@@ -64,12 +65,15 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
     );
   }
 
-  _openTileInfo() async {
+  _openTileInfo(index) async {
     var result = await Navigator.push(
       context,
       MaterialPageRoute(
           builder: (_) => StepCreationScreen(), fullscreenDialog: true),
     );
+    if (result != null) {
+      _itemsMap[index] = result;
+    }
   }
 
   _refreshListView() {
@@ -89,6 +93,7 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
     setState(() {
       _items.insert(_items.length, stepNumber);
     });
+    _itemsMap[stepNumber] = {};
   }
 
   _submitInfo() {

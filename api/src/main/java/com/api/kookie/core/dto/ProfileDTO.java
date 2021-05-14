@@ -1,5 +1,9 @@
 package com.api.kookie.core.dto;
 
+import com.api.kookie.data.entity.Ustensil.UstensilLine;
+
+import javax.persistence.OneToMany;
+import java.util.List;
 import java.util.Objects;
 
 public class ProfileDTO {
@@ -11,6 +15,9 @@ public class ProfileDTO {
     private String firstName;
 
     private String lastName;
+
+    @OneToMany
+    private List<UstensilLine> ustensilLines;
 
     public ProfileDTO() {
     }
@@ -47,6 +54,14 @@ public class ProfileDTO {
         this.lastName = lastName;
     }
 
+    public List<UstensilLine> getUstensilLines() {
+        return ustensilLines;
+    }
+
+    public void setUstensilLines(List<UstensilLine> ustensilLines) {
+        this.ustensilLines = ustensilLines;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -69,4 +84,6 @@ public class ProfileDTO {
                 ", lastName='" + lastName + '\'' +
                 '}';
     }
+
+
 }

@@ -41,6 +41,14 @@ public class Recette {
         this.steps = steps;
     }
 
+    public boolean isThisCategory(Category c){
+        for (IngredientLine ig: ingredientLines
+             ) {
+            if(ig.getIngredient().getCategory()!=c)return false;
+        }
+        return true;
+    }
+
     public long getId() {
         return id;
     }

@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -73,6 +74,12 @@ public class RecetteController {
     @GetMapping("/recette_search")
     public List<RecetteDTO> recette_search() {
         return recetteService.searchByString("test");
+    }
+
+    @GetMapping("/recette_search/category/{categoryID}")
+    public List<RecetteDTO> recetteSearchByCategory(@PathVariable("categoryID") Integer categoryID){
+        System.out.println(categoryID);
+        return recetteService.searchByCategory(categoryID);
     }
 
 

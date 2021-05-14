@@ -12,7 +12,7 @@ public class IngredientLineParser {
         IngredientLineDTO ingredientLineDTO = new IngredientLineDTO();
         if (ingredientLine != null) {
             ingredientLineDTO.setId(ingredientLine.getId());
-            ingredientLineDTO.setRecetteDTO(RecetteParser.toDTO(ingredientLine.getRecette()));
+            //ingredientLineDTO.setRecetteDTO(RecetteParser.toDTO(ingredientLine.getRecette()));
             ingredientLineDTO.setIngredientDTO(IngredientParser.toDTO(ingredientLine.getIngredient()));
             ingredientLineDTO.setQuantity(ingredientLine.getQuantity());
         }
@@ -23,7 +23,7 @@ public class IngredientLineParser {
         IngredientLine ingredientLine = new IngredientLine();
         if (ingredientLineDTO != null) {
             if (ingredientLineDTO.getId() != null) ingredientLine.setId(ingredientLineDTO.getId());
-            ingredientLine.setRecette(RecetteParser.toEntity(ingredientLineDTO.getRecetteDTO()));
+            //ingredientLine.setRecette(RecetteParser.toEntity(ingredientLineDTO.getRecetteDTO()));
             ingredientLine.setIngredient(IngredientParser.toEntity(ingredientLineDTO.getIngredientDTO()));
             ingredientLine.setQuantity(ingredientLineDTO.getQuantity());
         }

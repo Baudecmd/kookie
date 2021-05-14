@@ -62,8 +62,7 @@ class _HomeScreenState extends State<HomeScreen>
       body: ListView(
         children: <Widget>[
           //FollowingUsers(),
-          PostCarousel(
-              pageController: _pageController, title: 'Post', posts: posts)
+          PostCarousel(pageController: _pageController, posts: posts)
         ],
       ),
     );

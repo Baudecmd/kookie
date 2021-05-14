@@ -7,7 +7,7 @@ class PostCarousel extends StatelessWidget {
   final List<Post> posts;
 
   PostCarousel(
-      {required this.pageController, required this.title, required this.posts});
+      {required this.pageController, required this.posts, this.title = ''});
 
   _buildPost(BuildContext context, int index) {
     Post post = posts[index];
@@ -21,97 +21,80 @@ class PostCarousel extends StatelessWidget {
         }
         return Center(
           child: SizedBox(
-            height: Curves.easeInOut.transform(scale) * 400.0,
+            height: Curves.easeInOut.transform(scale) * 500.0,
             child: widget,
           ),
         );
       },
-      child: Stack(children: [
-        Container(
-          margin: EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.0),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black26,
-                    offset: Offset(0, 0.2),
-                    blurRadius: 6.0)
-              ]),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(15.0),
-            child: Image(
-              height: 400.0,
-              width: 300.0,
-              image: AssetImage(post.imageUrl),
-              fit: BoxFit.cover,
+      child: Container(
+        margin: EdgeInsets.all(20),
+        padding: EdgeInsets.all(10),
+        // width: MediaQuery.of(context).size.width * 0.8,
+        height: 300,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black26, offset: Offset(0, 0.2), blurRadius: 6.0)
+          ],
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Column(children: [
+          Container(
+            padding: EdgeInsets.all(10),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: Image(
+                height: MediaQuery.of(context).size.width * 0.6,
+                width: MediaQuery.of(context).size.width * 0.6,
+                image: AssetImage(post.imageUrl),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-        ),
-        Positioned(
-          left: 10.0,
-          right: 10.0,
-          bottom: 10.0,
-          child: Container(
-            padding: EdgeInsets.all(12.0),
-            height: 110.0,
-            decoration: BoxDecoration(
-                color: Colors.white54,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(15.0),
-                  bottomRight: Radius.circular(15.0),
-                )),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    post.title,
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
+          Column(children: [
+            Text(
+              post.title,
+              style: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+            SizedBox(height: 6.0),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              Row(children: [
+                Icon(
+                  Icons.star_border_outlined,
+                  color: Theme.of(context).primaryColor,
+                ),
+                SizedBox(width: 6.0),
+                Text(
+                  post.likes.toString(),
+                  style: TextStyle(fontSize: 18.0),
+                ),
+              ]),
+              SizedBox(height: 6.0),
+              Row(children: [
+                Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(
+                      width: 2,
+                      color: Theme.of(context).primaryColor,
                     ),
-                    overflow: TextOverflow.ellipsis,
                   ),
-                  Text(
-                    post.location,
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    overflow: TextOverflow.ellipsis,
+                  child: Icon(
+                    Icons.favorite_border_sharp,
+                    color: Theme.of(context).primaryColor,
                   ),
-                  SizedBox(height: 6.0),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(children: [
-                          Icon(
-                            Icons.favorite,
-                            color: Colors.red,
-                          ),
-                          SizedBox(width: 6.0),
-                          Text(
-                            post.likes.toString(),
-                            style: TextStyle(fontSize: 18.0),
-                          ),
-                        ]),
-                        SizedBox(height: 6.0),
-                        Row(children: [
-                          Icon(
-                            Icons.comment,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          SizedBox(width: 6.0),
-                          Text(
-                            post.comments.toString(),
-                            style: TextStyle(fontSize: 18.0),
-                          )
-                        ])
-                      ])
-                ]),
-          ),
-        )
-      ]),
+                ),
+              ])
+            ])
+          ])
+        ]),
+      ),
     );
   }
 
@@ -120,17 +103,19 @@ class PostCarousel extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-            padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
-            child: Text(
-              title,
-              style: TextStyle(
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 2.0),
-            )),
+        title.isNotEmpty
+            ? Padding(
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+                child: Text(
+                  title,
+                  style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 2.0),
+                ))
+            : SizedBox(),
         Container(
-          height: 400.0,
+          height: 500.0,
           child: PageView.builder(
             controller: pageController,
             itemCount: posts.length,

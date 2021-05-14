@@ -6,8 +6,6 @@ public class IngredientLineDTO {
 
     private Integer id;
 
-    private RecetteDTO recetteDTO;
-
     private IngredientDTO ingredientDTO;
 
     private Integer quantity;
@@ -21,14 +19,6 @@ public class IngredientLineDTO {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public RecetteDTO getRecetteDTO() {
-        return recetteDTO;
-    }
-
-    public void setRecetteDTO(RecetteDTO recetteDTO) {
-        this.recetteDTO = recetteDTO;
     }
 
     public IngredientDTO getIngredientDTO() {
@@ -52,19 +42,18 @@ public class IngredientLineDTO {
         if (this == o) return true;
         if (!(o instanceof IngredientLineDTO)) return false;
         IngredientLineDTO that = (IngredientLineDTO) o;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getRecetteDTO(), that.getRecetteDTO()) && Objects.equals(getIngredientDTO(), that.getIngredientDTO()) && Objects.equals(getQuantity(), that.getQuantity());
+        return Objects.equals(getId(), that.getId())  && Objects.equals(getIngredientDTO(), that.getIngredientDTO()) && Objects.equals(getQuantity(), that.getQuantity());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getRecetteDTO(), getIngredientDTO(), getQuantity());
+        return Objects.hash(getId(), getIngredientDTO(), getQuantity());
     }
 
     @Override
     public String toString() {
         return "IngredientLineDTO{" +
                 "id=" + id +
-                ", recetteDTO=" + recetteDTO +
                 ", ingredientDTO=" + ingredientDTO.toString() +
                 ", quantity=" + quantity +
                 '}';

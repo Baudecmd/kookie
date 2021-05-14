@@ -1,5 +1,10 @@
 package com.api.kookie.core.dto;
 
+import com.api.kookie.data.entity.Opinion;
+import com.api.kookie.data.entity.RecipeCategory;
+
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,9 +16,13 @@ public class RecetteDTO {
 
     private String name;
 
+    private CategoryDTO category;
+
     private List<IngredientLineDTO> ingredientLinesDTO;
 
-    private List<StepLineDTO> stepLinesDTO;
+    private List<StepDTO> stepLinesDTO;
+
+    private List<OpinionDTO> opinions;
 
     public RecetteDTO() {
     }
@@ -50,11 +59,11 @@ public class RecetteDTO {
         this.ingredientLinesDTO = ingredientLinesDTO;
     }
 
-    public List<StepLineDTO> getStepLinesDTO() {
+    public List<StepDTO> getStepLinesDTO() {
         return stepLinesDTO;
     }
 
-    public void setStepLinesDTO(List<StepLineDTO> stepLinesDTO) {
+    public void setStepLinesDTO(List<StepDTO> stepDTO) {
         this.stepLinesDTO = stepLinesDTO;
     }
 

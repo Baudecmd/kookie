@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:kookie/datas/data.dart';
 import 'package:kookie/models/recette/post_model.dart';
 
-class PostCarousel extends StatelessWidget {
-  final PageController pageController;
+class CardCarousel extends StatefulWidget {
   final String title;
   final List<Post> posts;
 
-  PostCarousel(
-      {required this.pageController, required this.posts, this.title = ''});
+  const CardCarousel({required this.posts, this.title = ''});
 
-  _buildPost(BuildContext context, int index) {
+  @override
+  _CardCarouselState createState() => _CardCarouselState();
+}
+
+class _CardCarouselState extends State<CardCarousel>
+    with AutomaticKeepAliveClientMixin<CardCarousel> {
+  PageController pageController =
+      PageController(initialPage: 0, viewportFraction: 0.8);
+
+  _buildCard(BuildContext context, int index) {
     Post post = posts[index];
     return AnimatedBuilder(
       animation: pageController,
@@ -100,14 +108,15 @@ class PostCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        title.isNotEmpty
+        widget.title.isNotEmpty
             ? Padding(
                 padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
                 child: Text(
-                  title,
+                  widget.title,
                   style: TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,
@@ -120,11 +129,14 @@ class PostCarousel extends StatelessWidget {
             controller: pageController,
             itemCount: posts.length,
             itemBuilder: (BuildContext context, int index) {
-              return _buildPost(context, index);
+              return _buildCard(context, index);
             },
           ),
         ),
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

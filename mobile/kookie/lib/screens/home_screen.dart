@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kookie/datas/data.dart';
 import 'package:kookie/screens/start_screen.dart';
 import 'package:kookie/services/storage_util.dart';
+import 'package:kookie/widgets/card_carousel.dart';
 import 'package:kookie/widgets/custom_drawer.dart';
-import 'package:kookie/widgets/post_carousel.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -13,7 +13,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  late PageController _pageController;
+
+  //late PageController _pageController;
 
   isLogged() async {
     String value = await StorageUtil.getString(key: 'token');
@@ -26,8 +27,8 @@ class _HomeScreenState extends State<HomeScreen>
   void initState() {
     super.initState();
     isLogged();
-    _tabController = TabController(length: 2, vsync: this);
-    _pageController = PageController(initialPage: 0, viewportFraction: 0.8);
+    _tabController = TabController(length: 4, vsync: this);
+    //_pageController = PageController(initialPage: 0, viewportFraction: 0.8);
   }
 
   @override
@@ -37,33 +38,63 @@ class _HomeScreenState extends State<HomeScreen>
         brightness: Brightness.light,
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
-        centerTitle: true,
-        title: Text('Kookie',
-            style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 10.0)),
+        title: Container(
+          alignment: AlignmentDirectional.centerEnd,
+          child: Image(
+            height: 50,
+            image: AssetImage('assets/images/logo.png'),
+          ),
+        ),
         bottom: TabBar(
           controller: _tabController,
           labelColor: Theme.of(context).primaryColor,
           labelStyle: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
           unselectedLabelStyle: TextStyle(fontSize: 18.0),
+          isScrollable: true,
           tabs: <Widget>[
             Tab(
-              text: 'Trending',
+              text: 'Tous',
             ),
             Tab(
-              text: 'Latest',
+              text: 'Végétarien',
+            ),
+            Tab(
+              text: 'Végétaliens',
+            ),
+            Tab(
+              text: 'Patisserie',
             ),
           ],
         ),
       ),
       drawer: CustomDrawer(),
-      body: ListView(
-        children: <Widget>[
-          //FollowingUsers(),
-          PostCarousel(
-              pageController: _pageController, title: 'Post', posts: posts)
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          ListView(
+            children: <Widget>[
+              //FollowingUsers(),
+              CardCarousel(posts: posts)
+            ],
+          ),
+          ListView(
+            children: <Widget>[
+              //FollowingUsers(),
+              CardCarousel(posts: posts)
+            ],
+          ),
+          ListView(
+            children: <Widget>[
+              //FollowingUsers(),
+              CardCarousel(posts: posts)
+            ],
+          ),
+          ListView(
+            children: <Widget>[
+              //FollowingUsers(),
+              CardCarousel(posts: posts)
+            ],
+          ),
         ],
       ),
     );

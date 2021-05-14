@@ -2,8 +2,6 @@ package com.api.kookie.core.ustensil;
 
 import com.api.kookie.core.dto.RecetteDTO;
 import com.api.kookie.core.util.RecetteParser;
-import com.api.kookie.data.category.CategoryRepository;
-import com.api.kookie.data.entity.Category;
 import com.api.kookie.data.entity.Recette;
 import com.api.kookie.data.entity.Ustensil.Ustensil;
 import com.api.kookie.data.recette.RecetteRepository;

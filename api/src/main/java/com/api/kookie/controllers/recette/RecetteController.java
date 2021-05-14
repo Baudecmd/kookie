@@ -76,11 +76,11 @@ public class RecetteController {
         return recetteService.searchByString("test");
     }
 
-    @GetMapping("/recette_search/category/{categoryID}")
+    /*@GetMapping("/recette_search/category/{categoryID}")
     public List<RecetteDTO> recetteSearchByCategory(@PathVariable("categoryID") Integer categoryID){
         System.out.println(categoryID);
         return recetteService.searchByCategory(categoryID);
-    }
+    }*/
 
 
 }

@@ -1,6 +1,9 @@
 package com.api.kookie.data.entity;
 
+import com.api.kookie.data.entity.ingredient.Ingredient;
+import com.api.kookie.data.entity.ingredient.IngredientCategory;
 import com.api.kookie.data.entity.ingredient.IngredientLine;
+import jdk.jfr.Category;
 
 import javax.persistence.*;
 import java.util.List;
@@ -41,12 +44,12 @@ public class Recette {
         this.steps = steps;
     }
 
-    public boolean isThisCategory(Category c){
+    public boolean isThisIngredientCategory(IngredientCategory c){
         for (IngredientLine ig: ingredientLines
              ) {
-            if(ig.getIngredient().getCategory()!=c)return false;
+            if(ig.getIngredient().getCategory()==c)return true;
         }
-        return true;
+        return false;
     }
 
     public long getId() {

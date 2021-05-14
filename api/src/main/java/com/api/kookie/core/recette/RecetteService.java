@@ -6,9 +6,7 @@ import com.api.kookie.core.dto.RecetteThumbnailDTO;
 import java.util.List;
 
 public interface RecetteService {
-List<RecetteDTO> searchByString(String s);
-
-    List<RecetteDTO> searchByCategory(Integer category);
+    List<RecetteDTO> searchByString(String s);
 
     List<RecetteThumbnailDTO> getAllRecettesThumbnails(Integer profileId);
 }

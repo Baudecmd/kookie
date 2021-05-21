@@ -1,9 +1,6 @@
 package com.api.kookie.core.dto;
 
 import com.api.kookie.data.entity.StepType;
-import com.api.kookie.data.entity.ingredient.IngredientLine;
-
-import javax.persistence.OneToOne;
 import java.util.Objects;
 
 public class StepDTO {

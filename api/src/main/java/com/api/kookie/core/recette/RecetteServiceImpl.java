@@ -2,6 +2,7 @@ package com.api.kookie.core.recette;
 
 import com.api.kookie.core.dto.RecetteDTO;
 import com.api.kookie.core.dto.RecetteThumbnailDTO;
+import com.api.kookie.core.dto.StepDTO;
 import com.api.kookie.core.util.RecetteParser;
 import com.api.kookie.data.entity.Opinion;
 import com.api.kookie.data.entity.Profile;
@@ -36,8 +37,6 @@ public class RecetteServiceImpl implements RecetteService {
         return RecetteParser.parseListToDTO(recetteArrayList);
     }
 
-
-
     @Override
     public List<RecetteThumbnailDTO> getAllRecettesThumbnails(Integer profileId) {
         LOGGER.debug("[RecetteServiceImpl, getAllRecettesThumbnails] profileId = " + profileId);
@@ -60,5 +59,29 @@ public class RecetteServiceImpl implements RecetteService {
             }
         }
         return thumbnails;
+    }
+
+    @Override
+    public List<StepDTO> optimizeRecipes(List<Integer> ids, Profile profile) {
+        List<StepDTO> steps = getAllStepsDTOs(ids);
+        //TODO: organiser les étapes
+        return null;
+    }
+
+    public List<Recette> getAllRecipesByIdList(List<Integer> ids){
+        List<Recette> recipes = new ArrayList<>();
+        for(Integer integer: ids){
+            recipes.add(recetteRepository.findOneById(integer));
+        }
+        return recipes;
+    }
+
+    public List<StepDTO> getAllStepsDTOs(List<Integer> ids) {
+        List<StepDTO> steps = new ArrayList<>();
+        List<Recette> recipes = getAllRecipesByIdList(ids);
+        for(Recette recipe: recipes){
+            steps.add(StepParser.parseListToDTO(recipe.getSteps()));
+        }
+        return steps;
     }
 }

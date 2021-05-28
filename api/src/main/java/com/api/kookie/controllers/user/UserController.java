@@ -34,26 +34,6 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    /* FOR TEST ONLY */
-    @Autowired
-    private Environment environments;
-
-    @GetMapping("/props")
-    public String getApplicationProperties() {
-        String props = "";
-        String datasrc = environments.getProperty("spring.datasource.password");
-        props += datasrc;
-        LOGGER.info("spring.datasource.url" + datasrc);
-        datasrc = environments.getProperty("spring.datasource.username");
-        props += datasrc;
-        LOGGER.info("spring.datasource.username" + datasrc);
-        datasrc = environments.getProperty("spring.datasource.password");
-        props += datasrc;
-        LOGGER.info("spring.datasource.password" + datasrc);
-        return props;
-    }
-    /* FOR TEST ONLY */
-
     @GetMapping("/users")
     public List<User> liste_users() {
         LOGGER.debug("[UserController, users] liste users");

@@ -1,3 +1,7 @@
+####
+#### BACKEND - API - DEPLOY
+####
+
 staging:
   stage: deploy
   script:
@@ -16,6 +20,69 @@ production:
   only:
     - master
 
+####
+#### FRONTEND - TEST BUILD THEN DEPLOY
+####
+
+stages:
+  - test
+  - build
+  - deploy
+
+####
+#### FRONTEND - MOBILE - TEST
+####
+
+flutter_test: # Name of the lane
+  stage: test # type of stage
+  script:
+    - cd mobile/kookie
+    - flutter test # Run Flutter test
+  tags:
+    - flutter # Tags for runner
+
+####
+#### FRONTEND - MOBILE - BUILD ANDROID
+####
+
+flutter_build_android: #Job name
+  stage: build # kind of job
+  before_script:
+    - cd mobile/kookie
+    - flutter packages get
+    - flutter clean
+  script:
+    - flutter build apk
+  artifacts:
+    paths:
+      - build/app/outputs/apk/release/app-release.apk
+  tags:
+    - flutter
+
+####
+#### FRONTEND - MOBILE - BUILD IOS
+####
+flutter_build_ios:
+  stage: build
+  before_script:
+    - cd mobile/kookie
+    - flutter packages get
+    - flutter clean
+  script:
+    - flutter build ios
+    - cd ios
+    - xcodebuild clean archive -workspace Runner.xcworkspace -scheme Runner -archivePath RunnerArchive
+    - xcodebuild -exportArchive -archivePath RunnerArchive.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath ./build
+  artifacts:
+    paths:
+      - ios/build/Runner.ipa
+  tags:
+    - flutter
+
+####
+#### FRONTEND - MOBILE - DEPLOY
+####
+
 deploy_ios:
   stage: deploy
   dependencies:
@@ -25,8 +92,7 @@ deploy_ios:
     - appcenter login --token $APPCENTER_API_TOKEN
     - appcenter distribute release -f ios/build/Runner.ipa -g Collaborators --app kookie-pai/kookie-app-ios
   tags:
-    - deploy-ios
-    - deploy-mobile
+    - flutter
 
 deploy_android:
   stage: deploy
@@ -37,5 +103,4 @@ deploy_android:
     - appcenter login --token $APPCENTER_API_TOKEN
     - appcenter distribute release -f build/app/outputs/apk/release/app-release.apk -g Collaborators —app kookie-pai/kookie-app-android
   tags:
-    - deploy-android
-    - deploy-mobile
+    - flutter

@@ -12,6 +12,6 @@ production:
   script:
     - gem install dpl
     - cd api
-    - dpl --provider=heroku --api-cookie-env-production --api_key=$HEROKU_API_KEY
+    - dpl --provider=heroku --app=api-cookie-env-production --api_key=$HEROKU_API_KEY
   only:
     - master

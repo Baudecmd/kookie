@@ -4,6 +4,7 @@ import com.api.kookie.core.dto.RecetteDTO;
 import com.api.kookie.core.dto.RecetteThumbnailDTO;
 import com.api.kookie.core.dto.StepDTO;
 import com.api.kookie.core.util.RecetteParser;
+import com.api.kookie.core.util.StepParser;
 import com.api.kookie.data.entity.Opinion;
 import com.api.kookie.data.entity.Profile;
 import com.api.kookie.data.entity.Recette;
@@ -54,7 +55,7 @@ public class RecetteServiceImpl implements RecetteService {
                 thumbnailDTO.setName(r.getNom());
                 int sumNotes = r.getOpinions().stream().map(Opinion::getNote).reduce(0, Integer::sum);
                 thumbnailDTO.setNote(sumNotes / r.getOpinions().size());
-                thumbnailDTO.setFavorite(favoritesRecettesId.contains(favoritesRecettesId));
+                thumbnailDTO.setFavorite(favoritesRecettesId.contains(r.getId()));
                 thumbnails.add(thumbnailDTO);
             }
         }
@@ -71,7 +72,7 @@ public class RecetteServiceImpl implements RecetteService {
     public List<Recette> getAllRecipesByIdList(List<Integer> ids){
         List<Recette> recipes = new ArrayList<>();
         for(Integer integer: ids){
-            recipes.add(recetteRepository.findOneById(integer));
+            recipes.add(recetteRepository.findOneById((long) integer));
         }
         return recipes;
     }
@@ -80,7 +81,7 @@ public class RecetteServiceImpl implements RecetteService {
         List<StepDTO> steps = new ArrayList<>();
         List<Recette> recipes = getAllRecipesByIdList(ids);
         for(Recette recipe: recipes){
-            steps.add(StepParser.parseListToDTO(recipe.getSteps()));
+            steps.addAll(StepParser.parseListToDTO(recipe.getSteps()));
         }
         return steps;
     }

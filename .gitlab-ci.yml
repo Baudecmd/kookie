@@ -15,3 +15,25 @@ production:
     - dpl --provider=heroku --app=$HEROKU_APP_PRODUCTION --api_key=$HEROKU_API_KEY
   only:
     - master
+
+deploy_ios:
+  stage: deploy
+  dependencies:
+    - flutter_build_ios
+  script:
+    - appcenter login --token $APPCENTER_API_TOKEN
+    - appcenter distribute release -f ios/build/Runner.ipa -g Collaborators --app m1miagejoco-gmail.com/cookie-app-ios
+  tags:
+    - deploy-ios
+    - deploy-mobile
+
+deploy_android:
+  stage: deploy
+  dependencies:
+    - flutter_build_android
+  script:
+    - appcenter login --token $APPCENTER_API_TOKEN
+    - appcenter distribute release -f build/app/outputs/apk/release/app-release.apk -g Collaborators —app m1miagejoco-gmail.com/cookie-app-android
+  tags:
+    - deploy-android
+    - deploy-mobile

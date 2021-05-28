@@ -8,13 +8,13 @@ part 'IngredientLineDTO.g.dart';
 class IngredientLineDTO {
   final int? id;
   final RecetteDTO recetteDTO;
-  final IngredientDTO ingredientDTO;
+  final IngredientDTO ingredient;
   final int quantity;
 
   IngredientLineDTO(
       {this.id,
       required this.recetteDTO,
-      required this.ingredientDTO,
+      required this.ingredient,
       required this.quantity});
 
   factory IngredientLineDTO.fromJson(Map<String, dynamic> json) =>

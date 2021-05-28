@@ -21,8 +21,9 @@ deploy_ios:
   dependencies:
     - flutter_build_ios
   script:
+    - cd mobile/kookie
     - appcenter login --token $APPCENTER_API_TOKEN
-    - appcenter distribute release -f ios/build/Runner.ipa -g Collaborators --app m1miagejoco-gmail.com/cookie-app-ios
+    - appcenter distribute release -f ios/build/Runner.ipa -g Collaborators --app kookie-pai/kookie-app-ios
   tags:
     - deploy-ios
     - deploy-mobile
@@ -32,8 +33,9 @@ deploy_android:
   dependencies:
     - flutter_build_android
   script:
+    - cd mobile/kookie
     - appcenter login --token $APPCENTER_API_TOKEN
-    - appcenter distribute release -f build/app/outputs/apk/release/app-release.apk -g Collaborators —app m1miagejoco-gmail.com/cookie-app-android
+    - appcenter distribute release -f build/app/outputs/apk/release/app-release.apk -g Collaborators —app kookie-pai/kookie-app-android
   tags:
     - deploy-android
     - deploy-mobile

@@ -12,7 +12,7 @@ public interface ProfileService {
 
     ProfileDTO getByProfileId(Integer profileId);
 
-    Boolean addFavorite(Integer profileId, Integer recetteId);
+    Boolean addFavorite(Integer profileId, Long recetteId);
 
     List<RecetteDTO> getFavorites(Integer profileId);
 }

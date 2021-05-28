@@ -15,7 +15,7 @@ public class Recette {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     @OneToOne(cascade = CascadeType.ALL)
-    private User createur;
+    private Profile createur;
 
     private String nom;
 
@@ -35,7 +35,7 @@ public class Recette {
 
     }
 
-    public Recette(long id, User createur, String nom, RecipeCategory category, List<IngredientLine> ingredientLines, List<Step> steps) {
+    public Recette(long id, Profile createur, String nom, RecipeCategory category, List<IngredientLine> ingredientLines, List<Step> steps) {
         this.id = id;
         this.createur = createur;
         this.nom = nom;
@@ -60,11 +60,11 @@ public class Recette {
         this.id = id;
     }
 
-    public User getCreateur() {
+    public Profile getCreateur() {
         return createur;
     }
 
-    public void setCreateur(User createur) {
+    public void setCreateur(Profile createur) {
         this.createur = createur;
     }
 

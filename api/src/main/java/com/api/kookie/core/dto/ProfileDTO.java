@@ -16,9 +16,6 @@ public class ProfileDTO {
 
     private String lastName;
 
-    @OneToMany
-    private List<UstensilLine> ustensilLines;
-
     public ProfileDTO() {
     }
 
@@ -52,14 +49,6 @@ public class ProfileDTO {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public List<UstensilLine> getUstensilLines() {
-        return ustensilLines;
-    }
-
-    public void setUstensilLines(List<UstensilLine> ustensilLines) {
-        this.ustensilLines = ustensilLines;
     }
 
     @Override

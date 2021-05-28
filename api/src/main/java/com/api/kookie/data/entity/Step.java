@@ -1,5 +1,6 @@
 package com.api.kookie.data.entity;
 
+import com.api.kookie.core.dto.StepTypeDTO;
 import com.api.kookie.data.entity.ingredient.IngredientLine;
 
 import javax.persistence.*;

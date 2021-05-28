@@ -15,7 +15,6 @@ public class ProfileParser {
             profileDTO.setUser(UserParser.toDTO(profile.getUser()));
             profileDTO.setFirstName(profile.getFirstName());
             profileDTO.setLastName(profile.getLastName());
-            profileDTO.setUstensilLines(profile.getUstensilLines());
         }
         return profileDTO;
     }
@@ -27,7 +26,6 @@ public class ProfileParser {
             profile.setUser(UserParser.toEntity(profileDTO.getUser()));
             profile.setFirstName(profileDTO.getFirstName());
             profile.setLastName(profileDTO.getLastName());
-            profile.setUstensilLines(profileDTO.getUstensilLines());
         }
         return profile;
     }

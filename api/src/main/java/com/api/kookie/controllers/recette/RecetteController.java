@@ -4,8 +4,10 @@ import com.api.kookie.controllers.security.JwtUtils;
 import com.api.kookie.core.dto.RecetteDTO;
 import com.api.kookie.core.dto.RecetteThumbnailDTO;
 import com.api.kookie.core.recette.RecetteService;
+import com.api.kookie.data.entity.Profile;
 import com.api.kookie.data.entity.Recette;
 import com.api.kookie.data.entity.User;
+import com.api.kookie.data.profile.ProfileRepository;
 import com.api.kookie.data.recette.RecetteRepository;
 import com.api.kookie.data.user.UserRepository;
 import org.slf4j.Logger;
@@ -29,7 +31,7 @@ public class RecetteController {
     @Autowired
     RecetteRepository recetteRepository;
     @Autowired
-    UserRepository userRepository;
+    ProfileRepository profileRepository;
     @Autowired
     RecetteService recetteService;
 
@@ -46,10 +48,10 @@ public class RecetteController {
         String jwt = arg.get("jwt");
         String nom_recette = arg.get("nom_recette");
         int id_utilisateur = JwtUtils.getIdFromToken(jwt);
-        User u = userRepository.findById(Long.valueOf(id_utilisateur)).get();
-        if (u != null) {
+        Profile p = profileRepository.findById(id_utilisateur).get();
+        if (p != null) {
             Recette recette = new Recette();
-            recette.setCreateur(u);
+            recette.setCreateur(p);
             recette.setNom(nom_recette);
             recetteRepository.save(recette);
             map.put("ok", "ok");

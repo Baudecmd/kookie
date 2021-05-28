@@ -12,15 +12,13 @@ public class StepDTO {
 
     private String name;
 
-    private String description;
-
     private IngredientLineDTO ingredientLine;
 
     private int duration;
 
     private Integer stepNumber;
 
-    private StepType stepType;
+    private StepTypeDTO stepType;
 
     public StepDTO() {
     }
@@ -41,12 +39,41 @@ public class StepDTO {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public IngredientLineDTO getIngredientLine() {
+        return ingredientLine;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setIngredientLine(IngredientLineDTO ingredientLine) {
+        this.ingredientLine = ingredientLine;
+    }
+
+    public Integer getStepNumber() {
+        return stepNumber;
+    }
+
+    public void setStepNumber(Integer stepNumber) {
+        this.stepNumber = stepNumber;
+    }
+
+    public StepTypeDTO getStepType() {
+        return stepType;
+    }
+
+    public void setStepType(StepTypeDTO stepType) {
+        this.stepType = stepType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof StepDTO)) return false;
+        StepDTO stepDTO = (StepDTO) o;
+        return getDuration() == stepDTO.getDuration() && Objects.equals(getId(), stepDTO.getId()) && Objects.equals(getName(), stepDTO.getName()) && Objects.equals(ingredientLine, stepDTO.ingredientLine) && Objects.equals(stepNumber, stepDTO.stepNumber) && Objects.equals(stepType, stepDTO.stepType);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), ingredientLine, getDuration(), stepNumber, stepType);
     }
 
     public int getDuration() {
@@ -58,25 +85,14 @@ public class StepDTO {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof StepDTO)) return false;
-        StepDTO stepDTO = (StepDTO) o;
-        return getDuration() == stepDTO.getDuration() && Objects.equals(getId(), stepDTO.getId()) && Objects.equals(getName(), stepDTO.getName()) && Objects.equals(getDescription(), stepDTO.getDescription());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getName(), getDescription(), getDuration());
-    }
-
-    @Override
     public String toString() {
         return "StepDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
+                ", ingredientLine=" + ingredientLine +
                 ", duration=" + duration +
+                ", stepNumber=" + stepNumber +
+                ", stepType=" + stepType +
                 '}';
     }
 }

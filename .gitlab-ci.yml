@@ -3,7 +3,7 @@ staging:
   script:
     - gem install dpl
     - cd api
-    - dpl --provider=heroku --app=api-cookie-env-staging --api_key=$HEROKU_API_KEY
+    - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api_key=$HEROKU_API_KEY
   only:
     - staging
 
@@ -12,6 +12,6 @@ production:
   script:
     - gem install dpl
     - cd api
-    - dpl --provider=heroku --app=api-cookie-env-production --api_key=$HEROKU_API_KEY
+    - dpl --provider=heroku --app=$HEROKU_APP_PRODUCTION --api_key=$HEROKU_API_KEY
   only:
     - master

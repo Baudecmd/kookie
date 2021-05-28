@@ -1,6 +1,9 @@
 package com.api.kookie.data.entity;
 
+import com.api.kookie.data.entity.ingredient.Ingredient;
+import com.api.kookie.data.entity.ingredient.IngredientCategory;
 import com.api.kookie.data.entity.ingredient.IngredientLine;
+import jdk.jfr.Category;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,7 +15,7 @@ public class Recette {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     @OneToOne(cascade = CascadeType.ALL)
-    private User createur;
+    private Profile createur;
 
     private String nom;
 
@@ -32,13 +35,21 @@ public class Recette {
 
     }
 
-    public Recette(long id, User createur, String nom, RecipeCategory category, List<IngredientLine> ingredientLines, List<Step> steps) {
+    public Recette(long id, Profile createur, String nom, RecipeCategory category, List<IngredientLine> ingredientLines, List<Step> steps) {
         this.id = id;
         this.createur = createur;
         this.nom = nom;
         this.category = category;
         this.ingredientLines = ingredientLines;
         this.steps = steps;
+    }
+
+    public boolean isThisIngredientCategory(IngredientCategory c){
+        for (IngredientLine ig: ingredientLines
+             ) {
+            if(ig.getIngredient().getCategory()==c)return true;
+        }
+        return false;
     }
 
     public long getId() {
@@ -49,11 +60,11 @@ public class Recette {
         this.id = id;
     }
 
-    public User getCreateur() {
+    public Profile getCreateur() {
         return createur;
     }
 
-    public void setCreateur(User createur) {
+    public void setCreateur(Profile createur) {
         this.createur = createur;
     }
 

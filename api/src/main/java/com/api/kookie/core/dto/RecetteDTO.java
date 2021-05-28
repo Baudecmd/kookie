@@ -7,13 +7,17 @@ public class RecetteDTO {
 
     private long id;
 
-    private UserDTO userDTO;
+    private ProfileDTO profile;
 
     private String name;
 
-    private List<IngredientLineDTO> ingredientLinesDTO;
+    private CategoryDTO category;
 
-    private List<StepLineDTO> stepLinesDTO;
+    private List<IngredientLineDTO> ingredientLines;
+
+    private List<StepDTO> stepLines;
+
+    private List<OpinionDTO> opinions;
 
     public RecetteDTO() {
     }
@@ -26,12 +30,12 @@ public class RecetteDTO {
         this.id = id;
     }
 
-    public UserDTO getUserDTO() {
-        return userDTO;
+    public ProfileDTO getProfile() {
+        return profile;
     }
 
-    public void setUserDTO(UserDTO userDTO) {
-        this.userDTO = userDTO;
+    public void setProfile(ProfileDTO profile) {
+        this.profile = profile;
     }
 
     public String getName() {
@@ -42,20 +46,20 @@ public class RecetteDTO {
         this.name = name;
     }
 
-    public List<IngredientLineDTO> getIngredientLinesDTO() {
-        return ingredientLinesDTO;
+    public List<IngredientLineDTO> getIngredientLines() {
+        return ingredientLines;
     }
 
-    public void setIngredientLinesDTO(List<IngredientLineDTO> ingredientLinesDTO) {
-        this.ingredientLinesDTO = ingredientLinesDTO;
+    public void setIngredientLines(List<IngredientLineDTO> ingredientLines) {
+        this.ingredientLines = ingredientLines;
     }
 
-    public List<StepLineDTO> getStepLinesDTO() {
-        return stepLinesDTO;
+    public List<StepDTO> getStepLines() {
+        return stepLines;
     }
 
-    public void setStepLinesDTO(List<StepLineDTO> stepLinesDTO) {
-        this.stepLinesDTO = stepLinesDTO;
+    public void setStepLines(List<StepDTO> stepDTO) {
+        this.stepLines = stepLines;
     }
 
     @Override
@@ -63,12 +67,12 @@ public class RecetteDTO {
         if (this == o) return true;
         if (!(o instanceof RecetteDTO)) return false;
         RecetteDTO that = (RecetteDTO) o;
-        return getId() == that.getId() && Objects.equals(getUserDTO(), that.getUserDTO()) && Objects.equals(getName(), that.getName()) && Objects.equals(getIngredientLinesDTO(), that.getIngredientLinesDTO()) && Objects.equals(getStepLinesDTO(), that.getStepLinesDTO());
+        return getId() == that.getId() && Objects.equals(getProfile(), that.getProfile()) && Objects.equals(getName(), that.getName()) && Objects.equals(getIngredientLines(), that.getIngredientLines()) && Objects.equals(getStepLines(), that.getStepLines());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUserDTO(), getName(), getIngredientLinesDTO(), getStepLinesDTO());
+        return Objects.hash(getId(), getProfile(), getName(), getIngredientLines(), getStepLines());
     }
 
 
@@ -76,10 +80,10 @@ public class RecetteDTO {
     public String toString() {
         return "RecetteDTO{" +
                 "id=" + id +
-                ", userDTO=" + userDTO +
+                ", userDTO=" + profile +
                 ", name='" + name + '\'' +
-                ", ingredientLinesDTO=" + ingredientLinesDTO.toString() +
-                ", stepLinesDTO=" + stepLinesDTO.toString() +
+                ", ingredientLinesDTO=" + ingredientLines.toString() +
+                ", stepLinesDTO=" + stepLines.toString() +
                 '}';
     }
 

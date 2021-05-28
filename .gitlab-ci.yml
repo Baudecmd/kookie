@@ -2,7 +2,7 @@
 #### BACKEND - API - DEPLOY
 ####
 
-staging:
+staging: # staging is executed for all commits that were pushed to master branch
   stage: deploy
   script:
     - gem install dpl
@@ -11,14 +11,14 @@ staging:
   only:
     - staging
 
-production:
+production: # production is executed for all pushed tags.
   stage: deploy
   script:
     - gem install dpl
     - cd api
     - dpl --provider=heroku --app=$HEROKU_APP_PRODUCTION --api_key=$HEROKU_API_KEY
   only:
-    - master
+    - tags
 
 ####
 #### FRONTEND - TEST BUILD THEN DEPLOY

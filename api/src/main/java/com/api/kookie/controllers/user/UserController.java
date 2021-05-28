@@ -40,7 +40,7 @@ public class UserController {
 
     @GetMapping("/props")
     public String getApplicationProperties() {
-        String props = ""
+        String props = "";
         String datasrc = environments.getProperty("spring.datasource.password");
         props += datasrc;
         LOGGER.info("spring.datasource.url" + datasrc);

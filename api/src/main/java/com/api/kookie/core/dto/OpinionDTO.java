@@ -8,7 +8,7 @@ public class OpinionDTO {
 
     private RecetteDTO recette;
 
-    private UserDTO user;
+    private ProfileDTO profile;
 
     private Integer note;
 
@@ -33,12 +33,12 @@ public class OpinionDTO {
         this.recette = recette;
     }
 
-    public UserDTO getUser() {
-        return user;
+    public ProfileDTO getProfile() {
+        return profile;
     }
 
-    public void setUser(UserDTO user) {
-        this.user = user;
+    public void setProfile(ProfileDTO profile) {
+        this.profile = profile;
     }
 
     public Integer getNote() {
@@ -62,12 +62,12 @@ public class OpinionDTO {
         if (this == o) return true;
         if (!(o instanceof OpinionDTO)) return false;
         OpinionDTO that = (OpinionDTO) o;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getRecette(), that.getRecette()) && Objects.equals(getUser(), that.getUser()) && Objects.equals(getNote(), that.getNote()) && Objects.equals(getComment(), that.getComment());
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getRecette(), that.getRecette()) && Objects.equals(getProfile(), that.getProfile()) && Objects.equals(getNote(), that.getNote()) && Objects.equals(getComment(), that.getComment());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getRecette(), getUser(), getNote(), getComment());
+        return Objects.hash(getId(), getRecette(), getProfile(), getNote(), getComment());
     }
 
     @Override
@@ -75,7 +75,7 @@ public class OpinionDTO {
         return "OpinionDTO{" +
                 "id=" + id +
                 ", recette=" + recette +
-                ", user=" + user +
+                ", profile=" + profile +
                 ", note=" + note +
                 ", comment='" + comment + '\'' +
                 '}';

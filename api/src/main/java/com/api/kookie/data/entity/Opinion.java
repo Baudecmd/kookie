@@ -13,7 +13,7 @@ public class Opinion {
     private Recette recette;
 
     @OneToOne
-    private User user;
+    private Profile profile;
 
     //TODO: ADD Interval (0 -> 5)
     private Integer note;
@@ -23,10 +23,10 @@ public class Opinion {
     public Opinion() {
     }
 
-    public Opinion(Integer id, Recette recette, User user, Integer note, String comment) {
+    public Opinion(Integer id, Recette recette, Profile profile, Integer note, String comment) {
         this.id = id;
         this.recette = recette;
-        this.user = user;
+        this.profile = profile;
         this.note = note;
         this.comment = comment;
     }
@@ -47,12 +47,12 @@ public class Opinion {
         this.recette = recette;
     }
 
-    public User getUser() {
-        return user;
+    public Profile getProfile() {
+        return profile;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     public Integer getNote() {
@@ -76,7 +76,7 @@ public class Opinion {
         return "Opinion{" +
                 "id=" + id +
                 ", recette=" + recette +
-                ", user=" + user +
+                ", profile=" + profile +
                 ", note=" + note +
                 ", comment='" + comment + '\'' +
                 '}';

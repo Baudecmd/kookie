@@ -1,6 +1,6 @@
 package com.api.kookie.data.entity;
 
-import com.api.kookie.data.entity.Ustensil.Ustensil;
+import com.api.kookie.data.entity.Ustensil.UstensilLine;
 
 import javax.persistence.*;
 import java.util.List;
@@ -26,19 +26,23 @@ public class Profile {
     private List<Recette> createdRecettes;
 
     @OneToMany
-    private List<Ustensil> ustensil;
+    private List<UstensilLine> ustensilLines;
+
+    @OneToMany
+    private List<Opinion> opinions;
 
     public Profile() {
     }
 
-    public Profile(Integer id, User user, String firstName, String lastName, List<Recette> favoriteRecettes, List<Recette> createdRecettes, List<Ustensil> ustensil) {
+    public Profile(Integer id, User user, String firstName, String lastName, List<Recette> favoriteRecettes, List<Recette> createdRecettes, List<UstensilLine> ustensilLines, List<Opinion> opinions) {
         this.id = id;
         this.user = user;
         this.firstName = firstName;
         this.lastName = lastName;
         this.favoriteRecettes = favoriteRecettes;
         this.createdRecettes = createdRecettes;
-        this.ustensil = ustensil;
+        this.ustensilLines = ustensilLines;
+        this.opinions = opinions;
     }
 
     public Integer getId() {
@@ -89,12 +93,20 @@ public class Profile {
         this.createdRecettes = createdRecettes;
     }
 
-    public List<Ustensil> getUstensil() {
-        return ustensil;
+    public List<UstensilLine> getUstensilLines() {
+        return ustensilLines;
     }
 
-    public void setUstensil(List<Ustensil> ustensil) {
-        this.ustensil = ustensil;
+    public void setUstensilLines(List<UstensilLine> ustensilLines) {
+        this.ustensilLines = ustensilLines;
+    }
+
+    public List<Opinion> getOpinions() {
+        return opinions;
+    }
+
+    public void setOpinions(List<Opinion> opinions) {
+        this.opinions = opinions;
     }
 
     @Override
@@ -106,7 +118,8 @@ public class Profile {
                 ", lastName='" + lastName + '\'' +
                 ", favoriteRecettes=" + favoriteRecettes +
                 ", createdRecettes=" + createdRecettes +
-                ", ustensil=" + ustensil +
+                ", ustensilLines=" + ustensilLines +
+                ", opinions=" + opinions +
                 '}';
     }
 }

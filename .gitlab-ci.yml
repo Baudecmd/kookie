@@ -5,7 +5,7 @@ staging:
     - cd api
     - dpl --provider=heroku --app=api-cookie-env-staging --api_key=$HEROKU_API_KEY
   only:
-    - master
+    - staging
 
 production:
   stage: deploy
@@ -14,4 +14,4 @@ production:
     - cd api
     - dpl --provider=heroku --api-cookie-env-production --api_key=$HEROKU_API_KEY
   only:
-    - tags
+    - master

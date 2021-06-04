@@ -9,15 +9,24 @@ class MultiSelectItem {
   final String label;
 }
 
+class StepInfo {
+  StepInfo(this.description, this.utensilsSet);
+
+  String description;
+  Set<int> utensilsSet;
+}
+
 class StepCreationScreen extends StatefulWidget {
   late final List<MultiSelectItem> _utensilsList;
+  late final stepInfo;
 
-  StepCreationScreen() {
+  StepCreationScreen(StepInfo stepInfo) {
     _utensilsList = _getUtensilsList();
+    this.stepInfo = stepInfo;
   }
 
   @override
-  _StepCreationScreen createState() => _StepCreationScreen();
+  _StepCreationScreen createState() => _StepCreationScreen(stepInfo);
 
   _getUtensilsList() {
     return [
@@ -29,9 +38,15 @@ class StepCreationScreen extends StatefulWidget {
 }
 
 class _StepCreationScreen extends State<StepCreationScreen> {
+  _StepCreationScreen(StepInfo stepInfo) {
+    this._stepInfo = stepInfo;
+    this._controller = new TextEditingController(text: stepInfo.description);
+  }
+
   final textKey = GlobalKey<FormState>();
   final utensilsListKey = GlobalKey<FormState>();
-  final _selectedUtensils = Set<int>();
+  late final StepInfo _stepInfo;
+  late final TextEditingController _controller;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +72,11 @@ class _StepCreationScreen extends State<StepCreationScreen> {
                 child: TextField(
                   key: textKey,
                   maxLines: null,
+                  controller: _controller,
                   keyboardType: TextInputType.multiline,
+                  onChanged: (String value) {
+                    _stepInfo.description = value;
+                  },
                 ),
               ),
               SizedBox(height: 20),
@@ -68,7 +87,7 @@ class _StepCreationScreen extends State<StepCreationScreen> {
               SizedBox(height: 20),
               ...widget._utensilsList.map((item) {
                 return CheckboxListTile(
-                  value: _selectedUtensils.contains(item.value),
+                  value: _stepInfo.utensilsSet.contains(item.value),
                   title: Text(item.label),
                   controlAffinity: ListTileControlAffinity.leading,
                   onChanged: (checked) =>
@@ -96,14 +115,15 @@ class _StepCreationScreen extends State<StepCreationScreen> {
   _onUtensilCheckedChange(int value, bool checked) {
     setState(() {
       if (checked) {
-        _selectedUtensils.add(value);
+        _stepInfo.utensilsSet.add(value);
       } else {
-        _selectedUtensils.remove(value);
+        _stepInfo.utensilsSet.remove(value);
       }
     });
   }
 
   _submitStepData() {
-    Navigator.pop(context, _selectedUtensils);
+    var stepInfo = _stepInfo;
+    Navigator.pop(context, stepInfo);
   }
 }

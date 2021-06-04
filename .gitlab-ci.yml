@@ -3,6 +3,8 @@ stages:
   - build
   - deploy
 
+image: maven:latest
+
 ####
 #### BACKEND - API - TEST
 ####

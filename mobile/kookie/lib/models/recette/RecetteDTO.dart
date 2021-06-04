@@ -12,19 +12,21 @@ class RecetteDTO {
   final int? id;
   final ProfileDTO? profile;
   final String name;
-  final CategoryDTO? category;
-  final List<IngredientDTO>? ingredientLines;
-  final List<StepDTO>? stepLines;
-  final List<OpinionDTO>? opinions;
+  final String? imageURL;
+  final CategoryDTO category;
+  final List<IngredientDTO> ingredientLines;
+  final List<StepDTO> stepLines;
+  final List<OpinionDTO> opinions;
 
   RecetteDTO(
       {this.id,
       this.profile,
       required this.name,
-      this.category,
-      this.ingredientLines,
-      this.stepLines,
-      this.opinions});
+      this.imageURL,
+      required this.category,
+      required this.ingredientLines,
+      required this.stepLines,
+      required this.opinions});
 
   factory RecetteDTO.fromJson(Map<String, dynamic> json) =>
       _$RecetteDTOFromJson(json);

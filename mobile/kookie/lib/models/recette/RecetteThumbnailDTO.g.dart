@@ -10,6 +10,7 @@ RecetteThumbnailDTO _$RecetteThumbnailDTOFromJson(Map<String, dynamic> json) {
   return RecetteThumbnailDTO(
     id: json['id'] as int,
     name: json['name'] as String,
+    imageURL: json['imageURL'] as String?,
     note: json['note'] as int,
     isFavorite: json['isFavorite'] as bool,
   );
@@ -20,6 +21,7 @@ Map<String, dynamic> _$RecetteThumbnailDTOToJson(
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'imageURL': instance.imageURL,
       'note': instance.note,
       'isFavorite': instance.isFavorite,
     };

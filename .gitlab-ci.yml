@@ -11,7 +11,7 @@ apiTest:
   image: maven:latest
   script:
     - cd api
-    - mvn test "-Dspring.datasource.url=$DATASOURCE_URL" "-Dspring.datasource.username=$DATASOURCE_USERNAME" "-Dspring.datasource.password=$DATASOURCE_PASSWORD"
+    - mvn test "-Dspring.datasource.url=$DATASOURCE_URL" "-Dspring.datasource.username=$DATASOURCE_USERNAME" "-Dspring.datasource.password=$DATASOURCE_PASSWORD" "-Dlogging.level.org.springframework=INFO" "-Dlogging.level.com.api.kookie=DEBUG"
   only:
     - staging
     - tags
@@ -26,7 +26,7 @@ apiBuild:
     - apiTest
   script:
     - cd api
-    - mvn clean package -e "-Dspring.datasource.url=$DATASOURCE_URL" "-Dspring.datasource.username=$DATASOURCE_USERNAME" "-Dspring.datasource.password=$DATASOURCE_PASSWORD"
+    - mvn clean package -e "-Dspring.datasource.url=$DATASOURCE_URL" "-Dspring.datasource.username=$DATASOURCE_USERNAME" "-Dspring.datasource.password=$DATASOURCE_PASSWORD" "-Dlogging.level.org.springframework=INFO" "-Dlogging.level.com.api.kookie=DEBUG"
   artifacts:
     name: "api-snapshot"
     expire_in: 1 week

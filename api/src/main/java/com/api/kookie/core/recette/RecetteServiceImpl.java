@@ -16,8 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,10 +61,24 @@ public class RecetteServiceImpl implements RecetteService {
         return thumbnails;
     }
 
+    private List<StepDTO> organizeSteps(List<StepDTO> steps){
+        List<StepDTO> newList = new ArrayList<>();
+        List<StepDTO> finalNewList = newList;
+        steps.forEach(stepDTO -> {
+            if(stepDTO.isPreparationStep()){
+                finalNewList.add(stepDTO);
+            }
+        });
+        steps.removeAll(newList);
+        newList.addAll(steps);
+        newList.sort(Comparator.comparing(o -> o.getIngredientLine().getIngredient().getName()));
+        return newList;
+    }
+
     @Override
     public List<StepDTO> optimizeRecipes(List<Integer> ids, Profile profile) {
         List<StepDTO> steps = getAllStepsDTOs(ids);
-        //TODO: organiser les étapes
+        steps = organizeSteps(steps);
         return null;
     }
 

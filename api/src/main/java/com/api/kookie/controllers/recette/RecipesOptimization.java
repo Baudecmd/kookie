@@ -1,8 +1,6 @@
 package com.api.kookie.controllers.recette;
 
-import com.api.kookie.core.dto.ProfileDTO;
 import com.api.kookie.core.dto.StepDTO;
-import com.api.kookie.core.profile.ProfileService;
 import com.api.kookie.core.recette.RecetteService;
 import com.api.kookie.data.entity.Profile;
 import com.api.kookie.data.profile.ProfileRepository;

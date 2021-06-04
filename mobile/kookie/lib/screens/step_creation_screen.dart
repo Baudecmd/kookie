@@ -47,6 +47,8 @@ class _StepCreationScreen extends State<StepCreationScreen> {
   final utensilsListKey = GlobalKey<FormState>();
   late final StepInfo _stepInfo;
   late final TextEditingController _controller;
+  final _selectedUtensils = Set<int>();
+  var _isPreparationStep = false;
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +96,12 @@ class _StepCreationScreen extends State<StepCreationScreen> {
                       _onUtensilCheckedChange(item.value, checked!),
                 );
               }).toList(),
+              SizedBox(height: 20),
+              Checkbox(
+                value: _isPreparationStep,
+                onChanged: (checked) =>
+                    _isPreparationStep = !_isPreparationStep,
+              ),
               SizedBox(height: 20),
               Center(
                 child: SizedBox(

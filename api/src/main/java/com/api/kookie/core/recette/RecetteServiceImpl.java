@@ -60,7 +60,7 @@ public class RecetteServiceImpl implements RecetteService {
                 thumbnailDTO.setName(r.getNom());
                 int sumNotes = r.getOpinions().stream().map(Opinion::getNote).reduce(0, Integer::sum);
                 if (r.getOpinions().size() != 0) thumbnailDTO.setNote(sumNotes / r.getOpinions().size());
-                thumbnailDTO.setFavorite(favoritesRecettesId.contains(favoritesRecettesId));
+                thumbnailDTO.setIsFavorite(favoritesRecettesId.contains(favoritesRecettesId));
                 thumbnails.add(thumbnailDTO);
             }
         }
@@ -85,7 +85,7 @@ public class RecetteServiceImpl implements RecetteService {
                 thumbnailDTO.setName(r.getNom());
                 int sumNotes = r.getOpinions().stream().map(Opinion::getNote).reduce(0, Integer::sum);
                 if (r.getOpinions().size() != 0) thumbnailDTO.setNote(sumNotes / r.getOpinions().size());
-                thumbnailDTO.setFavorite(favoritesRecettesId.contains(favoritesRecettesId));
+                thumbnailDTO.setIsFavorite(favoritesRecettesId.contains(favoritesRecettesId));
                 thumbnails.add(thumbnailDTO);
             }
         }

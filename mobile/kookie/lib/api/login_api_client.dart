@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:kookie/api/api_client.dart';
 import 'package:kookie/models/profile/ProfileDTO.dart';
 import 'package:kookie/models/user/CredentialDTO.dart';
+import 'package:kookie/services/storage_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginApiClient extends ApiClient {
@@ -26,7 +27,7 @@ class LoginApiClient extends ApiClient {
     if (response.statusCode == 200) {
       ProfileDTO profile = ProfileDTO.fromJson(jsonDecode(response.body));
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString("token", profile.user!.token!);
+      await StorageUtil.putString(key: 'token', value: profile.user!.token!);
       await prefs.setString("id", profile.user!.token!);
 
       return profile;
@@ -38,12 +39,12 @@ class LoginApiClient extends ApiClient {
 
   Future<http.Response> getData(String url) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return await getDataRequest(url, (prefs.getString("token"))!);
+    return await getDataRequest(url, await StorageUtil.getString(key: "token"));
   }
 
   Future<http.Response> postData(String url, Map<String, dynamic> body) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return await postDataRequest(
-        url, (prefs.getString("token"))!, jsonEncode(body));
+        url, await StorageUtil.getString(key: "token"), jsonEncode(body));
   }
 }

@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(produces = "content-type=utf-8")
+@RequestMapping(produces = "content-type=application/json;charset=utf-8")
 public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);

@@ -63,10 +63,9 @@ public class RecetteServiceImpl implements RecetteService {
 
     private List<StepDTO> organizeSteps(List<StepDTO> steps){
         List<StepDTO> newList = new ArrayList<>();
-        List<StepDTO> finalNewList = newList;
         steps.forEach(stepDTO -> {
             if(stepDTO.isPreparationStep()){
-                finalNewList.add(stepDTO);
+                newList.add(stepDTO);
             }
         });
         steps.removeAll(newList);

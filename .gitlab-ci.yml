@@ -14,6 +14,7 @@ apiTest:
     - mvn test "-Dspring.datasource.url=$DATASOURCE_URL" "-Dspring.datasource.username=$DATASOURCE_USERNAME" "-Dspring.datasource.password=$DATASOURCE_PASSWORD"
   only:
     - staging
+    - tags
 
 ####
 #### BACKEND - API - BUILD
@@ -21,6 +22,8 @@ apiTest:
 apiBuild:
   stage: build
   image: maven:latest
+  dependencies:
+    - apiTest
   script:
     - cd api
     - mvn clean package -e "-Dspring.datasource.url=$DATASOURCE_URL" "-Dspring.datasource.username=$DATASOURCE_USERNAME" "-Dspring.datasource.password=$DATASOURCE_PASSWORD"
@@ -30,12 +33,15 @@ apiBuild:
       - target/*.war
   only:
     - staging
+    - tags
     
 ####
 #### BACKEND - API - DEPLOY STAGING
 ####
 staging: # staging is executed for all commits that were pushed to master branch
   stage: deploy
+  dependencies:
+    - apiTest
   script:
     - gem install dpl
     - cd api
@@ -48,6 +54,8 @@ staging: # staging is executed for all commits that were pushed to master branch
 ####
 production: # production is executed for all pushed tags.
   stage: deploy
+  dependencies:
+    - apiTest
   script:
     - gem install dpl
     - cd api

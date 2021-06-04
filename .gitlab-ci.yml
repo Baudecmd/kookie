@@ -3,13 +3,12 @@ stages:
   - build
   - deploy
 
-image: maven:latest
-
 ####
 #### BACKEND - API - TEST
 ####
 apiTest:
   stage: test
+  image: maven:latest
   script:
     - cd api
     - mvn test "-Dspring.datasource.url=$DATASOURCE_URL" "-Dspring.datasource.username=$DATASOURCE_USERNAME" "-Dspring.datasource.password=$DATASOURCE_PASSWORD"
@@ -21,6 +20,7 @@ apiTest:
 ####
 apiBuild:
   stage: build
+  image: maven:latest
   script:
     - cd api
     - mvn clean package -e "-Dspring.datasource.url=$DATASOURCE_URL" "-Dspring.datasource.username=$DATASOURCE_USERNAME" "-Dspring.datasource.password=$DATASOURCE_PASSWORD"

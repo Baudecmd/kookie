@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -26,7 +27,6 @@ public class RecipeCategoryServiceImpl implements RecipeCategoryService {
     RecipeCategoryRepository recipeCategoryRepository;
 
     public List<CategoryDTO> getAllCategories() {
-
         LOGGER.debug("[RecipeCategoryService, getAllCategories]");
 
         List<RecipeCategory> categories = new ArrayList<>();
@@ -34,8 +34,17 @@ public class RecipeCategoryServiceImpl implements RecipeCategoryService {
         return RecipeCategoryParser.parseListToDTO(categories);
     }
 
-    public List<RecetteDTO> getAllByCategoryId(Integer categoryId) {
+    @Override
+    public List<CategoryDTO> getAllRecipesCategoriesContainsRecipe() {
+        LOGGER.debug("[RecipeCategoryService, getAllRecipeCategoriesContainsRecipe]");
 
+        List<RecipeCategory> categories = new ArrayList<>();
+        recipeCategoryRepository.findAll().forEach(categories::add);
+        categories = categories.stream().filter(category -> category.getRecipes() != null).collect(Collectors.toList());
+        return RecipeCategoryParser.parseListToDTO(categories);
+    }
+
+    public List<RecetteDTO> getAllByCategoryId(Integer categoryId) {
         LOGGER.debug("[RecipeCategoryService, getAllByCategoryId] categoryId = " + categoryId);
 
         RecipeCategory category = recipeCategoryRepository.findOneById(categoryId);

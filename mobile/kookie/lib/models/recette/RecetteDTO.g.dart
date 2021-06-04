@@ -14,15 +14,17 @@ RecetteDTO _$RecetteDTOFromJson(Map<String, dynamic> json) {
         : ProfileDTO.fromJson(json['profile'] as Map<String, dynamic>),
     name: json['name'] as String,
     imageURL: json['imageURL'] as String?,
-    category: CategoryDTO.fromJson(json['category'] as Map<String, dynamic>),
-    ingredientLines: (json['ingredientLines'] as List<dynamic>)
-        .map((e) => IngredientDTO.fromJson(e as Map<String, dynamic>))
+    category: json['category'] == null
+        ? null
+        : CategoryDTO.fromJson(json['category'] as Map<String, dynamic>),
+    ingredientLines: (json['ingredientLines'] as List<dynamic>?)
+        ?.map((e) => IngredientDTO.fromJson(e as Map<String, dynamic>))
         .toList(),
-    stepLines: (json['stepLines'] as List<dynamic>)
-        .map((e) => StepDTO.fromJson(e as Map<String, dynamic>))
+    stepLines: (json['stepLines'] as List<dynamic>?)
+        ?.map((e) => StepDTO.fromJson(e as Map<String, dynamic>))
         .toList(),
-    opinions: (json['opinions'] as List<dynamic>)
-        .map((e) => OpinionDTO.fromJson(e as Map<String, dynamic>))
+    opinions: (json['opinions'] as List<dynamic>?)
+        ?.map((e) => OpinionDTO.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }

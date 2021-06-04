@@ -8,9 +8,9 @@ class IngredientDTO {
   final int? id;
   final String name;
   final bool? isVegan;
-  final CategoryDTO? categoryDTO;
+  final CategoryDTO? category;
 
-  IngredientDTO({this.id, required this.name, this.isVegan, this.categoryDTO});
+  IngredientDTO({this.id, required this.name, this.isVegan, this.category});
 
   factory IngredientDTO.fromJson(Map<String, dynamic> json) =>
       _$IngredientDTOFromJson(json);

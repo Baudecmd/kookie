@@ -11,9 +11,9 @@ IngredientDTO _$IngredientDTOFromJson(Map<String, dynamic> json) {
     id: json['id'] as int?,
     name: json['name'] as String,
     isVegan: json['isVegan'] as bool?,
-    categoryDTO: json['categoryDTO'] == null
+    category: json['category'] == null
         ? null
-        : CategoryDTO.fromJson(json['categoryDTO'] as Map<String, dynamic>),
+        : CategoryDTO.fromJson(json['category'] as Map<String, dynamic>),
   );
 }
 
@@ -22,5 +22,5 @@ Map<String, dynamic> _$IngredientDTOToJson(IngredientDTO instance) =>
       'id': instance.id,
       'name': instance.name,
       'isVegan': instance.isVegan,
-      'categoryDTO': instance.categoryDTO,
+      'category': instance.category,
     };

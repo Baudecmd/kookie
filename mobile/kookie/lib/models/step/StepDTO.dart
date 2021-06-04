@@ -8,18 +8,18 @@ part 'StepDTO.g.dart';
 @JsonSerializable()
 class StepDTO {
   final int? id;
-  final int stepNumber;
-  final String stepName;
+  final String name;
   final IngredientLineDTO? ingredientLine;
   final int? duration;
+  final int stepNumber;
   final StepTypeDTO stepType;
 
   StepDTO(
       {this.id,
-      required this.stepNumber,
-      required this.stepName,
+      required this.name,
       this.ingredientLine,
       this.duration,
+      required this.stepNumber,
       required this.stepType});
 
   factory StepDTO.fromJson(Map<String, dynamic> json) =>

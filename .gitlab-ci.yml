@@ -13,6 +13,8 @@ apiTest:
   script:
     - cd api
     - mvn test "-Dspring.datasource.url=$DATASOURCE_URL" "-Dspring.datasource.username=$DATASOURCE_USERNAME" "-Dspring.datasource.password=$DATASOURCE_PASSWORD"
+  only:
+    - staging
 
 ####
 #### BACKEND - API - BUILD
@@ -26,7 +28,9 @@ apiBuild:
     name: "api-snapshot"
     paths:
       - target/*.jar
-
+  only:
+    - staging
+    
 ####
 #### BACKEND - API - DEPLOY STAGING
 ####

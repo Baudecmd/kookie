@@ -40,7 +40,7 @@ public class RecipeCategoryServiceImpl implements RecipeCategoryService {
 
         List<RecipeCategory> categories = new ArrayList<>();
         recipeCategoryRepository.findAll().forEach(categories::add);
-        categories = categories.stream().filter(category -> category.getRecipes() != null).collect(Collectors.toList());
+        categories = categories.stream().filter(category -> category.getRecipes().size() != 0).collect(Collectors.toList());
         return RecipeCategoryParser.parseListToDTO(categories);
     }
 

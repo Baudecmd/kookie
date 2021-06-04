@@ -22,13 +22,14 @@ apiTest:
 apiBuild:
   stage: build
   image: maven:latest
-  dependencies:
+  needs:
     - apiTest
   script:
     - cd api
     - mvn clean package -e "-Dspring.datasource.url=$DATASOURCE_URL" "-Dspring.datasource.username=$DATASOURCE_USERNAME" "-Dspring.datasource.password=$DATASOURCE_PASSWORD"
   artifacts:
     name: "api-snapshot"
+    expire_in: 1 week
     paths:
       - api/target/*.war
   only:
@@ -40,7 +41,7 @@ apiBuild:
 ####
 staging: # staging is executed for all commits that were pushed to master branch
   stage: deploy
-  dependencies:
+  needs:
     - apiTest
   script:
     - gem install dpl
@@ -54,7 +55,7 @@ staging: # staging is executed for all commits that were pushed to master branch
 ####
 production: # production is executed for all pushed tags.
   stage: deploy
-  dependencies:
+  needs:
     - apiTest
   script:
     - gem install dpl

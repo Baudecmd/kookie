@@ -59,7 +59,7 @@ public class RecetteServiceImpl implements RecetteService {
                 thumbnailDTO.setId(r.getId());
                 thumbnailDTO.setName(r.getNom());
                 int sumNotes = r.getOpinions().stream().map(Opinion::getNote).reduce(0, Integer::sum);
-                thumbnailDTO.setNote(sumNotes / r.getOpinions().size());
+                if (r.getOpinions().size() != 0) thumbnailDTO.setNote(sumNotes / r.getOpinions().size());
                 thumbnailDTO.setFavorite(favoritesRecettesId.contains(favoritesRecettesId));
                 thumbnails.add(thumbnailDTO);
             }
@@ -68,13 +68,13 @@ public class RecetteServiceImpl implements RecetteService {
     }
 
     @Override
-    public List<RecetteThumbnailDTO> getAllRecettesThumbnailsByCategoryId(Integer categoryId) {
-        LOGGER.debug("[RecetteServiceImpl, getAllRecettesThumbnailsByCategoryId] categoryId = " + categoryId);
+    public List<RecetteThumbnailDTO> getAllRecettesThumbnailsByCategoryId(Integer id) {
+        LOGGER.debug("[RecetteServiceImpl, getAllRecettesThumbnailsByCategoryId] id = " + id);
 
         Profile profile = profileRepository.findOneById(15);
-        RecipeCategory recipeCategory = recipeCategoryRepository.findOneById(categoryId);
+        RecipeCategory recipeCategory = recipeCategoryRepository.findOneById(id);
 
-        List<Recette> recettes = recetteRepository.findAllByCategoryId(categoryId);
+        List<Recette> recettes = recetteRepository.findAllByCategoryId(id);
         List<RecetteThumbnailDTO> thumbnails = new ArrayList<>();
 
         if (recettes != null && recipeCategory != null) {
@@ -84,7 +84,7 @@ public class RecetteServiceImpl implements RecetteService {
                 thumbnailDTO.setId(r.getId());
                 thumbnailDTO.setName(r.getNom());
                 int sumNotes = r.getOpinions().stream().map(Opinion::getNote).reduce(0, Integer::sum);
-                thumbnailDTO.setNote(sumNotes / r.getOpinions().size());
+                if (r.getOpinions().size() != 0) thumbnailDTO.setNote(sumNotes / r.getOpinions().size());
                 thumbnailDTO.setFavorite(favoritesRecettesId.contains(favoritesRecettesId));
                 thumbnails.add(thumbnailDTO);
             }

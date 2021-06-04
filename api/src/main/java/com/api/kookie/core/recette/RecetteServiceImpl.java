@@ -79,7 +79,7 @@ public class RecetteServiceImpl implements RecetteService {
     public List<StepDTO> optimizeRecipes(List<Integer> ids, Profile profile) {
         List<StepDTO> steps = getAllStepsDTOs(ids);
         steps = organizeSteps(steps);
-        return null;
+        return steps;
     }
 
     public List<Recette> getAllRecipesByIdList(List<Integer> ids){

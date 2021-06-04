@@ -10,7 +10,7 @@ public class RecetteThumbnailDTO {
 
     private Integer note;
 
-    private boolean isFavorite;
+    private boolean isNotFavorite;
 
     public RecetteThumbnailDTO() {
     }
@@ -40,11 +40,11 @@ public class RecetteThumbnailDTO {
     }
 
     public boolean isFavorite() {
-        return isFavorite;
+        return isNotFavorite;
     }
 
     public void setFavorite(boolean favorite) {
-        isFavorite = favorite;
+        isNotFavorite = favorite;
     }
 
     @Override
@@ -66,7 +66,7 @@ public class RecetteThumbnailDTO {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", note=" + note +
-                ", isFavorite=" + isFavorite +
+                ", isFavorite=" + isNotFavorite +
                 '}';
     }
 }

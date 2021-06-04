@@ -27,6 +27,8 @@ class LoginApiClient extends ApiClient {
       ProfileDTO profile = ProfileDTO.fromJson(jsonDecode(response.body));
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString("token", profile.user!.token!);
+      await prefs.setString("id", profile.user!.token!);
+
       return profile;
     } else {
       log(response.body);

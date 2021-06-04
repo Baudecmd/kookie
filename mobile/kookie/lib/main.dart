@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kookie/screens/home_screen.dart';
+import 'package:kookie/screens/login_screen.dart';
+import 'package:kookie/screens/signup_screen.dart';
+import 'package:kookie/screens/start_screen.dart';
 import 'package:kookie/services/storage_util.dart';
 
 void main() async {
@@ -16,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Color(0xFF66C586),
       ),
-      home: HomeScreen(),
+      home: StartScreen(),
     );
   }
 }

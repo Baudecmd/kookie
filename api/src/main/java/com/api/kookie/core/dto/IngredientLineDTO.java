@@ -6,9 +6,7 @@ public class IngredientLineDTO {
 
     private Integer id;
 
-    private RecetteDTO recetteDTO;
-
-    private IngredientDTO ingredientDTO;
+    private IngredientDTO ingredient;
 
     private Integer quantity;
 
@@ -23,20 +21,12 @@ public class IngredientLineDTO {
         this.id = id;
     }
 
-    public RecetteDTO getRecetteDTO() {
-        return recetteDTO;
+    public IngredientDTO getIngredient() {
+        return ingredient;
     }
 
-    public void setRecetteDTO(RecetteDTO recetteDTO) {
-        this.recetteDTO = recetteDTO;
-    }
-
-    public IngredientDTO getIngredientDTO() {
-        return ingredientDTO;
-    }
-
-    public void setIngredientDTO(IngredientDTO ingredientDTO) {
-        this.ingredientDTO = ingredientDTO;
+    public void setIngredient(IngredientDTO ingredient) {
+        this.ingredient = ingredient;
     }
 
     public Integer getQuantity() {
@@ -52,20 +42,19 @@ public class IngredientLineDTO {
         if (this == o) return true;
         if (!(o instanceof IngredientLineDTO)) return false;
         IngredientLineDTO that = (IngredientLineDTO) o;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getRecetteDTO(), that.getRecetteDTO()) && Objects.equals(getIngredientDTO(), that.getIngredientDTO()) && Objects.equals(getQuantity(), that.getQuantity());
+        return Objects.equals(getId(), that.getId())  && Objects.equals(getIngredient(), that.getIngredient()) && Objects.equals(getQuantity(), that.getQuantity());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getRecetteDTO(), getIngredientDTO(), getQuantity());
+        return Objects.hash(getId(), getIngredient(), getQuantity());
     }
 
     @Override
     public String toString() {
         return "IngredientLineDTO{" +
                 "id=" + id +
-                ", recetteDTO=" + recetteDTO +
-                ", ingredientDTO=" + ingredientDTO.toString() +
+                ", ingredientDTO=" + ingredient.toString() +
                 ", quantity=" + quantity +
                 '}';
     }

@@ -12,9 +12,6 @@ public class IngredientLine {
     private Integer id;
 
     @ManyToOne
-    private Recette recette;
-
-    @ManyToOne
     private Ingredient ingredient;
 
     private Integer quantity;
@@ -28,14 +25,6 @@ public class IngredientLine {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Recette getRecette() {
-        return recette;
-    }
-
-    public void setRecette(Recette recette) {
-        this.recette = recette;
     }
 
     public Ingredient getIngredient() {
@@ -58,7 +47,6 @@ public class IngredientLine {
     public String toString() {
         return "IngredientLine{" +
                 "id=" + id +
-                ", recetteId=" + recette.getId() +
                 ", ingredientId=" + ingredient.getId() +
                 ", quantity=" + quantity +
                 '}';

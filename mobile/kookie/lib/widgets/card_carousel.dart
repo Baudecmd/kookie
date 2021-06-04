@@ -1,12 +1,13 @@
+import 'dart:core';
+
 import 'package:flutter/material.dart';
-import 'package:kookie/datas/data.dart';
-import 'package:kookie/models/recette/post_model.dart';
+import 'package:kookie/models/recette/RecetteThumbnailDTO.dart';
 
 class CardCarousel extends StatefulWidget {
   final String title;
-  final List<Post> posts;
+  final List<RecetteThumbnailDTO> recipes;
 
-  const CardCarousel({required this.posts, this.title = ''});
+  const CardCarousel({required this.recipes, this.title = ''});
 
   @override
   _CardCarouselState createState() => _CardCarouselState();
@@ -15,10 +16,10 @@ class CardCarousel extends StatefulWidget {
 class _CardCarouselState extends State<CardCarousel>
     with AutomaticKeepAliveClientMixin<CardCarousel> {
   PageController pageController =
-      PageController(initialPage: 0, viewportFraction: 0.8);
+  PageController(initialPage: 0, viewportFraction: 0.8);
 
   _buildCard(BuildContext context, int index) {
-    Post post = posts[index];
+    RecetteThumbnailDTO recipe = widget.recipes[index];
     return AnimatedBuilder(
       animation: pageController,
       builder: (BuildContext context, Widget? widget) {
@@ -55,14 +56,16 @@ class _CardCarouselState extends State<CardCarousel>
               child: Image(
                 height: MediaQuery.of(context).size.width * 0.6,
                 width: MediaQuery.of(context).size.width * 0.6,
-                image: AssetImage(post.imageUrl),
+                image: recipe.imageURL == null
+                    ? AssetImage('assets/images/post0.jpg')
+                    : AssetImage(recipe.imageURL!),
                 fit: BoxFit.cover,
               ),
             ),
           ),
           Column(children: [
             Text(
-              post.title,
+              recipe.name,
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
@@ -78,7 +81,7 @@ class _CardCarouselState extends State<CardCarousel>
                 ),
                 SizedBox(width: 6.0),
                 Text(
-                  post.likes.toString(),
+                  recipe.note.toString(),
                   style: TextStyle(fontSize: 18.0),
                 ),
               ]),
@@ -90,13 +93,20 @@ class _CardCarouselState extends State<CardCarousel>
                     borderRadius: BorderRadius.circular(30),
                     border: Border.all(
                       width: 2,
-                      color: Theme.of(context).primaryColor,
+                      color: recipe.isFavorite
+                          ? Theme.of(context).primaryColor
+                          : Colors.white,
                     ),
                   ),
-                  child: Icon(
-                    Icons.favorite_border_sharp,
-                    color: Theme.of(context).primaryColor,
-                  ),
+                  child: recipe.isFavorite
+                      ? Icon(
+                          Icons.favorite_border_sharp,
+                          color: Colors.white,
+                        )
+                      : Icon(
+                          Icons.favorite_border_sharp,
+                          color: Theme.of(context).primaryColor,
+                        ),
                 ),
               ])
             ])
@@ -114,20 +124,20 @@ class _CardCarouselState extends State<CardCarousel>
       children: [
         widget.title.isNotEmpty
             ? Padding(
-                padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
-                child: Text(
-                  widget.title,
-                  style: TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 2.0),
-                ))
+            padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+            child: Text(
+              widget.title,
+              style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 2.0),
+            ))
             : SizedBox(),
         Container(
           height: 500.0,
           child: PageView.builder(
             controller: pageController,
-            itemCount: posts.length,
+            itemCount: widget.recipes.length,
             itemBuilder: (BuildContext context, int index) {
               return _buildCard(context, index);
             },

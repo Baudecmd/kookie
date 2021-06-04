@@ -56,7 +56,7 @@ class CustomDrawer extends StatelessWidget {
                       color: Colors.white,
                     ),
                     'Mes Favoris',
-                    () => Navigator.pushReplacement(context,
+                    () => Navigator.push(context,
                         MaterialPageRoute(builder: (_) => FavouritesScreen()))),
                 _buildDrawerOption(
                     Icon(
@@ -64,7 +64,7 @@ class CustomDrawer extends StatelessWidget {
                       color: Colors.white,
                     ),
                     'Mes Recettes',
-                    () => Navigator.pushReplacement(context,
+                    () => Navigator.push(context,
                         MaterialPageRoute(builder: (_) => MyRecipesScreen()))),
                 Expanded(
                   child: Align(

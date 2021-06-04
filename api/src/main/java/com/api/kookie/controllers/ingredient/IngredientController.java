@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/ingredient", headers = "charset=UTF-8")
+@RequestMapping(value = "/ingredient", headers = "content-type=utf-8")
 public class IngredientController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IngredientController.class);

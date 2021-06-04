@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/recipeLevel", headers = "charset=UTF-8")
+@RequestMapping(value = "/recipeLevel", headers = "content-type=utf-8")
 public class RecipeLevelController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RecipeLevelController.class);

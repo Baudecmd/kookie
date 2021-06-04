@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/opinion", headers = "charset=UTF-8")
+@RequestMapping(value = "/opinion", headers = "content-type=utf-8")
 public class OpinionController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OpinionController.class);

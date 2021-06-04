@@ -30,7 +30,7 @@ apiBuild:
   artifacts:
     name: "api-snapshot"
     paths:
-      - target/*.war
+      - api/target/*.war
   only:
     - staging
     - tags

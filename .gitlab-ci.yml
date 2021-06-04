@@ -27,7 +27,7 @@ apiBuild:
   artifacts:
     name: "api-snapshot"
     paths:
-      - target/*.jar
+      - target/*.war
   only:
     - staging
     

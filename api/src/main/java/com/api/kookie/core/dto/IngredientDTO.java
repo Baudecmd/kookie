@@ -8,7 +8,7 @@ public class IngredientDTO {
 
     private boolean isVegan;
 
-    private CategoryDTO categoryDTO;
+    private CategoryDTO category;
 
     public IngredientDTO() {
     }
@@ -37,12 +37,12 @@ public class IngredientDTO {
         this.isVegan = vegan;
     }
 
-    public CategoryDTO getCategoryDTO() {
-        return categoryDTO;
+    public CategoryDTO getCategory() {
+        return category;
     }
 
-    public void setCategoryDTO(CategoryDTO categoryDTO) {
-        this.categoryDTO = categoryDTO;
+    public void setCategory(CategoryDTO category) {
+        this.category = category;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class IngredientDTO {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", isVegan=" + isVegan +
-                ", categoryDTO=" + categoryDTO.toString() +
+                ", categoryDTO=" + category.toString() +
                 '}';
     }
 }

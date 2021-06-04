@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -16,7 +17,9 @@ class RecipeCreationScreen extends StatefulWidget {
 class _RecipeCreationScreen extends State<RecipeCreationScreen> {
   final _recipeFormKey = GlobalKey<FormState>();
   var _ingredients = Set<int>();
-  var _image;
+  File? _image;
+  Image? _imageWidget;
+  var _base64Image;
   var _recipeName;
   var overlayEntry;
 
@@ -28,12 +31,17 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
 
   Future<void> selectImage() async {
     var image = await ImagePicker().getImage(source: ImageSource.gallery);
+    if (image != null) {
+      /* encode */
+      _image = File(image.path);
+      List<int> imageBytes = await _image!.readAsBytes();
+      _base64Image = base64Encode(imageBytes);
 
-    setState(() {
-      if (image != null) {
-        _image = File(image.path);
-      }
-    });
+      /* decode */
+      var convertedImage = base64Decode(_base64Image);
+      _imageWidget = new Image.memory(convertedImage);
+    }
+    setState(() {});
   }
 
   @override
@@ -73,13 +81,13 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
                             child: Icon(Icons.add_a_photo),
                           ),
                           SizedBox(height: 30),
-                          _image == null
+                          _imageWidget == null
                               ? Center(child: Text("No image selected."))
                               : Container(
                                   height:
                                       MediaQuery.of(context).size.height / 3,
                                   width: MediaQuery.of(context).size.width / 3,
-                                  child: Image.file(_image)),
+                                  child: _imageWidget),
                           SizedBox(height: 30),
                           CustomButton(
                               text: "Ajouter des ingrédients",

@@ -12,6 +12,7 @@ class RecetteDTO {
   final int? id;
   final ProfileDTO? profile;
   final String name;
+  final String? imageURL;
   final CategoryDTO category;
   final List<IngredientDTO> ingredientLines;
   final List<StepDTO> stepLines;
@@ -21,6 +22,7 @@ class RecetteDTO {
       {this.id,
       this.profile,
       required this.name,
+      this.imageURL,
       required this.category,
       required this.ingredientLines,
       required this.stepLines,

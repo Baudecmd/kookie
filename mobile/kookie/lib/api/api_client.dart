@@ -15,7 +15,7 @@ class ApiClient {
     return await httpClient.post(
       Uri.parse(urlApi + url),
       headers: {
-        "Authorization": "Bearer" + token,
+        "Authorization": "token" + token,
         "Accept": "application/json",
         "content-type": "application/json",
       },

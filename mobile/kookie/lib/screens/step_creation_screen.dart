@@ -10,10 +10,11 @@ class MultiSelectItem {
 }
 
 class StepInfo {
-  StepInfo(this.description, this.utensilsSet);
+  StepInfo(this.description, this.utensilsSet, this.isPreparationStep);
 
   String description;
   Set<int> utensilsSet;
+  bool isPreparationStep;
 }
 
 class StepCreationScreen extends StatefulWidget {
@@ -47,8 +48,6 @@ class _StepCreationScreen extends State<StepCreationScreen> {
   final utensilsListKey = GlobalKey<FormState>();
   late final StepInfo _stepInfo;
   late final TextEditingController _controller;
-  final _selectedUtensils = Set<int>();
-  var _isPreparationStep = false;
 
   @override
   Widget build(BuildContext context) {
@@ -97,10 +96,11 @@ class _StepCreationScreen extends State<StepCreationScreen> {
                 );
               }).toList(),
               SizedBox(height: 20),
-              Checkbox(
-                value: _isPreparationStep,
-                onChanged: (checked) =>
-                    _isPreparationStep = !_isPreparationStep,
+              CheckboxListTile(
+                  value: _stepInfo.isPreparationStep,
+                  title: Text("Cette étape est-elle une étape de préparation ?"),
+                  controlAffinity: ListTileControlAffinity.leading,
+                  onChanged: (checked) => setState(() {_stepInfo.isPreparationStep = !_stepInfo.isPreparationStep;}),
               ),
               SizedBox(height: 20),
               Center(

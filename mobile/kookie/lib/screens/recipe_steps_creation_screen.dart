@@ -11,7 +11,7 @@ class RecipesStepsCreationScreen extends StatefulWidget {
 
 class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
   final List<int> _items = List<int>.generate(1, (int index) => index);
-  final Map<int, StepInfo> _itemsMap = {0: StepInfo("", Set<int>())};
+  final Map<int, StepInfo> _itemsMap = {0: StepInfo("", Set<int>(), false)};
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +82,7 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
     setState(() {
       _items.insert(_items.length, stepNumber);
     });
-    _itemsMap[stepNumber] = StepInfo("", Set<int>());
+    _itemsMap[stepNumber] = StepInfo("", Set<int>(), false);
   }
 
   _openTileInfo(index) async {

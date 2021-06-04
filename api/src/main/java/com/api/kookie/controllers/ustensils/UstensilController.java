@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(produces = "application/json; charset=utf-8")
+@RequestMapping(produces = "application/json;charset=utf-8")
 public class UstensilController {
 
 

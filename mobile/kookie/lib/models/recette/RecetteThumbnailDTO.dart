@@ -7,14 +7,14 @@ class RecetteThumbnailDTO {
   final int id;
   final String name;
   final String? imageURL;
-  final int note;
+  final int? note;
   final bool isFavorite;
 
   RecetteThumbnailDTO(
       {required this.id,
       required this.name,
       this.imageURL,
-      required this.note,
+      this.note,
       required this.isFavorite});
 
   factory RecetteThumbnailDTO.fromJson(Map<String, dynamic> json) =>

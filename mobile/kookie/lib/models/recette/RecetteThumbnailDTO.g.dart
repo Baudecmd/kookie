@@ -11,7 +11,7 @@ RecetteThumbnailDTO _$RecetteThumbnailDTOFromJson(Map<String, dynamic> json) {
     id: json['id'] as int,
     name: json['name'] as String,
     imageURL: json['imageURL'] as String?,
-    note: json['note'] as int,
+    note: json['note'] as int?,
     isFavorite: json['isFavorite'] as bool,
   );
 }

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:kookie/screens/home_screen.dart';
-import 'package:kookie/screens/login_screen.dart';
-import 'package:kookie/screens/signup_screen.dart';
-import 'package:kookie/screens/start_screen.dart';
 import 'package:kookie/services/storage_util.dart';
+
+import 'screens/home_screen.dart';
 
 void main() async {
   await StorageUtil.getInstance();
-  runApp(MyApp());
+  runApp(KookieApp());
 }
 
-class MyApp extends StatelessWidget {
+class KookieApp extends StatelessWidget {
+  KookieApp();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Color(0xFF66C586),
       ),
-      home: StartScreen(),
+      home: HomeScreen(),
     );
   }
 }

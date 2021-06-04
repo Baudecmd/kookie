@@ -3,11 +3,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kookie/api/recipe_api_client.dart';
 import 'package:kookie/models/ingredient/IngredientDTO.dart';
 import 'package:kookie/screens/recipe_steps_creation_screen.dart';
 import 'package:kookie/widgets/custom_button.dart';
 import 'package:kookie/widgets/custom_text_field.dart';
 import 'package:kookie/widgets/multiselect_dialog.dart';
+
+import '../models/ingredient/IngredientDTO.dart';
 
 class RecipeCreationScreen extends StatefulWidget {
   @override
@@ -19,15 +22,21 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
   var _ingredients = Set<int>();
   File? _image;
   Image? _imageWidget;
-  var _base64Image;
-  var _recipeName;
+  late String _base64Image;
+  late String _recipeName;
   var overlayEntry;
-
   final items = <MultiSelectDialogItem>[
     MultiSelectDialogItem(1, "Pomme de terre"),
     MultiSelectDialogItem(2, "Saucisse"),
     MultiSelectDialogItem(3, "Carotte"),
   ];
+
+  @override
+  void initState() {
+    List<IngredientDTO> listIngredientDTO = [];
+    RecipeApiClient().getIngredients().then((v) => {listIngredientDTO = v!});
+    debugPrint(listIngredientDTO.toString());
+  }
 
   Future<void> selectImage() async {
     var image = await ImagePicker().getImage(source: ImageSource.gallery);
@@ -94,8 +103,7 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
                               onTap: (() => Overlay.of(context)?.insert(
                                   overlayEntry = _createOverlayEntry()))),
                           SizedBox(height: 30),
-                          CustomButton(
-                              text: "Valider !", onTap: _pushStepsScreen)
+                          CustomButton(text: "Valider !", onTap: _submitRecipe)
                         ],
                       ),
                     ),
@@ -137,23 +145,28 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
   }
 
   _submitRecipe() {
-    if (_ingredients.isEmpty || _recipeName == null || _image == null) {
+    if (_ingredients.isEmpty || _recipeName == null || _base64Image == null) {
       ScaffoldMessenger.of(context)
         ..removeCurrentSnackBar()
         ..showSnackBar(SnackBar(
             content: Text("Il manque des informations !",
                 textAlign: TextAlign.center)));
     } else {
-      debugPrint(_ingredients.toString());
-      var tempIngredients = getIngredientsById(_ingredients);
-      /*RecetteDTO recette = RecetteDTO(
-          name: _recipeName,
-          ingredientLinesDTO: tempIngredients);*/
+      debugPrint(
+          "[_submitRecipe] : $_recipeName | $_ingredients | _base64Image is not null");
+      _pushStepsScreen();
     }
   }
 
   _pushStepsScreen() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (_) => RecipesStepsCreationScreen()));
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => RecipesStepsCreationScreen(
+            ingredients: _ingredients,
+            recipeName: _recipeName,
+            base64Image: _base64Image),
+      ),
+    );
   }
 }

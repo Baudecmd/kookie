@@ -5,6 +5,7 @@ import 'package:kookie/models/category/CategoryDTO.dart';
 import 'package:kookie/models/recette/RecetteDTO.dart';
 import 'package:kookie/models/recette/RecetteThumbnailDTO.dart';
 
+import '../models/ingredient/IngredientDTO.dart';
 import 'login_api_client.dart';
 
 class RecipeApiClient extends LoginApiClient {
@@ -32,6 +33,15 @@ class RecipeApiClient extends LoginApiClient {
     return response.statusCode == 200
         ? (jsonDecode(response.body) as List)
             .map((e) => RecetteThumbnailDTO.fromJson(e))
+            .toList()
+        : null;
+  }
+
+  Future<List<IngredientDTO>?> getIngredients() async {
+    final http.Response response = await getData('/ingredient/all');
+    return response.statusCode == 200
+        ? (jsonDecode(response.body) as List)
+            .map((e) => IngredientDTO.fromJson(e))
             .toList()
         : null;
   }

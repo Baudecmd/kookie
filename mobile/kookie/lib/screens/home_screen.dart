@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:kookie/models/category/CategoryDTO.dart';
 import 'package:kookie/models/recette/RecetteThumbnailDTO.dart';
 import 'package:kookie/repositories/home_repository.dart';
-import 'package:kookie/screens/start_screen.dart';
-import 'package:kookie/services/storage_util.dart';
 import 'package:kookie/widgets/Search.dart';
 import 'package:kookie/widgets/card_carousel.dart';
 import 'package:kookie/widgets/custom_drawer.dart';
+
+import '../services/storage_util.dart';
+import 'start_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -16,25 +17,29 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  late List<CategoryDTO>? categories;
-  late List<RecetteThumbnailDTO>? recipes;
+  List<CategoryDTO> categories = [];
+  List<RecetteThumbnailDTO> recipes = [];
 
   HomeRepository homeRepository = HomeRepository();
 
-  isLogged() async {
-    String value = await StorageUtil.getString(key: 'token');
-    if (value == '') {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => StartScreen()));
-    }
+  Future<void> getDatas() async {
+    categories = await homeRepository.getAllRecipeCategories() ?? [];
+    recipes = await homeRepository.getAllRecipeThumbnails() ?? [];
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
-    isLogged();
-    categories = await homeRepository.getAllRecipeCategories();
-    recipes = await homeRepository.getAllRecipeThumbnails();
-    _tabController = TabController(length: 4, vsync: this);
+    StorageUtil.getString(key: 'token', defValue: '').then((v) {
+      debugPrint(v);
+      if (v == '') {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => StartScreen()));
+      } else {
+        getDatas().then((v) => setState(() {}));
+      }
+    });
   }
 
   @override
@@ -53,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen>
         ),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(120.0),
-          child: categories != null
+          child: categories.isNotEmpty
               ? Column(
                   children: [
                     buildSearchBar(context),
@@ -64,12 +69,12 @@ class _HomeScreenState extends State<HomeScreen>
         ),
       ),
       drawer: CustomDrawer(),
-      body: categories != null
+      body: categories.isNotEmpty
           ? buildRecipeTabBarView()
           : ListView(
               children: <Widget>[
                 CardCarousel(
-                  recipes: recipes!,
+                  recipes: recipes,
                 )
               ],
             ),
@@ -81,13 +86,13 @@ class _HomeScreenState extends State<HomeScreen>
       ListView(
         children: <Widget>[
           CardCarousel(
-            recipes: recipes!,
+            recipes: recipes,
           )
         ],
       ),
     ];
-    if (categories != null) {
-      for (CategoryDTO c in categories!) {
+    if (categories.isNotEmpty) {
+      for (CategoryDTO c in categories) {
         buildListViewFromCategory(c)
             .then((value) => categoryTabBarViews.add(value));
       }
@@ -137,8 +142,8 @@ class _HomeScreenState extends State<HomeScreen>
         text: 'Tout',
       ),
     ];
-    if (categories != null) {
-      categoryTabs.addAll(categories!
+    if (categories.isNotEmpty) {
+      categoryTabs.addAll(categories
           .map((e) => Tab(
                 text: e.name,
               ))

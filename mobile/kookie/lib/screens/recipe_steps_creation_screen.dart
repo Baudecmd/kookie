@@ -5,6 +5,14 @@ import 'package:kookie/screens/step_creation_screen.dart';
 import 'package:kookie/widgets/custom_button.dart';
 
 class RecipesStepsCreationScreen extends StatefulWidget {
+  final Set<int> ingredients;
+  final String recipeName;
+  final String base64Image;
+  RecipesStepsCreationScreen(
+      {required this.ingredients,
+      required this.recipeName,
+      required this.base64Image});
+
   @override
   _RecipeStepsCreationScreen createState() => _RecipeStepsCreationScreen();
 }
@@ -98,6 +106,11 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
   }
 
   _submitInfo() {
+    //List<IngredientDTO> listIngredientDTO;
+    //widget.ingredients.forEach((element) {listIngredientDTO.add(new )})
+
+    //RecetteDTO recetteDTO = RecetteDTO(name: widget.recipeName, category: widget., imageURL: widget.base64Image, ingredientLines: widget.ingredients, opinions: , profile: , stepLines: );
+
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => HomeScreen()),
         (Route<dynamic> route) => false);

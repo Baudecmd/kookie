@@ -39,11 +39,11 @@ public class RecetteThumbnailDTO {
         this.note = note;
     }
 
-    public boolean isFavorite() {
+    public boolean getIsFavorite() {
         return isFavorite;
     }
 
-    public void setFavorite(boolean favorite) {
+    public void setIsFavorite(boolean favorite) {
         isFavorite = favorite;
     }
 
@@ -52,12 +52,12 @@ public class RecetteThumbnailDTO {
         if (this == o) return true;
         if (!(o instanceof RecetteThumbnailDTO)) return false;
         RecetteThumbnailDTO that = (RecetteThumbnailDTO) o;
-        return isFavorite() == that.isFavorite() && Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getNote(), that.getNote());
+        return getIsFavorite() == that.getIsFavorite() && Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getNote(), that.getNote());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getNote(), isFavorite());
+        return Objects.hash(getId(), getName(), getNote(), getIsFavorite());
     }
 
     @Override

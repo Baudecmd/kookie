@@ -1,9 +1,48 @@
-####
-#### BACKEND - API - DEPLOY
-####
+stages:
+  - test
+  - build
+  - deploy
 
+####
+#### BACKEND - API - TEST
+####
+apiTest:
+  stage: test
+  image: maven:latest
+  script:
+    - cd api
+    - mvn test "-Dspring.datasource.url=$DATASOURCE_URL" "-Dspring.datasource.username=$DATASOURCE_USERNAME" "-Dspring.datasource.password=$DATASOURCE_PASSWORD" "-Dlogging.level.org.springframework=INFO" "-Dlogging.level.com.api.kookie=DEBUG"
+  only:
+    - staging
+    - tags
+
+####
+#### BACKEND - API - BUILD
+####
+apiBuild:
+  stage: build
+  image: maven:latest
+  needs:
+    - apiTest
+  script:
+    - cd api
+    - mvn clean package -e "-Dspring.datasource.url=$DATASOURCE_URL" "-Dspring.datasource.username=$DATASOURCE_USERNAME" "-Dspring.datasource.password=$DATASOURCE_PASSWORD" "-Dlogging.level.org.springframework=INFO" "-Dlogging.level.com.api.kookie=DEBUG"
+  artifacts:
+    name: "api-snapshot"
+    expire_in: 1 week
+    paths:
+      - api/target/*.war
+  only:
+    - staging
+    - tags
+    
+####
+#### BACKEND - API - DEPLOY STAGING
+####
 staging: # staging is executed for all commits that were pushed to master branch
   stage: deploy
+  needs:
+    - apiTest
   script:
     - gem install dpl
     - cd api
@@ -11,93 +50,16 @@ staging: # staging is executed for all commits that were pushed to master branch
   only:
     - staging
 
+####
+#### BACKEND - API - DEPLOY PRODUCTION
+####
 production: # production is executed for all pushed tags.
   stage: deploy
+  needs:
+    - apiTest
   script:
     - gem install dpl
     - cd api
     - dpl --provider=heroku --app=$HEROKU_APP_PRODUCTION --api_key=$HEROKU_API_KEY
   only:
     - tags
-
-####
-#### FRONTEND - TEST BUILD THEN DEPLOY
-####
-
-#stages:
-#  - test
-#  - build
-#  - deploy
-
-####
-#### FRONTEND - MOBILE - TEST
-####
-
-#flutter_test: # Name of the lane
-#  stage: test # type of stage
-#  script:
-#    - cd mobile/kookie
-#    - flutter test # Run Flutter test
-#  tags:
-#    - flutter # Tags for runner
-
-####
-#### FRONTEND - MOBILE - BUILD
-####
-
-#flutter_build_android: #Job name
-#  stage: build # kind of job
-#  before_script:
-#    - cd mobile/kookie
-#    - flutter packages get
-#    - flutter clean
-#  script:
-#    - flutter build apk
-#  artifacts:
-#    paths:
-#      - build/app/outputs/apk/release/app-release.apk
-#  tags:
-#    - flutter
-
-#flutter_build_ios:
-#  stage: build
-#  before_script:
-#    - cd mobile/kookie
-#    - flutter packages get
-#    - flutter clean
-#  script:
-#    - flutter build ios
-#    - cd ios
-#    - xcodebuild clean archive -workspace Runner.xcworkspace -scheme Runner -archivePath RunnerArchive
-#    - xcodebuild -exportArchive -archivePath RunnerArchive.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath ./build
-#  artifacts:
-#    paths:
-#      - ios/build/Runner.ipa
-#  tags:
-#    - flutter
-
-####
-#### FRONTEND - MOBILE - DEPLOY
-####
-
-#deploy_ios:
-#  stage: deploy
-#  dependencies:
-#    - flutter_build_ios
-#  script:
-#    - cd mobile/kookie
-#    - appcenter login --token $APPCENTER_API_TOKEN
-#    - appcenter distribute release -f ios/build/Runner.ipa -g Collaborators --app kookie-pai/kookie-app-ios
-#  tags:
-#    - flutter
-
-#deploy_android:
-#  stage: deploy
-#  dependencies:
-#    - flutter_build_android
-#  script:
-#    - cd mobile/kookie
-#    - appcenter login --token $APPCENTER_API_TOKEN
-#    - appcenter distribute release -f build/app/outputs/apk/release/app-release.apk -g Collaborators —app kookie-pai/kookie-app-android
-#  tags:
-#    - flutter

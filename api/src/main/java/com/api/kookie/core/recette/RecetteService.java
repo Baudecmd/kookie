@@ -9,4 +9,6 @@ public interface RecetteService {
     List<RecetteDTO> searchByString(String s);
 
     List<RecetteThumbnailDTO> getAllRecettesThumbnails(Integer profileId);
+
+    List<RecetteThumbnailDTO> getAllRecettesThumbnailsByCategoryId(Integer categoryId);
 }

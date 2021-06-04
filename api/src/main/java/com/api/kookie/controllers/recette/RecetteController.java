@@ -6,17 +6,13 @@ import com.api.kookie.core.dto.RecetteThumbnailDTO;
 import com.api.kookie.core.recette.RecetteService;
 import com.api.kookie.data.entity.Profile;
 import com.api.kookie.data.entity.Recette;
-import com.api.kookie.data.entity.User;
 import com.api.kookie.data.profile.ProfileRepository;
 import com.api.kookie.data.recette.RecetteRepository;
-import com.api.kookie.data.user.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -24,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(produces = "application/json;charset=utf-8")
+@RequestMapping(value = "recette", produces = "application/json; charset=utf-8")
 public class RecetteController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RecetteController.class);
@@ -37,12 +33,12 @@ public class RecetteController {
     RecetteService recetteService;
 
 
-    @GetMapping("/recettes")
+    @GetMapping("/all")
     public List<Recette> liste_recette() {
         return recetteRepository.findAll();
     }
 
-    @PostMapping("/recette/add")
+    @PostMapping("/create")
     public Map<String, String> ajout_recette(@RequestBody Map<String, String> arg) {
         HashMap<String, String> map = new HashMap<>();
 
@@ -64,32 +60,32 @@ public class RecetteController {
         return map;
     }
 
-    @GetMapping("/recette/thumbnail/all")
+    @GetMapping("/thumbnail/all")
     public ResponseEntity<?> getAllRecettesThumbnails() {
         LOGGER.debug("[RecetteController, getAllRecettesThumbnails]");
 
         List<RecetteThumbnailDTO> recettes = recetteService.getAllRecettesThumbnails(15);
 
-        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(recettes);
+        return ResponseEntity.status(HttpStatus.OK).body(recettes);
 
     }
 
-    @GetMapping("/recette/thumbnail/byCategory")
+    @GetMapping("/thumbnail/byCategory")
     public ResponseEntity<?> getAllRecettesThumbnailsByCategoryId(@RequestParam Integer categoryId) {
         LOGGER.debug("[RecetteController, getAllRecettesThumbnailsByCategoryId] categoryId = " + categoryId);
 
         List<RecetteThumbnailDTO> recettes = recetteService.getAllRecettesThumbnailsByCategoryId(categoryId);
 
-        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(recettes);
+        return ResponseEntity.status(HttpStatus.OK).body(recettes);
 
     }
 
-    @GetMapping("/recette_search")
+    @GetMapping("/search")
     public List<RecetteDTO> recette_search() {
         return recetteService.searchByString("test");
     }
 
-    /*@GetMapping("/recette_search/category/{categoryID}")
+    /*@GetMapping("/search/category/{categoryID}")
     public List<RecetteDTO> recetteSearchByCategory(@PathVariable("categoryID") Integer categoryID){
         System.out.println(categoryID);
         return recetteService.searchByCategory(categoryID);

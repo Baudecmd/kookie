@@ -36,6 +36,8 @@ public class RecetteServiceImpl implements RecetteService {
         return RecetteParser.parseListToDTO(recetteArrayList);
     }
 
+
+
     @Override
     public List<RecetteThumbnailDTO> getAllRecettesThumbnails(Integer profileId) {
         LOGGER.debug("[RecetteServiceImpl, getAllRecettesThumbnails] profileId = " + profileId);

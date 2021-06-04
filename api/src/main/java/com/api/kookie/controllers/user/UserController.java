@@ -36,6 +36,7 @@ public class UserController {
 
     @GetMapping("/users")
     public List<User> liste_users() {
+        LOGGER.debug("[UserController, users] liste users");
         return (List<User>) userRepository.findAll();
     }
 

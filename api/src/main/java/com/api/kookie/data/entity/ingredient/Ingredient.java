@@ -17,9 +17,6 @@ public class Ingredient {
     @OneToOne
     private IngredientCategory ingredientCategory;
 
-    @OneToMany
-    private Set<IngredientLine> ingredientLines;
-
     public Ingredient() {
     }
 
@@ -70,13 +67,6 @@ public class Ingredient {
         this.ingredientCategory = ingredientCategory;
     }
 
-    public Set<IngredientLine> getIngredientLines() {
-        return ingredientLines;
-    }
-
-    public void setIngredientLines(Set<IngredientLine> ingredientLines) {
-        this.ingredientLines = ingredientLines;
-    }
 
     @Override
     public String toString() {

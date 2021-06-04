@@ -13,7 +13,7 @@ public class OpinionParser {
         if (opinion != null) {
             opinionDTO.setId(opinion.getId());
             opinionDTO.setRecette(RecetteParser.toDTO(opinion.getRecette()));
-            opinionDTO.setUser(UserParser.toDTO(opinion.getUser()));
+            opinionDTO.setProfile(ProfileParser.toDTO(opinion.getProfile()));
             opinionDTO.setNote(opinionDTO.getNote());
             opinionDTO.setComment(opinion.getComment());
         }
@@ -25,7 +25,7 @@ public class OpinionParser {
         if (opinionDTO != null) {
             if (opinionDTO.getId() != null) opinion.setId(opinionDTO.getId());
             opinion.setRecette(RecetteParser.toEntity(opinionDTO.getRecette()));
-            opinion.setUser(UserParser.toEntity(opinionDTO.getUser()));
+            opinion.setProfile(ProfileParser.toEntity(opinionDTO.getProfile()));
             opinion.setNote(opinionDTO.getNote());
             opinion.setComment(opinionDTO.getComment());
         }

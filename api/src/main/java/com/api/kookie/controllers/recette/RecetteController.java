@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(headers = "content-type=utf-8")
+@RequestMapping(produces = "content-type=utf-8")
 public class RecetteController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RecetteController.class);

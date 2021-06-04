@@ -32,10 +32,19 @@ public class RecetteController {
     @Autowired
     RecetteService recetteService;
 
-
     @GetMapping("/all")
     public List<Recette> liste_recette() {
         return recetteRepository.findAll();
+    }
+
+    @GetMapping("/one")
+    public ResponseEntity<?> getOneByRecipeId(@RequestParam Long recipeId) {
+        LOGGER.debug("[RecetteController, getOneByRecipeId] recipeId = " + recipeId);
+
+        RecetteDTO recipe = recetteService.getOneById(recipeId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(recipe);
+
     }
 
     @PostMapping("/create")
@@ -64,7 +73,7 @@ public class RecetteController {
     public ResponseEntity<?> getAllRecettesThumbnails() {
         LOGGER.debug("[RecetteController, getAllRecettesThumbnails]");
 
-        List<RecetteThumbnailDTO> recettes = recetteService.getAllRecettesThumbnails(15);
+        List<RecetteThumbnailDTO> recettes = recetteService.getAllRecipesThumbnails(15);
 
         return ResponseEntity.status(HttpStatus.OK).body(recettes);
 
@@ -74,7 +83,7 @@ public class RecetteController {
     public ResponseEntity<?> getAllRecettesThumbnailsByCategoryId(@RequestParam Integer categoryId) {
         LOGGER.debug("[RecetteController, getAllRecettesThumbnailsByCategoryId] categoryId = " + categoryId);
 
-        List<RecetteThumbnailDTO> recettes = recetteService.getAllRecettesThumbnailsByCategoryId(categoryId);
+        List<RecetteThumbnailDTO> recettes = recetteService.getAllRecipesThumbnailsByCategoryId(categoryId);
 
         return ResponseEntity.status(HttpStatus.OK).body(recettes);
 

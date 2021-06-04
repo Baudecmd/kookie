@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/ingredientCategory", produces = "content-type=application/json;charset=utf-8")
+@RequestMapping(value = "/ingredientCategory", produces = "content-type:application/json;charset=utf-8")
 public class IngredientCategoryController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IngredientCategoryController.class);

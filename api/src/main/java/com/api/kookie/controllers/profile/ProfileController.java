@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/profile", produces = "content-type=application/json;charset=utf-8")
+@RequestMapping(value = "/profile", produces = "content-type:application/json;charset=utf-8")
 public class ProfileController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProfileController.class);

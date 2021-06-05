@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:kookie/models/category/CategoryDTO.dart';
 import 'package:kookie/models/recette/RecetteThumbnailDTO.dart';
@@ -23,9 +25,10 @@ class _HomeScreenState extends State<HomeScreen>
   HomeRepository homeRepository = HomeRepository();
 
   Future<void> getDatas() async {
-    categories = await homeRepository.getAllRecipeCategories() ?? [];
+    categories =
+        await homeRepository.getAllRecipeCategoriesContainsRecipe() ?? [];
     recipes = await homeRepository.getAllRecipeThumbnails() ?? [];
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: categories.length + 1, vsync: this);
   }
 
   @override
@@ -69,37 +72,17 @@ class _HomeScreenState extends State<HomeScreen>
         ),
       ),
       drawer: CustomDrawer(),
-      body: categories.isNotEmpty
-          ? buildRecipeTabBarView()
-          : ListView(
-              children: <Widget>[
-                CardCarousel(
-                  recipes: recipes,
-                )
-              ],
-            ),
+      body: buildRecipeTabBarView(),
     );
   }
 
-  TabBarView buildRecipeTabBarView() {
-    List<ListView> categoryTabBarViews = [
-      ListView(
-        children: <Widget>[
-          CardCarousel(
-            recipes: recipes,
-          )
-        ],
-      ),
-    ];
-    if (categories.isNotEmpty) {
-      for (CategoryDTO c in categories) {
-        buildListViewFromCategory(c)
-            .then((value) => categoryTabBarViews.add(value));
-      }
-    }
-    return TabBarView(
-      controller: _tabController,
-      children: categoryTabBarViews,
+  ListView buildRecipeTabBarView() {
+    return ListView(
+      children: <Widget>[
+        CardCarousel(
+          recipes: recipes,
+        )
+      ],
     );
   }
 
@@ -136,26 +119,53 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  TabBar buildCategoryTabBar(BuildContext context) {
-    List<Tab> categoryTabs = [
-      Tab(
-        text: 'Tout',
-      ),
+  SingleChildScrollView buildCategoryTabBar(BuildContext context) {
+    List<InkWell> categoryTabs = [
+      buildCategoryButton(CategoryDTO(name: 'Tout')),
     ];
     if (categories.isNotEmpty) {
-      categoryTabs.addAll(categories
-          .map((e) => Tab(
-                text: e.name,
-              ))
-          .toList());
+      categoryTabs
+          .addAll(categories.map((e) => buildCategoryButton(e)).toList());
     }
-    return TabBar(
-      controller: _tabController,
-      labelColor: Theme.of(context).primaryColor,
-      labelStyle: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
-      unselectedLabelStyle: TextStyle(fontSize: 18.0),
-      isScrollable: true,
-      tabs: categoryTabs,
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: categoryTabs,
+      ),
     );
+  }
+
+  InkWell buildCategoryButton(CategoryDTO category) {
+    return InkWell(
+      onTap: () {
+        changeFilter(category);
+      },
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+        child: SizedBox(
+            height: 46,
+            child: Center(
+                child: Text(category.name,
+                    style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 18.0)))),
+      ),
+    );
+  }
+
+  void changeFilter(CategoryDTO category) {
+    if (category.name == 'Tout') {
+      homeRepository.getAllRecipeThumbnails().then((value) {
+        setState(() {
+          recipes = value ?? [];
+        });
+      });
+    } else {
+      homeRepository.getAllRecipeThumbnailsByCategory(category).then((value) {
+        setState(() {
+          recipes = value ?? [];
+        });
+      });
+    }
   }
 }

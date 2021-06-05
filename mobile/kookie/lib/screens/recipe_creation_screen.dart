@@ -3,13 +3,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:kookie/api/recipe_api_client.dart';
 import 'package:kookie/models/ingredient/IngredientDTO.dart';
 import 'package:kookie/screens/recipe_steps_creation_screen.dart';
 import 'package:kookie/widgets/custom_button.dart';
 import 'package:kookie/widgets/custom_text_field.dart';
 import 'package:kookie/widgets/multiselect_dialog.dart';
 
+import '../datas/data.dart';
 import '../models/ingredient/IngredientDTO.dart';
 
 class RecipeCreationScreen extends StatefulWidget {
@@ -25,18 +25,22 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
   late String _base64Image;
   late String _recipeName;
   var overlayEntry;
+
+  @override
+  void initState() {
+    debugPrint(listIngredientDTO.toString());
+    /*List<IngredientDTO> listIngredientDTO = [];
+    RecipeApiClient().getIngredients().then((v) => setState(() {
+          listIngredientDTO = v!;
+          print(listIngredientDTO[1].name);
+        }));*/
+  }
+
   final items = <MultiSelectDialogItem>[
     MultiSelectDialogItem(1, "Pomme de terre"),
     MultiSelectDialogItem(2, "Saucisse"),
     MultiSelectDialogItem(3, "Carotte"),
   ];
-
-  @override
-  void initState() {
-    List<IngredientDTO> listIngredientDTO = [];
-    RecipeApiClient().getIngredients().then((v) => {listIngredientDTO = v!});
-    debugPrint(listIngredientDTO.toString());
-  }
 
   Future<void> selectImage() async {
     var image = await ImagePicker().getImage(source: ImageSource.gallery);

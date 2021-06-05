@@ -14,4 +14,14 @@ class RecipeCategoryApiClient extends LoginApiClient {
             .toList()
         : null;
   }
+
+  Future<List<CategoryDTO>?> getAllRecipeCategoriesContainsRecipe() async {
+    final http.Response response =
+        await getData('/recipeCategory/containsRecipe/all');
+    return response.statusCode == 200
+        ? (jsonDecode(response.body) as List)
+            .map((e) => CategoryDTO.fromJson(e))
+            .toList()
+        : null;
+  }
 }

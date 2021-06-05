@@ -17,7 +17,7 @@ class HomeRepository {
     return recipeApiClient.getAllRecipeThumbnailsByCategory(category);
   }
 
-  Future<List<CategoryDTO>?> getAllRecipeCategories() async {
-    return recipeCategoryApiClient.getAllRecipeCategories();
+  Future<List<CategoryDTO>?> getAllRecipeCategoriesContainsRecipe() async {
+    return recipeCategoryApiClient.getAllRecipeCategoriesContainsRecipe();
   }
 }

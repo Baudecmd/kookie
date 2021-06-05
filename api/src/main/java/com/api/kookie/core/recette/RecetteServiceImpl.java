@@ -75,7 +75,7 @@ public class RecetteServiceImpl implements RecetteService {
 
     @Override
     public List<RecetteThumbnailDTO> getAllRecipesThumbnailsByCategoryId(Integer id) {
-        LOGGER.debug("[RecetteServiceImpl, getAllRecettesThumbnailsByCategoryId] id = " + id);
+        LOGGER.debug("[RecetteServiceImpl, getAllRecipesThumbnailsByCategoryId] id = " + id);
 
         Profile profile = profileRepository.findOneById(15);
         RecipeCategory recipeCategory = recipeCategoryRepository.findOneById(id);

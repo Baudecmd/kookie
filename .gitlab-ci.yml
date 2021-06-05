@@ -1,9 +1,48 @@
-####
-#### BACKEND - API - DEPLOY
-####
+stages:
+  - test
+  - build
+  - deploy
 
+####
+#### BACKEND - API - TEST
+####
+apiTest:
+  stage: test
+  image: maven:latest
+  script:
+    - cd api
+    - mvn test "-Dspring.datasource.url=$DATASOURCE_URL" "-Dspring.datasource.username=$DATASOURCE_USERNAME" "-Dspring.datasource.password=$DATASOURCE_PASSWORD" "-Dlogging.level.org.springframework=INFO" "-Dlogging.level.com.api.kookie=DEBUG"
+  only:
+    - staging
+    - tags
+
+####
+#### BACKEND - API - BUILD
+####
+apiBuild:
+  stage: build
+  image: maven:latest
+  needs:
+    - apiTest
+  script:
+    - cd api
+    - mvn clean package -e "-Dspring.datasource.url=$DATASOURCE_URL" "-Dspring.datasource.username=$DATASOURCE_USERNAME" "-Dspring.datasource.password=$DATASOURCE_PASSWORD" "-Dlogging.level.org.springframework=INFO" "-Dlogging.level.com.api.kookie=DEBUG"
+  artifacts:
+    name: "api-snapshot"
+    expire_in: 1 week
+    paths:
+      - api/target/*.war
+  only:
+    - staging
+    - tags
+    
+####
+#### BACKEND - API - DEPLOY STAGING
+####
 staging: # staging is executed for all commits that were pushed to master branch
   stage: deploy
+  needs:
+    - apiTest
   script:
     - gem install dpl
     - cd api
@@ -11,8 +50,13 @@ staging: # staging is executed for all commits that were pushed to master branch
   only:
     - staging
 
+####
+#### BACKEND - API - DEPLOY PRODUCTION
+####
 production: # production is executed for all pushed tags.
   stage: deploy
+  needs:
+    - apiTest
   script:
     - gem install dpl
     - cd api

@@ -29,11 +29,11 @@ public class IngredientDTO {
         this.name = name;
     }
 
-    public boolean isVegan() {
+    public boolean getIsVegan() {
         return isVegan;
     }
 
-    public void setVegan(boolean vegan) {
+    public void setIsVegan(boolean vegan) {
         this.isVegan = vegan;
     }
 

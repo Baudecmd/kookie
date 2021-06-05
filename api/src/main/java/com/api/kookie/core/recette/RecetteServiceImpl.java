@@ -6,8 +6,10 @@ import com.api.kookie.core.util.RecetteParser;
 import com.api.kookie.data.entity.Opinion;
 import com.api.kookie.data.entity.Profile;
 import com.api.kookie.data.entity.Recette;
+import com.api.kookie.data.entity.RecipeCategory;
 import com.api.kookie.data.profile.ProfileRepository;
 import com.api.kookie.data.recette.RecetteRepository;
+import com.api.kookie.data.recette.RecipeCategoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,9 @@ public class RecetteServiceImpl implements RecetteService {
 
     @Autowired
     ProfileRepository profileRepository;
+
+    @Autowired
+    RecipeCategoryRepository recipeCategoryRepository;
 
     @Override
     public List<RecetteDTO> searchByString(String s) {
@@ -54,8 +59,33 @@ public class RecetteServiceImpl implements RecetteService {
                 thumbnailDTO.setId(r.getId());
                 thumbnailDTO.setName(r.getNom());
                 int sumNotes = r.getOpinions().stream().map(Opinion::getNote).reduce(0, Integer::sum);
-                thumbnailDTO.setNote(sumNotes / r.getOpinions().size());
-                thumbnailDTO.setFavorite(favoritesRecettesId.contains(favoritesRecettesId));
+                if (r.getOpinions().size() != 0) thumbnailDTO.setNote(sumNotes / r.getOpinions().size());
+                thumbnailDTO.setIsFavorite(favoritesRecettesId.contains(favoritesRecettesId));
+                thumbnails.add(thumbnailDTO);
+            }
+        }
+        return thumbnails;
+    }
+
+    @Override
+    public List<RecetteThumbnailDTO> getAllRecettesThumbnailsByCategoryId(Integer id) {
+        LOGGER.debug("[RecetteServiceImpl, getAllRecettesThumbnailsByCategoryId] id = " + id);
+
+        Profile profile = profileRepository.findOneById(15);
+        RecipeCategory recipeCategory = recipeCategoryRepository.findOneById(id);
+
+        List<Recette> recettes = recetteRepository.findAllByCategoryId(id);
+        List<RecetteThumbnailDTO> thumbnails = new ArrayList<>();
+
+        if (recettes != null && recipeCategory != null) {
+            ArrayList<Long> favoritesRecettesId = profile.getFavoriteRecettes().stream().map(Recette::getId).collect(Collectors.toCollection(ArrayList::new));
+            for (Recette r : recettes) {
+                RecetteThumbnailDTO thumbnailDTO = new RecetteThumbnailDTO();
+                thumbnailDTO.setId(r.getId());
+                thumbnailDTO.setName(r.getNom());
+                int sumNotes = r.getOpinions().stream().map(Opinion::getNote).reduce(0, Integer::sum);
+                if (r.getOpinions().size() != 0) thumbnailDTO.setNote(sumNotes / r.getOpinions().size());
+                thumbnailDTO.setIsFavorite(favoritesRecettesId.contains(favoritesRecettesId));
                 thumbnails.add(thumbnailDTO);
             }
         }

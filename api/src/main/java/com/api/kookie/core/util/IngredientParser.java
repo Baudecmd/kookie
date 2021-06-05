@@ -13,7 +13,7 @@ public class IngredientParser {
         if (ingredient != null) {
             ingredientDTO.setId(ingredient.getId());
             ingredientDTO.setName(ingredient.getName());
-            ingredientDTO.setVegan(ingredient.isIsVegan());
+            ingredientDTO.setIsVegan(ingredient.isIsVegan());
             ingredientDTO.setCategory(IngredientCategoryParser.toDTO(ingredient.getCategory()));
         }
         return ingredientDTO;
@@ -24,7 +24,7 @@ public class IngredientParser {
         if (ingredientDTO != null) {
             if (ingredientDTO.getId() != null) ingredient.setId(ingredientDTO.getId());
             ingredient.setName(ingredientDTO.getName());
-            ingredient.setIsVegan(ingredientDTO.isVegan());
+            ingredient.setIsVegan(ingredientDTO.getIsVegan());
             ingredient.setCategory(IngredientCategoryParser.toEntity(ingredientDTO.getCategory()));
         }
         return ingredient;

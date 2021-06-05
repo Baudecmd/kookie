@@ -9,4 +9,6 @@ public interface RecipeCategoryService {
     List<CategoryDTO> getAllCategories();
 
     List<RecetteDTO> getAllByCategoryId(Integer categoryId);
+
+    List<CategoryDTO> getAllRecipesCategoriesContainsRecipe();
 }

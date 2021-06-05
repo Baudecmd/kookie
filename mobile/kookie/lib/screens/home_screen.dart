@@ -18,7 +18,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  late TabController _tabController;
   List<CategoryDTO> categories = [];
   List<RecetteThumbnailDTO> recipes = [];
 
@@ -28,7 +27,6 @@ class _HomeScreenState extends State<HomeScreen>
     categories =
         await homeRepository.getAllRecipeCategoriesContainsRecipe() ?? [];
     recipes = await homeRepository.getAllRecipeThumbnails() ?? [];
-    _tabController = TabController(length: categories.length + 1, vsync: this);
   }
 
   @override

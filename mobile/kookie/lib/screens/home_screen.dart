@@ -19,27 +19,66 @@ class _HomeScreenState extends State<HomeScreen>
   late TabController _tabController;
   List<CategoryDTO> categories = [];
   List<RecetteThumbnailDTO> recipes = [];
+  List<ListView> categoryTabBarViews = [];
+  List<Tab> categoryTabBar = [];
 
   HomeRepository homeRepository = HomeRepository();
-
-  Future<void> getDatas() async {
-    categories = await homeRepository.getAllRecipeCategories() ?? [];
-    recipes = await homeRepository.getAllRecipeThumbnails() ?? [];
-    _tabController = TabController(length: 4, vsync: this);
-  }
 
   @override
   void initState() {
     super.initState();
     StorageUtil.getString(key: 'token', defValue: '').then((v) {
-      debugPrint(v);
       if (v == '') {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => StartScreen()));
       } else {
+        /* LOAD AND BUILD ASYNC WIDGET BEFORE SCREEN BUILD */
+        _tabController = TabController(length: 0, vsync: this);
         getDatas().then((v) => setState(() {}));
       }
     });
+  }
+
+  /* LOAD THEN BUILD ASYNC WIDGET BEFORE SCREEN BUILD */
+  Future<void> getDatas() async {
+    categories = await homeRepository.getAllRecipeCategories() ?? [];
+    recipes = await homeRepository.getAllRecipeThumbnails() ?? [];
+    _tabController = TabController(length: categories.length + 1, vsync: this);
+    await buildTabBar();
+  }
+
+  Future<void> buildTabBar() async {
+    if (categories.isNotEmpty) {
+      categoryTabBarViews = [
+        ListView(
+          children: <Widget>[
+            CardCarousel(
+              recipes: recipes,
+            )
+          ],
+        ),
+      ];
+      for (CategoryDTO c in categories) {
+        categoryTabBarViews.add(await buildListViewFromCategory(c));
+      }
+
+      categoryTabBar = [
+        Tab(
+          text: 'Tout',
+        ),
+      ];
+      categoryTabBar.addAll(categories.map((e) => Tab(text: e.name)).toList());
+    }
+  }
+
+  Future<ListView> buildListViewFromCategory(CategoryDTO category) async {
+    List<RecetteThumbnailDTO>? recipesFromCategory =
+        await homeRepository.getAllRecipeThumbnailsByCategory(category);
+    return ListView(
+      children: <Widget>[
+        CardCarousel(recipes: recipesFromCategory!),
+      ],
+    );
   }
 
   @override
@@ -58,58 +97,19 @@ class _HomeScreenState extends State<HomeScreen>
         ),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(120.0),
-          child: categories.isNotEmpty
-              ? Column(
-                  children: [
-                    buildSearchBar(context),
-                    buildCategoryTabBar(context),
-                  ],
-                )
-              : buildSearchBar(context),
+          child: Column(
+            children: [
+              buildSearchBar(context),
+              categoryTabBar.isNotEmpty
+                  ? buildCategoryTabBar(context)
+                  : SizedBox(),
+            ],
+          ),
         ),
       ),
       drawer: CustomDrawer(),
-      body: categories.isNotEmpty
-          ? buildRecipeTabBarView()
-          : ListView(
-              children: <Widget>[
-                CardCarousel(
-                  recipes: recipes,
-                )
-              ],
-            ),
-    );
-  }
-
-  TabBarView buildRecipeTabBarView() {
-    List<ListView> categoryTabBarViews = [
-      ListView(
-        children: <Widget>[
-          CardCarousel(
-            recipes: recipes,
-          )
-        ],
-      ),
-    ];
-    if (categories.isNotEmpty) {
-      for (CategoryDTO c in categories) {
-        buildListViewFromCategory(c)
-            .then((value) => categoryTabBarViews.add(value));
-      }
-    }
-    return TabBarView(
-      controller: _tabController,
-      children: categoryTabBarViews,
-    );
-  }
-
-  Future<ListView> buildListViewFromCategory(CategoryDTO category) async {
-    List<RecetteThumbnailDTO>? recipesFromCategory =
-        await homeRepository.getAllRecipeThumbnailsByCategory(category);
-    return ListView(
-      children: <Widget>[
-        CardCarousel(recipes: recipesFromCategory!),
-      ],
+      body:
+          categoryTabBarViews.isNotEmpty ? buildRecipeTabBarView() : SizedBox(),
     );
   }
 
@@ -136,26 +136,21 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
+  TabBarView buildRecipeTabBarView() {
+    return TabBarView(
+      controller: _tabController,
+      children: categoryTabBarViews,
+    );
+  }
+
   TabBar buildCategoryTabBar(BuildContext context) {
-    List<Tab> categoryTabs = [
-      Tab(
-        text: 'Tout',
-      ),
-    ];
-    if (categories.isNotEmpty) {
-      categoryTabs.addAll(categories
-          .map((e) => Tab(
-                text: e.name,
-              ))
-          .toList());
-    }
     return TabBar(
       controller: _tabController,
       labelColor: Theme.of(context).primaryColor,
       labelStyle: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
       unselectedLabelStyle: TextStyle(fontSize: 18.0),
       isScrollable: true,
-      tabs: categoryTabs,
+      tabs: categoryTabBar,
     );
   }
 }

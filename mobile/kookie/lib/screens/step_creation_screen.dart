@@ -1,13 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kookie/datas/data.dart';
 import 'package:kookie/widgets/custom_button.dart';
-
-class MultiSelectItem {
-  const MultiSelectItem(this.value, this.label);
-
-  final int value;
-  final String label;
-}
+import 'package:kookie/widgets/multiselect_dialog.dart';
 
 class StepInfo {
   StepInfo(this.description, this.utensilsSet);
@@ -17,30 +12,36 @@ class StepInfo {
 }
 
 class StepCreationScreen extends StatefulWidget {
-  late final List<MultiSelectItem> _utensilsList;
   late final stepInfo;
 
   StepCreationScreen(StepInfo stepInfo) {
-    _utensilsList = _getUtensilsList();
     this.stepInfo = stepInfo;
   }
 
   @override
   _StepCreationScreen createState() => _StepCreationScreen(stepInfo);
 
-  _getUtensilsList() {
-    return [
-      MultiSelectItem(1, "Couteaux de cuisine"),
-      MultiSelectItem(2, "Four"),
-      MultiSelectItem(3, "Épluche-légumes")
-    ];
-  }
 }
 
 class _StepCreationScreen extends State<StepCreationScreen> {
+  List<MultiSelectDialogItem> items = [];
+
   _StepCreationScreen(StepInfo stepInfo) {
     this._stepInfo = stepInfo;
     this._controller = new TextEditingController(text: stepInfo.description);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void makeMultiSelectItems() {
+    if (listUstensilDTO.isNotEmpty) {
+      listUstensilDTO.forEach((e) {
+        items.add(MultiSelectDialogItem(listUstensilDTO.indexOf(e), e.name!));
+      });
+    }
   }
 
   final textKey = GlobalKey<FormState>();
@@ -85,7 +86,7 @@ class _StepCreationScreen extends State<StepCreationScreen> {
                     "Quels sont le matériel et les ustensiles requis pour cette étape ?"),
               ),
               SizedBox(height: 20),
-              ...widget._utensilsList.map((item) {
+              ...items.map((item) {
                 return CheckboxListTile(
                   value: _stepInfo.utensilsSet.contains(item.value),
                   title: Text(item.label),

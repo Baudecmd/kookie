@@ -1,13 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kookie/models/ingredient/IngredientDTO.dart';
 import 'package:kookie/screens/home_screen.dart';
 import 'package:kookie/screens/step_creation_screen.dart';
 import 'package:kookie/widgets/custom_button.dart';
 
 class RecipesStepsCreationScreen extends StatefulWidget {
-  final Set<int> ingredients;
+  final List<IngredientDTO> ingredients;
   final String recipeName;
   final String base64Image;
+
   RecipesStepsCreationScreen(
       {required this.ingredients,
       required this.recipeName,

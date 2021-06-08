@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -20,27 +21,26 @@ class RecipeCreationScreen extends StatefulWidget {
 class _RecipeCreationScreen extends State<RecipeCreationScreen> {
   final _recipeFormKey = GlobalKey<FormState>();
   var _ingredients = Set<int>();
+  List<MultiSelectDialogItem> items = [];
   File? _image;
   Image? _imageWidget;
-  late String _base64Image;
-  late String _recipeName;
+  String _base64Image = '';
+  String _recipeName = '';
   var overlayEntry;
 
   @override
   void initState() {
-    debugPrint(listIngredientDTO.toString());
-    /*List<IngredientDTO> listIngredientDTO = [];
-    RecipeApiClient().getIngredients().then((v) => setState(() {
-          listIngredientDTO = v!;
-          print(listIngredientDTO[1].name);
-        }));*/
+    super.initState();
+    makeMultiSelectItems();
   }
 
-  final items = <MultiSelectDialogItem>[
-    MultiSelectDialogItem(1, "Pomme de terre"),
-    MultiSelectDialogItem(2, "Saucisse"),
-    MultiSelectDialogItem(3, "Carotte"),
-  ];
+  void makeMultiSelectItems() {
+    if (listIngredientDTO.isNotEmpty) {
+      listIngredientDTO.forEach((e) {
+        items.add(MultiSelectDialogItem(listIngredientDTO.indexOf(e), e.name));
+      });
+    }
+  }
 
   Future<void> selectImage() async {
     var image = await ImagePicker().getImage(source: ImageSource.gallery);
@@ -149,7 +149,7 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
   }
 
   _submitRecipe() {
-    if (_ingredients.isEmpty || _recipeName == null || _base64Image == null) {
+    if (_ingredients.isEmpty || _base64Image == '' || _recipeName == '') {
       ScaffoldMessenger.of(context)
         ..removeCurrentSnackBar()
         ..showSnackBar(SnackBar(
@@ -162,12 +162,16 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
     }
   }
 
+  List<IngredientDTO> convertMultiSelectToIngredientDTO() {
+    return _ingredients.map((e) => listIngredientDTO.elementAt(e)).toList();
+  }
+
   _pushStepsScreen() {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (_) => RecipesStepsCreationScreen(
-            ingredients: _ingredients,
+            ingredients: convertMultiSelectToIngredientDTO(),
             recipeName: _recipeName,
             base64Image: _base64Image),
       ),

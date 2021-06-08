@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:kookie/models/Ustensil/UstensilDTO.dart';
 import 'package:kookie/models/category/CategoryDTO.dart';
 import 'package:kookie/models/recette/RecetteDTO.dart';
 import 'package:kookie/models/recette/RecetteThumbnailDTO.dart';
@@ -42,6 +43,15 @@ class RecipeApiClient extends LoginApiClient {
     return response.statusCode == 200
         ? (jsonDecode(response.body) as List)
             .map((e) => IngredientDTO.fromJson(e))
+            .toList()
+        : null;
+  }
+
+  Future<List<UstensilDTO>?> getAllUstensils() async {
+    final http.Response response = await getData('/ustensils/all');
+    return response.statusCode == 200
+        ? (jsonDecode(response.body) as List)
+            .map((e) => UstensilDTO.fromJson(e))
             .toList()
         : null;
   }

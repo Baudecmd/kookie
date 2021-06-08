@@ -8,7 +8,9 @@ import java.util.List;
 public interface RecetteService {
     List<RecetteDTO> searchByString(String s);
 
-    List<RecetteThumbnailDTO> getAllRecettesThumbnails(Integer profileId);
+    List<RecetteThumbnailDTO> getAllRecipesThumbnails(Integer profileId);
 
-    List<RecetteThumbnailDTO> getAllRecettesThumbnailsByCategoryId(Integer categoryId);
+    List<RecetteThumbnailDTO> getAllRecipesThumbnailsByCategoryId(Integer categoryId);
+
+    RecetteDTO getOneById(Long recipeId);
 }

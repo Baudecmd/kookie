@@ -25,7 +25,6 @@ public class RecipeCategoryController {
     RecipeCategoryService recipeCategoryService;
 
     @GetMapping("/all")
-
     public ResponseEntity<?> getAllCategories() {
         LOGGER.debug("[RecipeCategoryController, getAllCategories]");
 
@@ -35,8 +34,17 @@ public class RecipeCategoryController {
 
     }
 
-    @GetMapping("/allRecipes")
+    @GetMapping("/containsRecipe/all")
+    public ResponseEntity<?> getAllRecipeCategoriesContainsRecipe() {
+        LOGGER.debug("[RecipeCategoryController, getAllRecipeCategoriesContainsRecipe]");
 
+        List<CategoryDTO> categories = recipeCategoryService.getAllRecipesCategoriesContainsRecipe();
+
+        return ResponseEntity.status(HttpStatus.OK).body(categories);
+
+    }
+
+    @GetMapping("/allRecipes")
     public ResponseEntity<List<RecetteDTO>> getAllRecipesByCategoryId(@RequestParam Integer categoryId) {
         LOGGER.debug("[RecipeCategoryController, getAllRecipesByCategoryId] categoryId : " + categoryId);
 

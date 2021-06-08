@@ -36,15 +36,20 @@ public class RecetteServiceImpl implements RecetteService {
     RecipeCategoryRepository recipeCategoryRepository;
 
     @Override
+    public RecetteDTO getOneById(Long recipeId) {
+        LOGGER.debug("[RecetteServiceImpl, getOneById] recipeId = " + recipeId);
+
+        return RecetteParser.toDTO(recetteRepository.findOneById(recipeId));
+    }
+
+    @Override
     public List<RecetteDTO> searchByString(String s) {
         ArrayList<Recette> recetteArrayList = (ArrayList<Recette>) recetteRepository.findAllByNom(s);
         return RecetteParser.parseListToDTO(recetteArrayList);
     }
 
-
-
     @Override
-    public List<RecetteThumbnailDTO> getAllRecettesThumbnails(Integer profileId) {
+    public List<RecetteThumbnailDTO> getAllRecipesThumbnails(Integer profileId) {
         LOGGER.debug("[RecetteServiceImpl, getAllRecettesThumbnails] profileId = " + profileId);
 
         Profile profile = profileRepository.findOneById(profileId);
@@ -53,7 +58,8 @@ public class RecetteServiceImpl implements RecetteService {
         List<RecetteThumbnailDTO> thumbnails = new ArrayList<>();
 
         if (recettes != null && profile != null) {
-            ArrayList<Long> favoritesRecettesId = profile.getFavoriteRecettes().stream().map(Recette::getId).collect(Collectors.toCollection(ArrayList::new));
+            ArrayList<Long> favoritesRecettesId = profile.getFavoriteRecettes().stream()
+                    .map(Recette::getId).collect(Collectors.toCollection(ArrayList::new));
             for (Recette r : recettes) {
                 RecetteThumbnailDTO thumbnailDTO = new RecetteThumbnailDTO();
                 thumbnailDTO.setId(r.getId());
@@ -68,18 +74,18 @@ public class RecetteServiceImpl implements RecetteService {
     }
 
     @Override
-    public List<RecetteThumbnailDTO> getAllRecettesThumbnailsByCategoryId(Integer id) {
-        LOGGER.debug("[RecetteServiceImpl, getAllRecettesThumbnailsByCategoryId] id = " + id);
+    public List<RecetteThumbnailDTO> getAllRecipesThumbnailsByCategoryId(Integer id) {
+        LOGGER.debug("[RecetteServiceImpl, getAllRecipesThumbnailsByCategoryId] id = " + id);
 
         Profile profile = profileRepository.findOneById(15);
         RecipeCategory recipeCategory = recipeCategoryRepository.findOneById(id);
 
-        List<Recette> recettes = recetteRepository.findAllByCategoryId(id);
         List<RecetteThumbnailDTO> thumbnails = new ArrayList<>();
 
-        if (recettes != null && recipeCategory != null) {
-            ArrayList<Long> favoritesRecettesId = profile.getFavoriteRecettes().stream().map(Recette::getId).collect(Collectors.toCollection(ArrayList::new));
-            for (Recette r : recettes) {
+        if (recipeCategory.getRecipes() != null && recipeCategory != null) {
+            ArrayList<Long> favoritesRecettesId = profile.getFavoriteRecettes().stream()
+                    .map(Recette::getId).collect(Collectors.toCollection(ArrayList::new));
+            for (Recette r : recipeCategory.getRecipes()) {
                 RecetteThumbnailDTO thumbnailDTO = new RecetteThumbnailDTO();
                 thumbnailDTO.setId(r.getId());
                 thumbnailDTO.setName(r.getNom());

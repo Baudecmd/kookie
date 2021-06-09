@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:kookie/models/recette/RecetteDTO.dart';
 import 'package:kookie/screens/home_screen.dart';
 
+typedef FavoriteItemCallBack = void Function(int id);
+
 class FavoriteItem extends StatelessWidget {
-  FavoriteItem(this.recette);
+  FavoriteItem({required this.recette, required this.onTap});
 
   final RecetteDTO recette;
+  final FavoriteItemCallBack onTap;
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -23,7 +27,7 @@ class FavoriteItem extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            debugPrint("Test Add");
+            onTap(recette.id!);
           },
           child: Icon(Icons.add),
         ),

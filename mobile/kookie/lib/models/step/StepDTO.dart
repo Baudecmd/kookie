@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:kookie/models/Ustensil/UstensilDTO.dart';
 import 'package:kookie/models/ingredient/IngredientLineDTO.dart';
 
 import 'StepTypeDTO.dart';
@@ -8,19 +9,21 @@ part 'StepDTO.g.dart';
 @JsonSerializable()
 class StepDTO {
   final int? id;
-  final String name;
+  final String? name;
   final IngredientLineDTO? ingredientLine;
   final int? duration;
   final int stepNumber;
-  final StepTypeDTO stepType;
+  final StepTypeDTO? stepType;
+  final List<UstensilDTO>? ustensils;
 
   StepDTO(
       {this.id,
-      required this.name,
+      this.name,
       this.ingredientLine,
       this.duration,
       required this.stepNumber,
-      required this.stepType});
+      this.stepType,
+      this.ustensils});
 
   factory StepDTO.fromJson(Map<String, dynamic> json) =>
       _$StepDTOFromJson(json);

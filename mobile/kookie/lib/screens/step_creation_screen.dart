@@ -1,39 +1,37 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kookie/datas/data.dart';
+import 'package:kookie/models/Ustensil/UstensilDTO.dart';
+import 'package:kookie/models/step/StepDTO.dart';
 import 'package:kookie/widgets/custom_button.dart';
 import 'package:kookie/widgets/multiselect_dialog.dart';
 
-class StepInfo {
-  StepInfo(this.description, this.utensilsSet);
-
-  String description;
-  Set<int> utensilsSet;
-}
-
 class StepCreationScreen extends StatefulWidget {
-  late final stepInfo;
+  final StepDTO? step;
 
-  StepCreationScreen(StepInfo stepInfo) {
-    this.stepInfo = stepInfo;
-  }
+  StepCreationScreen(this.step);
 
   @override
-  _StepCreationScreen createState() => _StepCreationScreen(stepInfo);
-
+  _StepCreationScreen createState() => _StepCreationScreen();
 }
 
 class _StepCreationScreen extends State<StepCreationScreen> {
   List<MultiSelectDialogItem> items = [];
+  List<UstensilDTO> _ustensils = [];
 
-  _StepCreationScreen(StepInfo stepInfo) {
-    this._stepInfo = stepInfo;
-    this._controller = new TextEditingController(text: stepInfo.description);
+  _StepCreationScreen() {
+    StepDTO? _step = widget.step;
+    if (_step != null)
+      this._controller = new TextEditingController(text: _step.name);
   }
 
   @override
   void initState() {
     super.initState();
+    log(listUstensilDTO.toString());
+    makeMultiSelectItems();
   }
 
   void makeMultiSelectItems() {
@@ -46,7 +44,7 @@ class _StepCreationScreen extends State<StepCreationScreen> {
 
   final textKey = GlobalKey<FormState>();
   final utensilsListKey = GlobalKey<FormState>();
-  late final StepInfo _stepInfo;
+  late final String _stepName;
   late final TextEditingController _controller;
 
   @override
@@ -76,7 +74,7 @@ class _StepCreationScreen extends State<StepCreationScreen> {
                   controller: _controller,
                   keyboardType: TextInputType.multiline,
                   onChanged: (String value) {
-                    _stepInfo.description = value;
+                    _stepName = value;
                   },
                 ),
               ),
@@ -88,7 +86,7 @@ class _StepCreationScreen extends State<StepCreationScreen> {
               SizedBox(height: 20),
               ...items.map((item) {
                 return CheckboxListTile(
-                  value: _stepInfo.utensilsSet.contains(item.value),
+                  value: items.contains(item.value),
                   title: Text(item.label),
                   controlAffinity: ListTileControlAffinity.leading,
                   onChanged: (checked) =>
@@ -116,15 +114,19 @@ class _StepCreationScreen extends State<StepCreationScreen> {
   _onUtensilCheckedChange(int value, bool checked) {
     setState(() {
       if (checked) {
-        _stepInfo.utensilsSet.add(value);
+        _ustensils.add(listUstensilDTO.elementAt(value));
       } else {
-        _stepInfo.utensilsSet.remove(value);
+        _ustensils.remove(listUstensilDTO.elementAt(value));
       }
     });
   }
 
+  List<UstensilDTO> convertMultiSelectToIngredientDTO() {
+    return items.map((e) => listUstensilDTO.elementAt(e.value)).toList();
+  }
+
   _submitStepData() {
-    var stepInfo = _stepInfo;
-    Navigator.pop(context, stepInfo);
+    var step = StepDTO(name: _stepName, stepNumber: 0, ustensils: _ustensils);
+    Navigator.pop(context, step);
   }
 }

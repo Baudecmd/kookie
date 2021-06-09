@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kookie/models/ingredient/IngredientDTO.dart';
+import 'package:kookie/models/step/StepDTO.dart';
 import 'package:kookie/screens/home_screen.dart';
 import 'package:kookie/screens/step_creation_screen.dart';
 import 'package:kookie/widgets/custom_button.dart';
@@ -20,8 +21,7 @@ class RecipesStepsCreationScreen extends StatefulWidget {
 }
 
 class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
-  final List<int> _items = List<int>.generate(1, (int index) => index);
-  final Map<int, StepInfo> _itemsMap = {0: StepInfo("", Set<int>())};
+  List<StepDTO> _steps = [];
 
   @override
   Widget build(BuildContext context) {
@@ -32,18 +32,18 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
           children: [
             Expanded(
               child: ReorderableListView.builder(
-                itemCount: _items.length,
+                itemCount: _steps.length,
                 itemBuilder: (context, index) {
                   return Dismissible(
-                    key: Key(_items[index].toString()),
+                    key: UniqueKey(),
                     onDismissed: (direction) =>
-                        {_items.removeAt(index), _refreshListView()},
+                        {_steps.removeAt(index), _refreshListView()},
                     child: Card(
                       key: ValueKey(index),
                       margin: const EdgeInsets.all(10),
                       color: Color.fromRGBO(205, 205, 205, 1),
                       child: ListTile(
-                        title: Text('Étape ${_items[index]}'),
+                        title: Text('Étape ${_steps[index].stepNumber}'),
                         trailing: Icon(Icons.drag_handle_outlined),
                         onTap: () => _openTileInfo(index),
                       ),
@@ -55,8 +55,8 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
                     if (oldIndex < newIndex) {
                       newIndex -= 1;
                     }
-                    final int item = _items.removeAt(oldIndex);
-                    _items.insert(newIndex, item);
+                    final StepDTO item = _steps.removeAt(oldIndex);
+                    _steps.insert(newIndex, item);
                   });
                 },
               ),
@@ -83,27 +83,34 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
     var stepNumber = 0;
     var isInList = true;
     while (isInList) {
-      if (_items.contains(stepNumber)) {
-        stepNumber++;
-      } else {
+      if (_isAvailableStepNumber(stepNumber)) {
         isInList = false;
+      } else {
+        stepNumber++;
       }
     }
     setState(() {
-      _items.insert(_items.length, stepNumber);
+      _steps.add(StepDTO(stepNumber: stepNumber));
     });
-    _itemsMap[stepNumber] = StepInfo("", Set<int>());
   }
 
-  _openTileInfo(index) async {
+  bool _isAvailableStepNumber(int stepNumber) {
+    bool isAvailable = true;
+    _steps.forEach((element) {
+      if (element.stepNumber == stepNumber) isAvailable = false;
+    });
+    return isAvailable;
+  }
+
+  _openTileInfo(int index) async {
     var result = await Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (_) => StepCreationScreen(_itemsMap[index]!),
+          builder: (_) => StepCreationScreen(_steps.elementAt(index)),
           fullscreenDialog: true),
     );
     if (result != null) {
-      _itemsMap[index] = result;
+      _steps.insert(index, result);
     }
   }
 

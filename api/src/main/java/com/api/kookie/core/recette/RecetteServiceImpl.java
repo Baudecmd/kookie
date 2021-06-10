@@ -46,6 +46,7 @@ public class RecetteServiceImpl implements RecetteService {
     }
 
     @Override
+    @Transactional
     public RecetteDTO createRecipe(RecetteDTO recipe) {
         LOGGER.debug("[RecetteServiceImpl, createRecipe] recipe = " + recipe.toString());
 

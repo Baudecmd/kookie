@@ -1,11 +1,10 @@
 package com.api.kookie.data.entity;
 
-import com.api.kookie.data.entity.ingredient.Ingredient;
 import com.api.kookie.data.entity.ingredient.IngredientCategory;
 import com.api.kookie.data.entity.ingredient.IngredientLine;
-import jdk.jfr.Category;
 
 import javax.persistence.*;
+import java.util.Base64;
 import java.util.List;
 
 @Entity
@@ -14,10 +13,13 @@ public class Recette {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    @OneToOne(cascade = CascadeType.ALL)
+
+    @OneToOne
     private Profile createur;
 
     private String nom;
+
+    private String image;
 
     @OneToOne
     private RecipeCategory category;
@@ -44,10 +46,10 @@ public class Recette {
         this.steps = steps;
     }
 
-    public boolean isThisIngredientCategory(IngredientCategory c){
-        for (IngredientLine ig: ingredientLines
-             ) {
-            if(ig.getIngredient().getCategory()==c)return true;
+    public boolean isThisIngredientCategory(IngredientCategory c) {
+        for (IngredientLine ig : ingredientLines
+        ) {
+            if (ig.getIngredient().getCategory() == c) return true;
         }
         return false;
     }
@@ -74,6 +76,14 @@ public class Recette {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public RecipeCategory getCategory() {

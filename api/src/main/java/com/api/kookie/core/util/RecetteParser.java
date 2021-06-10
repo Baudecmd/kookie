@@ -1,6 +1,8 @@
 package com.api.kookie.core.util;
 
+import com.api.kookie.core.dto.CategoryDTO;
 import com.api.kookie.core.dto.RecetteDTO;
+import com.api.kookie.data.entity.Opinion;
 import com.api.kookie.data.entity.Recette;
 
 import java.util.ArrayList;
@@ -13,8 +15,12 @@ public class RecetteParser {
             recetteDTO.setId(recette.getId());
             recetteDTO.setProfile(ProfileParser.toDTO(recette.getCreateur()));
             recetteDTO.setName(recette.getNom());
+            recetteDTO.setImage(recette.getImage());
+            recetteDTO.setCategory(RecipeCategoryParser.toDTO(recette.getCategory()));
             recetteDTO.setIngredientLines(IngredientLineParser.parseListToDTO(recette.getIngredientLines()));
-            // recetteDTO.setStepLinesDTO(StepLineParser.parseListToDTO(recette.getStepLines()));
+            recetteDTO.setSteps(StepParser.parseListToDTO(recette.getSteps()));
+            recetteDTO.setOpinions(OpinionParser.parseListToDTO(recette.getOpinions()));
+
         }
         return recetteDTO;
     }
@@ -25,8 +31,11 @@ public class RecetteParser {
             recette.setId(recetteDTO.getId());
             recette.setCreateur(ProfileParser.toEntity(recetteDTO.getProfile()));
             recette.setNom(recetteDTO.getName());
+            recette.setImage(recetteDTO.getImage());
+            recette.setCategory(RecipeCategoryParser.toEntity(recetteDTO.getCategory()));
             recette.setIngredientLines(IngredientLineParser.parseListToEntity(recetteDTO.getIngredientLines()));
-            // recette.setStepLines(StepLineParser.parseListToEntity(recetteDTO.getStepLinesDTO()));
+            recette.setSteps(StepParser.parseListToEntity(recetteDTO.getSteps()));
+            recette.setOpinions(OpinionParser.parseListEntity(recetteDTO.getOpinions()));
         }
         return recette;
     }

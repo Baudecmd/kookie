@@ -48,25 +48,12 @@ public class RecetteController {
     }
 
     @PostMapping("/create")
-    public Map<String, String> ajout_recette(@RequestBody Map<String, String> arg) {
-        HashMap<String, String> map = new HashMap<>();
+    public ResponseEntity<RecetteDTO> createRecipe(@RequestBody RecetteDTO recipe) {
+        LOGGER.debug("[RecetteController, createRecipe] recipe = " + recipe.toString());
 
-        String jwt = arg.get("jwt");
-        String nom_recette = arg.get("nom_recette");
-        int id_utilisateur = JwtUtils.getIdFromToken(jwt);
-        Profile p = profileRepository.findById(id_utilisateur).get();
-        if (p != null) {
-            Recette recette = new Recette();
-            recette.setCreateur(p);
-            recette.setNom(nom_recette);
-            recetteRepository.save(recette);
-            map.put("ok", "ok");
+        RecetteDTO recipeDTO = recetteService.createRecipe(recipe);
 
-        } else {
-            map.put("erreur_lib", "problème d'auth veuillez vous reconnecter");
-
-        }
-        return map;
+        return ResponseEntity.status(HttpStatus.CREATED).body(recipeDTO);
     }
 
     @GetMapping("/thumbnail/all")

@@ -17,4 +17,6 @@ public interface RecetteService {
     RecetteDTO getOneById(Long recipeId);
 
     List<StepDTO> optimizeRecipes(List<Integer> ids, Profile profile);
+
+    RecetteDTO createRecipe(RecetteDTO recipe);
 }

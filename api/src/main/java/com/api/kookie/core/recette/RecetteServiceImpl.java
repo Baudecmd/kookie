@@ -46,6 +46,13 @@ public class RecetteServiceImpl implements RecetteService {
     }
 
     @Override
+    public RecetteDTO createRecipe(RecetteDTO recipe) {
+        LOGGER.debug("[RecetteServiceImpl, createRecipe] recipe = " + recipe.toString());
+
+        return RecetteParser.toDTO(recetteRepository.save(RecetteParser.toEntity(recipe)));
+    }
+
+    @Override
     public List<RecetteDTO> searchByString(String s) {
         ArrayList<Recette> recetteArrayList = (ArrayList<Recette>) recetteRepository.findAllByNom(s);
         return RecetteParser.parseListToDTO(recetteArrayList);

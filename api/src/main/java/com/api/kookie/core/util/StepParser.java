@@ -41,4 +41,12 @@ public class StepParser {
         }
         return listStepsDTO;
     }
+
+    public static List<Step> parseListToEntity(List<StepDTO> steps) {
+        List<Step> listSteps = new ArrayList<>();
+        for (StepDTO step : steps) {
+            listSteps.add(toEntity(step));
+        }
+        return listSteps;
+    }
 }

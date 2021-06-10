@@ -11,11 +11,13 @@ public class RecetteDTO {
 
     private String name;
 
+    private String image;
+
     private CategoryDTO category;
 
     private List<IngredientLineDTO> ingredientLines;
 
-    private List<StepDTO> stepLines;
+    private List<StepDTO> steps;
 
     private List<OpinionDTO> opinions;
 
@@ -46,6 +48,22 @@ public class RecetteDTO {
         this.name = name;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public CategoryDTO getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryDTO category) {
+        this.category = category;
+    }
+
     public List<IngredientLineDTO> getIngredientLines() {
         return ingredientLines;
     }
@@ -54,12 +72,20 @@ public class RecetteDTO {
         this.ingredientLines = ingredientLines;
     }
 
-    public List<StepDTO> getStepLines() {
-        return stepLines;
+    public List<StepDTO> getSteps() {
+        return steps;
     }
 
-    public void setStepLines(List<StepDTO> stepDTO) {
-        this.stepLines = stepLines;
+    public void setSteps(List<StepDTO> steps) {
+        this.steps = steps;
+    }
+
+    public List<OpinionDTO> getOpinions() {
+        return opinions;
+    }
+
+    public void setOpinions(List<OpinionDTO> opinions) {
+        this.opinions = opinions;
     }
 
     @Override
@@ -67,12 +93,12 @@ public class RecetteDTO {
         if (this == o) return true;
         if (!(o instanceof RecetteDTO)) return false;
         RecetteDTO that = (RecetteDTO) o;
-        return getId() == that.getId() && Objects.equals(getProfile(), that.getProfile()) && Objects.equals(getName(), that.getName()) && Objects.equals(getIngredientLines(), that.getIngredientLines()) && Objects.equals(getStepLines(), that.getStepLines());
+        return getId() == that.getId() && Objects.equals(getProfile(), that.getProfile()) && Objects.equals(getName(), that.getName()) && Objects.equals(getIngredientLines(), that.getIngredientLines()) && Objects.equals(getSteps(), that.getSteps());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getProfile(), getName(), getIngredientLines(), getStepLines());
+        return Objects.hash(getId(), getProfile(), getName(), getIngredientLines(), getSteps());
     }
 
 
@@ -80,10 +106,12 @@ public class RecetteDTO {
     public String toString() {
         return "RecetteDTO{" +
                 "id=" + id +
-                ", userDTO=" + profile +
+                ", profile=" + profile.toString() +
                 ", name='" + name + '\'' +
-                ", ingredientLinesDTO=" + ingredientLines.toString() +
-                ", stepLinesDTO=" + stepLines.toString() +
+                ", category=" + category.toString() +
+                ", ingredientLines=" + ingredientLines.toString() +
+                ", steps=" + steps.toString() +
+                ", opinions=" + opinions +
                 '}';
     }
 

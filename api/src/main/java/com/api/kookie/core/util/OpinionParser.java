@@ -39,4 +39,12 @@ public class OpinionParser {
         }
         return listOpinionsDTO;
     }
+
+    public static List<Opinion> parseListEntity(List<OpinionDTO> opinions) {
+        List<Opinion> listOpinions = new ArrayList<>();
+        for (OpinionDTO opinion : opinions) {
+            listOpinions.add(toEntity(opinion));
+        }
+        return listOpinions;
+    }
 }

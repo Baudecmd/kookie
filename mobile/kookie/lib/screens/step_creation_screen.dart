@@ -129,6 +129,13 @@ class _StepCreationScreen extends State<StepCreationScreen> {
   _submitStepData() {
     var step = StepDTO(
         name: _stepName, stepNumber: 0, ustensils: _ustensils.values.toList());
+    debugPrint(step.id.toString() +
+        " " +
+        step.name.toString() +
+        " " +
+        step.stepNumber.toString() +
+        " " +
+        step.ustensils.toString());
     Navigator.pop(context, step);
   }
 }

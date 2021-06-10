@@ -39,7 +39,10 @@ class _FavoriteItemState extends State<FavoriteItem> {
             });
             widget.onTap(widget.recette.id!);
           },
-          child: Icon(check ? Icons.remove_circle : Icons.add_circle),
+          child: Icon(
+            check ? Icons.remove_circle : Icons.add_circle,
+            color: Colors.green,
+          ),
         ),
       ],
     );

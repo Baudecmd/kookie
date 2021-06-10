@@ -19,7 +19,7 @@ public class RecetteParser {
             recetteDTO.setCategory(RecipeCategoryParser.toDTO(recette.getCategory()));
             recetteDTO.setIngredientLines(IngredientLineParser.parseListToDTO(recette.getIngredientLines()));
             recetteDTO.setSteps(StepParser.parseListToDTO(recette.getSteps()));
-            recetteDTO.setOpinions(OpinionParser.parseListToDTO(recette.getOpinions()));
+            if (recetteDTO.getOpinions() != null) recetteDTO.setOpinions(OpinionParser.parseListToDTO(recette.getOpinions()));
 
         }
         return recetteDTO;
@@ -35,7 +35,7 @@ public class RecetteParser {
             recette.setCategory(RecipeCategoryParser.toEntity(recetteDTO.getCategory()));
             recette.setIngredientLines(IngredientLineParser.parseListToEntity(recetteDTO.getIngredientLines()));
             recette.setSteps(StepParser.parseListToEntity(recetteDTO.getSteps()));
-            recette.setOpinions(OpinionParser.parseListEntity(recetteDTO.getOpinions()));
+            if (recette.getOpinions()!=null) recette.setOpinions(OpinionParser.parseListEntity(recetteDTO.getOpinions()));
         }
         return recette;
     }

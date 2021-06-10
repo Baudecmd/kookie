@@ -54,7 +54,7 @@ public class IngredientLineDTO {
     public String toString() {
         return "IngredientLineDTO{" +
                 "id=" + id +
-                ", ingredientDTO=" + ingredient.toString() +
+                ", ingredientDTO=" + ingredient +
                 ", quantity=" + quantity +
                 '}';
     }

@@ -5,13 +5,13 @@ import com.api.kookie.core.dto.RecetteThumbnailDTO;
 import com.api.kookie.core.dto.StepDTO;
 import com.api.kookie.core.util.RecetteParser;
 import com.api.kookie.core.util.StepParser;
-import com.api.kookie.data.entity.Opinion;
-import com.api.kookie.data.entity.Profile;
-import com.api.kookie.data.entity.Recette;
-import com.api.kookie.data.entity.RecipeCategory;
+import com.api.kookie.data.entity.*;
+import com.api.kookie.data.entity.ingredient.IngredientLine;
+import com.api.kookie.data.ingredient.IngredientLineRepository;
 import com.api.kookie.data.profile.ProfileRepository;
 import com.api.kookie.data.recette.RecetteRepository;
 import com.api.kookie.data.recette.RecipeCategoryRepository;
+import com.api.kookie.data.step.StepRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +38,23 @@ public class RecetteServiceImpl implements RecetteService {
     @Autowired
     RecipeCategoryRepository recipeCategoryRepository;
 
+    @Autowired
+    IngredientLineRepository ingredientLineRepository;
+
+    @Autowired
+    StepRepository stepRepository;
+
     @Override
     public RecetteDTO getOneById(Long recipeId) {
         LOGGER.debug("[RecetteServiceImpl, getOneById] recipeId = " + recipeId);
 
-        return RecetteParser.toDTO(recetteRepository.findOneById(recipeId));
+        Recette recette = recetteRepository.findOneById(recipeId);
+        List<IngredientLine> ingredientLines = (List<IngredientLine>) ingredientLineRepository.saveAll(recette.getIngredientLines());
+        List<Step> steps = (List<Step>) stepRepository.saveAll(recette.getSteps());
+        recette.setIngredientLines(ingredientLines);
+        recette.setSteps(steps);
+
+        return RecetteParser.toDTO(recette);
     }
 
     @Override

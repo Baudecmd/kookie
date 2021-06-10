@@ -1,7 +1,5 @@
 package com.api.kookie.data.entity.ingredient;
 
-import com.api.kookie.data.entity.Recette;
-
 import javax.persistence.*;
 
 @Entity
@@ -11,7 +9,7 @@ public class IngredientLine {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Ingredient ingredient;
 
     private Integer quantity;

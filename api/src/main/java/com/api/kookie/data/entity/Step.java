@@ -12,7 +12,7 @@ public class Step {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private IngredientLine ingredientLine;
 
     private String stepName;
@@ -21,7 +21,7 @@ public class Step {
 
     private Integer stepNumber;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private StepType stepType;
 
     public Step() {

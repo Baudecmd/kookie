@@ -4,7 +4,6 @@ import com.api.kookie.data.entity.ingredient.IngredientCategory;
 import com.api.kookie.data.entity.ingredient.IngredientLine;
 
 import javax.persistence.*;
-import java.util.Base64;
 import java.util.List;
 
 @Entity

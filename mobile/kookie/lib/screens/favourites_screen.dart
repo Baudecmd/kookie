@@ -58,6 +58,7 @@ class _FavouritesScreen extends State<FavouritesScreen> {
 
   void _submitBatchSession() {
     Set<int> recipeIds = _key.currentState!.getRecipesIds();
+    debugPrint(recipeIds.toString());
     //TODO: recipeIds sent to API
   }
 }

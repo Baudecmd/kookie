@@ -27,7 +27,11 @@ class FavoriteListState extends State<FavoriteList> {
             child: FavoriteItem(
               recette: widget.listeRecette[index],
               onTap: (int elementId) {
-                _recipesIds.add(elementId);
+                if (_recipesIds.contains(elementId)) {
+                  _recipesIds.remove(elementId);
+                } else {
+                  _recipesIds.add(elementId);
+                }
               },
             ),
           ),

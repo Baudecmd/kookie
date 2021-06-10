@@ -4,11 +4,18 @@ import 'package:kookie/screens/home_screen.dart';
 
 typedef FavoriteItemCallBack = void Function(int id);
 
-class FavoriteItem extends StatelessWidget {
+class FavoriteItem extends StatefulWidget {
   FavoriteItem({required this.recette, required this.onTap});
 
   final RecetteDTO recette;
   final FavoriteItemCallBack onTap;
+
+  @override
+  State<StatefulWidget> createState() => _FavoriteItemState();
+}
+
+class _FavoriteItemState extends State<FavoriteItem> {
+  bool check = false;
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +29,17 @@ class FavoriteItem extends StatelessWidget {
               MaterialPageRoute(builder: (context) => HomeScreen()),
             );
           },
-          child: Text(recette.name,
+          child: Text(widget.recette.name,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
         ),
         GestureDetector(
           onTap: () {
-            onTap(recette.id!);
+            setState(() {
+              check = !check;
+            });
+            widget.onTap(widget.recette.id!);
           },
-          child: Icon(Icons.add),
+          child: Icon(check ? Icons.remove_circle : Icons.add_circle),
         ),
       ],
     );

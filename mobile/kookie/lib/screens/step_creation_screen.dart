@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kookie/datas/data.dart';
@@ -19,21 +17,20 @@ class StepCreationScreen extends StatefulWidget {
 
 class _StepCreationScreen extends State<StepCreationScreen> {
   List<MultiSelectDialogItem> items = [];
-  List<UstensilDTO> _ustensils = [];
+  Map<int, UstensilDTO> _ustensils = {};
 
   @override
   void initState() {
     super.initState();
     StepDTO _step = widget.step;
     this._controller = new TextEditingController(text: _step.name);
-    log(listUstensilDTO.toString());
     makeMultiSelectItems();
   }
 
   void makeMultiSelectItems() {
     if (listUstensilDTO.isNotEmpty) {
       listUstensilDTO.forEach((e) {
-        items.add(MultiSelectDialogItem(listUstensilDTO.indexOf(e), e.name!));
+        items.add(MultiSelectDialogItem(e.id!, e.name!));
       });
     }
   }
@@ -82,12 +79,12 @@ class _StepCreationScreen extends State<StepCreationScreen> {
               SizedBox(height: 20),
               ...items.map((item) {
                 return CheckboxListTile(
-                  value: items.contains(item.value),
-                  title: Text(item.label),
-                  controlAffinity: ListTileControlAffinity.leading,
-                  onChanged: (checked) =>
-                      _onUtensilCheckedChange(item.value, checked!),
-                );
+                    value: _ustensils.keys.contains(item.value),
+                    title: Text(item.label),
+                    controlAffinity: ListTileControlAffinity.leading,
+                    onChanged: (checked) {
+                      _onUtensilCheckedChange(item.value, checked!);
+                    });
               }).toList(),
               SizedBox(height: 20),
               Center(
@@ -110,9 +107,17 @@ class _StepCreationScreen extends State<StepCreationScreen> {
   _onUtensilCheckedChange(int value, bool checked) {
     setState(() {
       if (checked) {
-        _ustensils.add(listUstensilDTO.elementAt(value));
+        for (UstensilDTO u in listUstensilDTO) {
+          if (u.id == value) {
+            _ustensils[value] = u;
+          }
+        }
       } else {
-        _ustensils.remove(listUstensilDTO.elementAt(value));
+        for (UstensilDTO u in listUstensilDTO) {
+          if (u.id == value) {
+            _ustensils.remove(value);
+          }
+        }
       }
     });
   }
@@ -122,7 +127,8 @@ class _StepCreationScreen extends State<StepCreationScreen> {
   }
 
   _submitStepData() {
-    var step = StepDTO(name: _stepName, stepNumber: 0, ustensils: _ustensils);
+    var step = StepDTO(
+        name: _stepName, stepNumber: 0, ustensils: _ustensils.values.toList());
     Navigator.pop(context, step);
   }
 }

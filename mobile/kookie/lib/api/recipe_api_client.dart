@@ -21,7 +21,7 @@ class RecipeApiClient extends LoginApiClient {
 
   Future<RecetteDTO?> createRecipe(RecetteDTO recipe) async {
     final http.Response response =
-        await postData('/recette/add', recipe.toJson());
+        await postData('/recette/create', recipe.toJson());
     return response.statusCode == 201
         ? RecetteDTO.fromJson(jsonDecode(response.body))
         : null;

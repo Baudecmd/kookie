@@ -88,28 +88,23 @@ class _CardCarouselState extends State<CardCarousel>
               SizedBox(height: 6.0),
               Row(children: [
                 Container(
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    border: Border.all(
-                      width: 2,
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(
+                        width: 2,
+                        color: recipe.isFavorite
+                            ? Colors.white
+                            : Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    child: Icon(
+                      Icons.favorite_border_sharp,
                       color: recipe.isFavorite
                           ? Colors.white
                           : Theme.of(context).primaryColor,
-                    ),
-                  ),
-                  child: recipe.isFavorite
-                      ? Icon(
-                    Icons.favorite_border_sharp,
-                          color: Colors.white,
-                          size: 20,
-                        )
-                      : Icon(
-                    Icons.favorite_border_sharp,
-                          color: Theme.of(context).primaryColor,
-                          size: 20,
-                        ),
-                ),
+                      size: 20,
+                    )),
               ])
             ])
           ])

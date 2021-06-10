@@ -12,7 +12,7 @@ class StepDTO {
   final String? name;
   final IngredientLineDTO? ingredientLine;
   final int? duration;
-  final int stepNumber;
+  int stepNumber;
   final StepTypeDTO? stepType;
   final List<UstensilDTO>? ustensils;
 

@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kookie/models/ingredient/IngredientDTO.dart';
+import 'package:kookie/models/ingredient/IngredientLineDTO.dart';
 import 'package:kookie/screens/recipe_steps_creation_screen.dart';
 import 'package:kookie/widgets/custom_button.dart';
 import 'package:kookie/widgets/custom_text_field.dart';
@@ -162,8 +162,13 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
     }
   }
 
-  List<IngredientDTO> convertMultiSelectToIngredientDTO() {
-    return _ingredients.map((e) => listIngredientDTO.elementAt(e)).toList();
+  List<IngredientLineDTO> convertMultiSelectToIngredientDTO() {
+    List<IngredientDTO> _ingredientDTOs =
+        _ingredients.map((e) => listIngredientDTO.elementAt(e)).toList();
+    List<IngredientLineDTO> _ingredientLines = _ingredientDTOs
+        .map((e) => IngredientLineDTO(ingredient: e, quantity: 0))
+        .toList();
+    return _ingredientLines;
   }
 
   _pushStepsScreen() {
@@ -171,7 +176,7 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
       context,
       MaterialPageRoute(
         builder: (_) => RecipesStepsCreationScreen(
-            ingredients: convertMultiSelectToIngredientDTO(),
+            ingredientLines: convertMultiSelectToIngredientDTO(),
             recipeName: _recipeName,
             base64Image: _base64Image),
       ),

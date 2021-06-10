@@ -1,18 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kookie/models/ingredient/IngredientDTO.dart';
+import 'package:kookie/api/recipe_api_client.dart';
+import 'package:kookie/datas/data.dart';
+import 'package:kookie/models/category/CategoryDTO.dart';
+import 'package:kookie/models/ingredient/IngredientLineDTO.dart';
+import 'package:kookie/models/recette/RecetteDTO.dart';
 import 'package:kookie/models/step/StepDTO.dart';
-import 'package:kookie/screens/home_screen.dart';
 import 'package:kookie/screens/step_creation_screen.dart';
 import 'package:kookie/widgets/custom_button.dart';
 
 class RecipesStepsCreationScreen extends StatefulWidget {
-  final List<IngredientDTO> ingredients;
+  final List<IngredientLineDTO> ingredientLines;
   final String recipeName;
   final String base64Image;
 
   RecipesStepsCreationScreen(
-      {required this.ingredients,
+      {required this.ingredientLines,
       required this.recipeName,
       required this.base64Image});
 
@@ -21,7 +24,16 @@ class RecipesStepsCreationScreen extends StatefulWidget {
 }
 
 class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
+  final List<int> _items = List<int>.generate(1, (int index) => index);
   List<StepDTO> _steps = [];
+
+  RecipeApiClient recipeApiClient = RecipeApiClient();
+
+  @override
+  void initState() {
+    super.initState();
+    _steps.add(StepDTO(stepNumber: 1));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,18 +44,18 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
           children: [
             Expanded(
               child: ReorderableListView.builder(
-                itemCount: _steps.length,
+                itemCount: _items.length,
                 itemBuilder: (context, index) {
                   return Dismissible(
-                    key: UniqueKey(),
+                    key: Key(_items[index].toString()),
                     onDismissed: (direction) =>
-                        {_steps.removeAt(index), _refreshListView()},
+                        {_items.removeAt(index), _refreshListView()},
                     child: Card(
                       key: ValueKey(index),
                       margin: const EdgeInsets.all(10),
                       color: Color.fromRGBO(205, 205, 205, 1),
                       child: ListTile(
-                        title: Text('Étape ${_steps[index].stepNumber}'),
+                        title: Text('Étape ${_items[index]}'),
                         trailing: Icon(Icons.drag_handle_outlined),
                         onTap: () => _openTileInfo(index),
                       ),
@@ -55,8 +67,8 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
                     if (oldIndex < newIndex) {
                       newIndex -= 1;
                     }
-                    final StepDTO item = _steps.removeAt(oldIndex);
-                    _steps.insert(newIndex, item);
+                    final int item = _items.removeAt(oldIndex);
+                    _items.insert(newIndex, item);
                   });
                 },
               ),
@@ -80,37 +92,35 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
   }
 
   _addStep() {
-    var stepNumber = 0;
+    var stepNumber = 1;
     var isInList = true;
     while (isInList) {
-      if (_isAvailableStepNumber(stepNumber)) {
-        isInList = false;
-      } else {
+      if (_items.contains(stepNumber)) {
         stepNumber++;
+      } else {
+        isInList = false;
       }
     }
     setState(() {
-      _steps.add(StepDTO(stepNumber: stepNumber));
+      _items.insert(_items.length, stepNumber);
     });
+    _steps.insert(stepNumber - 1, StepDTO(stepNumber: stepNumber));
   }
 
-  bool _isAvailableStepNumber(int stepNumber) {
-    bool isAvailable = true;
-    _steps.forEach((element) {
-      if (element.stepNumber == stepNumber) isAvailable = false;
-    });
-    return isAvailable;
-  }
-
-  _openTileInfo(int index) async {
-    var result = await Navigator.push(
+  _openTileInfo(index) async {
+    debugPrint(_steps[index].stepNumber.toString());
+    StepDTO result = await Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (_) => StepCreationScreen(_steps.elementAt(index)),
+          builder: (_) => StepCreationScreen(_steps[index]),
           fullscreenDialog: true),
     );
     if (result != null) {
-      _steps.insert(index, result);
+      StepDTO? step;
+      _steps.forEach((element) {
+        if (element.stepNumber == result.stepNumber) step = element;
+      });
+      if (step != null) _steps[index] = result;
     }
   }
 
@@ -119,9 +129,21 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
     //widget.ingredients.forEach((element) {listIngredientDTO.add(new )})
 
     //RecetteDTO recetteDTO = RecetteDTO(name: widget.recipeName, category: widget., imageURL: widget.base64Image, ingredientLines: widget.ingredients, opinions: , profile: , stepLines: );
+    int stepIndex = 1;
+    _steps.forEach((element) {
+      element.stepNumber = stepIndex;
+      stepIndex++;
+    });
+    recipeApiClient.createRecipe(RecetteDTO(
+        profile: profile,
+        name: widget.recipeName,
+        image: widget.base64Image,
+        category: CategoryDTO(id: 10, name: "Français"),
+        ingredientLines: widget.ingredientLines,
+        steps: _steps));
 
-    Navigator.of(context).pushAndRemoveUntil(
+    /*Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => HomeScreen()),
-        (Route<dynamic> route) => false);
+        (Route<dynamic> route) => false);*/
   }
 }

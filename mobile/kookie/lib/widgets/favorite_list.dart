@@ -11,20 +11,24 @@ class FavoriteList extends StatefulWidget {
 }
 
 class _FavoriteListState extends State<FavoriteList> {
+  final Set<int> _recipesIds = Set<int>();
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       padding: const EdgeInsets.all(15),
       itemCount: widget.listeRecette.length,
       itemBuilder: (BuildContext context, int index) {
-        return Container(
-          height: 70,
-          decoration: BoxDecoration(border: Border(bottom: BorderSide())),
-          child: FavoriteItem(
-            recette: widget.listeRecette[index],
-            onTap: (int elementIndex) {
-              debugPrint(elementIndex.toString());
-            },
+        return SingleChildScrollView(
+          child: Container(
+            height: 70,
+            decoration: BoxDecoration(border: Border(bottom: BorderSide())),
+            child: FavoriteItem(
+              recette: widget.listeRecette[index],
+              onTap: (int elementId) {
+                _recipesIds.add(elementId);
+              },
+            ),
           ),
         );
       },

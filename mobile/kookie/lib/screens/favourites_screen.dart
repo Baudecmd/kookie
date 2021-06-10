@@ -12,6 +12,7 @@ class FavouritesScreen extends StatefulWidget {
 
 class _FavouritesScreen extends State<FavouritesScreen> {
   late List<RecetteDTO> listeRecette;
+  final GlobalKey<FavoriteListState> _key = GlobalKey();
 
   @override
   void initState() {
@@ -40,16 +41,23 @@ class _FavouritesScreen extends State<FavouritesScreen> {
           children: [
             Expanded(
               child: FavoriteList(
-                listeRecette: this.listeRecette,
-              ),
+                key: _key,
+              listeRecette: this.listeRecette,
             ),
-            SizedBox(height: 20),
-            CustomButton(
-              text: "Lancer la séance !",
-              onTap: () => debugPrint("Prout"),
-            ),
-            SizedBox(height: 20),
-          ],
-        ));
+          ),
+          SizedBox(height: 20),
+          CustomButton(
+            text: "Lancer la séance !",
+            onTap: _submitBatchSession,
+          ),
+          SizedBox(height: 20),
+        ],
+      ),
+    );
+  }
+
+  void _submitBatchSession() {
+    Set<int> recipeIds = _key.currentState!.getRecipesIds();
+    //TODO: recipeIds sent to API
   }
 }

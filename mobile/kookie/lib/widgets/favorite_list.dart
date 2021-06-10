@@ -4,13 +4,14 @@ import 'package:kookie/widgets/favorite_item.dart';
 
 class FavoriteList extends StatefulWidget {
   final List<RecetteDTO> listeRecette;
-  FavoriteList({Key? key, required this.listeRecette}) : super(key: key);
+  const FavoriteList({required Key? key, required this.listeRecette})
+      : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => new _FavoriteListState();
+  State<StatefulWidget> createState() => FavoriteListState();
 }
 
-class _FavoriteListState extends State<FavoriteList> {
+class FavoriteListState extends State<FavoriteList> {
   final Set<int> _recipesIds = Set<int>();
 
   @override
@@ -33,5 +34,9 @@ class _FavoriteListState extends State<FavoriteList> {
         );
       },
     );
+  }
+
+  Set<int> getRecipesIds() {
+    return _recipesIds;
   }
 }

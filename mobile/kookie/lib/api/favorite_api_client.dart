@@ -1,11 +1,10 @@
 import 'dart:convert';
 
-import 'package:kookie/api/api_client.dart';
-import 'package:kookie/models/profile/ProfileDTO.dart';
-import 'package:kookie/models/recette/RecetteDTO.dart';
 import 'package:http/http.dart' as http;
+import 'package:kookie/api/api_client.dart';
+import 'package:kookie/models/recette/RecetteDTO.dart';
 
-class FavortiteClient extends ApiClient {
+class FavoriteClient extends ApiClient {
   Future<List<RecetteDTO>> favoriteList(int id) async {
     final response = await http.get(
       Uri.parse(ApiClient().urlApi +

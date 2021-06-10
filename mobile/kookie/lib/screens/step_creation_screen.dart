@@ -9,7 +9,7 @@ import 'package:kookie/widgets/custom_button.dart';
 import 'package:kookie/widgets/multiselect_dialog.dart';
 
 class StepCreationScreen extends StatefulWidget {
-  final StepDTO? step;
+  final StepDTO step;
 
   StepCreationScreen(this.step);
 
@@ -21,15 +21,11 @@ class _StepCreationScreen extends State<StepCreationScreen> {
   List<MultiSelectDialogItem> items = [];
   List<UstensilDTO> _ustensils = [];
 
-  _StepCreationScreen() {
-    StepDTO? _step = widget.step;
-    if (_step != null)
-      this._controller = new TextEditingController(text: _step.name);
-  }
-
   @override
   void initState() {
     super.initState();
+    StepDTO _step = widget.step;
+    this._controller = new TextEditingController(text: _step.name);
     log(listUstensilDTO.toString());
     makeMultiSelectItems();
   }
@@ -44,7 +40,7 @@ class _StepCreationScreen extends State<StepCreationScreen> {
 
   final textKey = GlobalKey<FormState>();
   final utensilsListKey = GlobalKey<FormState>();
-  late final String _stepName;
+  String? _stepName;
   late final TextEditingController _controller;
 
   @override

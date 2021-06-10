@@ -15,7 +15,6 @@ public interface RecetteService {
     List<RecetteThumbnailDTO> getAllRecipesThumbnailsByCategoryId(Integer categoryId);
 
     RecetteDTO getOneById(Long recipeId);
-    List<RecetteThumbnailDTO> getAllRecettesThumbnails(Integer profileId);
 
     List<StepDTO> optimizeRecipes(List<Integer> ids, Profile profile);
 }

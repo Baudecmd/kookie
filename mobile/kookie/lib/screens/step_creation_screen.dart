@@ -10,10 +10,11 @@ class MultiSelectItem {
 }
 
 class StepInfo {
-  StepInfo(this.description, this.utensilsSet);
+  StepInfo(this.description, this.utensilsSet, this.isPreparationStep);
 
   String description;
   Set<int> utensilsSet;
+  bool isPreparationStep;
 }
 
 class StepCreationScreen extends StatefulWidget {
@@ -94,6 +95,13 @@ class _StepCreationScreen extends State<StepCreationScreen> {
                       _onUtensilCheckedChange(item.value, checked!),
                 );
               }).toList(),
+              SizedBox(height: 20),
+              CheckboxListTile(
+                  value: _stepInfo.isPreparationStep,
+                  title: Text("Cette étape est-elle une étape de préparation ?"),
+                  controlAffinity: ListTileControlAffinity.leading,
+                  onChanged: (checked) => setState(() {_stepInfo.isPreparationStep = !_stepInfo.isPreparationStep;}),
+              ),
               SizedBox(height: 20),
               Center(
                 child: SizedBox(

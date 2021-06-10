@@ -2,7 +2,9 @@ package com.api.kookie.core.recette;
 
 import com.api.kookie.core.dto.RecetteDTO;
 import com.api.kookie.core.dto.RecetteThumbnailDTO;
+import com.api.kookie.core.dto.StepDTO;
 import com.api.kookie.core.util.RecetteParser;
+import com.api.kookie.core.util.StepParser;
 import com.api.kookie.data.entity.Opinion;
 import com.api.kookie.data.entity.Profile;
 import com.api.kookie.data.entity.Recette;
@@ -47,6 +49,8 @@ public class RecetteServiceImpl implements RecetteService {
         ArrayList<Recette> recetteArrayList = (ArrayList<Recette>) recetteRepository.findAllByNom(s);
         return RecetteParser.parseListToDTO(recetteArrayList);
     }
+
+
 
     @Override
     public List<RecetteThumbnailDTO> getAllRecipesThumbnails(Integer profileId) {
@@ -96,5 +100,42 @@ public class RecetteServiceImpl implements RecetteService {
             }
         }
         return thumbnails;
+    }
+
+    private List<StepDTO> organizeSteps(List<StepDTO> steps){
+        List<StepDTO> newList = new ArrayList<>();
+        steps.forEach(stepDTO -> {
+            if(stepDTO.isPreparationStep()){
+                newList.add(stepDTO);
+            }
+        });
+        steps.removeAll(newList);
+        newList.addAll(steps);
+        newList.sort(Comparator.comparing(o -> o.getIngredientLine().getIngredient().getName()));
+        return newList;
+    }
+
+    @Override
+    public List<StepDTO> optimizeRecipes(List<Integer> ids, Profile profile) {
+        List<StepDTO> steps = getAllStepsDTOs(ids);
+        steps = organizeSteps(steps);
+        return steps;
+    }
+
+    public List<Recette> getAllRecipesByIdList(List<Integer> ids){
+        List<Recette> recipes = new ArrayList<>();
+        for(Integer integer: ids){
+            recipes.add(recetteRepository.findOneById((long) integer));
+        }
+        return recipes;
+    }
+
+    public List<StepDTO> getAllStepsDTOs(List<Integer> ids) {
+        List<StepDTO> steps = new ArrayList<>();
+        List<Recette> recipes = getAllRecipesByIdList(ids);
+        for(Recette recipe: recipes){
+            steps.addAll(StepParser.parseListToDTO(recipe.getSteps()));
+        }
+        return steps;
     }
 }

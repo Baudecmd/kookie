@@ -1,9 +1,5 @@
 package com.api.kookie.core.dto;
 
-import com.api.kookie.data.entity.StepType;
-import com.api.kookie.data.entity.ingredient.IngredientLine;
-
-import javax.persistence.OneToOne;
 import java.util.Objects;
 
 public class StepDTO {
@@ -17,6 +13,8 @@ public class StepDTO {
     private int duration;
 
     private Integer stepNumber;
+
+    private boolean isPreparationStep;
 
     private StepTypeDTO stepType;
 
@@ -63,6 +61,22 @@ public class StepDTO {
         this.stepType = stepType;
     }
 
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public boolean isPreparationStep() {
+        return isPreparationStep;
+    }
+
+    public void setPreparationStep(boolean preparationStep) {
+        isPreparationStep = preparationStep;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -76,14 +90,6 @@ public class StepDTO {
         return Objects.hash(getId(), getName(), ingredientLine, getDuration(), stepNumber, stepType);
     }
 
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
     @Override
     public String toString() {
         return "StepDTO{" +
@@ -93,6 +99,7 @@ public class StepDTO {
                 ", duration=" + duration +
                 ", stepNumber=" + stepNumber +
                 ", stepType=" + stepType +
+                ", isPreparationStep=" + isPreparationStep +
                 '}';
     }
 }

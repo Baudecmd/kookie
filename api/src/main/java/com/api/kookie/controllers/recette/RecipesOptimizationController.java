@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-public class RecipesOptimization {
+public class RecipesOptimizationController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RecetteController.class);
 

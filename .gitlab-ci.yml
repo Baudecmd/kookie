@@ -6,7 +6,7 @@ stages:
 ####
 #### BACKEND - API - TEST
 ####
-apiTest:
+API:Test:
   stage: test
   image: maven:latest
   script:
@@ -19,11 +19,11 @@ apiTest:
 ####
 #### BACKEND - API - BUILD
 ####
-apiBuild:
+API:Build:
   stage: build
   image: maven:latest
   needs:
-    - apiTest
+    - API:Test
   script:
     - cd api
     - mvn clean package -e "-Dspring.datasource.url=$DATASOURCE_URL" "-Dspring.datasource.username=$DATASOURCE_USERNAME" "-Dspring.datasource.password=$DATASOURCE_PASSWORD" "-Dlogging.level.org.springframework=INFO" "-Dlogging.level.com.api.kookie=DEBUG"
@@ -35,14 +35,14 @@ apiBuild:
   only:
     - staging
     - tags
-    
+
 ####
 #### BACKEND - API - DEPLOY STAGING
 ####
-staging: # staging is executed for all commits that were pushed to master branch
+API:Staging: # staging is executed for all commits that were pushed to master branch
   stage: deploy
   needs:
-    - apiTest
+    - API:Test
   script:
     - gem install dpl
     - cd api
@@ -51,13 +51,29 @@ staging: # staging is executed for all commits that were pushed to master branch
     - staging
 
 ####
+#### BACKEND - API - DEPLOY PRODUCTION
+####
+API:Production: # production is executed for all pushed tags.
+  stage: deploy
+  needs:
+    - API:Test
+  script:
+    - gem install dpl
+    - cd api
+    - dpl --provider=heroku --app=$HEROKU_APP_PRODUCTION --api_key=$HEROKU_API_KEY
+  only:
+    - tags
+
+
+####
 #### FRONTEND - MOBILE - TEST - ANDROID
 ####
-Android:mobileTest:
+Android:MobileTest:
   stage: test
+  image: cirrusci/flutter
   script:
     - cd mobile/kookie
-    -  flutter test
+    - flutter test
   only:
     - staging
     - tags
@@ -65,10 +81,11 @@ Android:mobileTest:
 ####
 #### FRONTEND - MOBILE - BUILD - ANDROID
 ####
-Android:mobileBuild:
+Android:MobileBuild:
   stage: build
+  image: cirrusci/flutter
   needs:
-    - Android:mobileTest
+    - Android:MobileTest
   before_script:
     - cd mobile/kookie
     - flutter packages get

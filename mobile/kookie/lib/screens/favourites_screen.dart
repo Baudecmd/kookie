@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kookie/api/favorite_api_client.dart';
+import 'package:kookie/api/optimization_api_client.dart';
 import 'package:kookie/models/recette/RecetteDTO.dart';
 import 'package:kookie/widgets/custom_button.dart';
 import 'package:kookie/widgets/favorite_list.dart';
@@ -57,7 +58,9 @@ class _FavouritesScreen extends State<FavouritesScreen> {
   }
 
   void _submitBatchSession() {
-    Set<int> recipeIds = _key.currentState!.getRecipesIds();
-    //TODO: recipeIds sent to API
+    Set<int> recipesIds = _key.currentState!.getRecipesIds();
+    OptimizationApiClient optimizationAPI = OptimizationApiClient();
+    var test = optimizationAPI.optimizeSession(recipesIds);
+    debugPrint(test.toString());
   }
 }

@@ -1,51 +1,44 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kookie/datas/data.dart';
+import 'package:kookie/models/Ustensil/UstensilDTO.dart';
+import 'package:kookie/models/step/StepDTO.dart';
+import 'package:kookie/models/step/StepTypeDTO.dart';
 import 'package:kookie/widgets/custom_button.dart';
-
-class MultiSelectItem {
-  const MultiSelectItem(this.value, this.label);
-
-  final int value;
-  final String label;
-}
-
-class StepInfo {
-  StepInfo(this.description, this.utensilsSet);
-
-  String description;
-  Set<int> utensilsSet;
-}
+import 'package:kookie/widgets/multiselect_dialog.dart';
 
 class StepCreationScreen extends StatefulWidget {
-  late final List<MultiSelectItem> _utensilsList;
-  late final stepInfo;
+  final StepDTO step;
 
-  StepCreationScreen(StepInfo stepInfo) {
-    _utensilsList = _getUtensilsList();
-    this.stepInfo = stepInfo;
-  }
+  StepCreationScreen(this.step);
 
   @override
-  _StepCreationScreen createState() => _StepCreationScreen(stepInfo);
-
-  _getUtensilsList() {
-    return [
-      MultiSelectItem(1, "Couteaux de cuisine"),
-      MultiSelectItem(2, "Four"),
-      MultiSelectItem(3, "Épluche-légumes")
-    ];
-  }
+  _StepCreationScreen createState() => _StepCreationScreen();
 }
 
 class _StepCreationScreen extends State<StepCreationScreen> {
-  _StepCreationScreen(StepInfo stepInfo) {
-    this._stepInfo = stepInfo;
-    this._controller = new TextEditingController(text: stepInfo.description);
+  List<MultiSelectDialogItem> items = [];
+  Map<int, UstensilDTO> _ustensils = {};
+
+  @override
+  void initState() {
+    super.initState();
+    StepDTO _step = widget.step;
+    this._controller = new TextEditingController(text: _step.name);
+    makeMultiSelectItems();
+  }
+
+  void makeMultiSelectItems() {
+    if (listUstensilDTO.isNotEmpty) {
+      listUstensilDTO.forEach((e) {
+        items.add(MultiSelectDialogItem(e.id!, e.name!));
+      });
+    }
   }
 
   final textKey = GlobalKey<FormState>();
   final utensilsListKey = GlobalKey<FormState>();
-  late final StepInfo _stepInfo;
+  String? _stepName;
   late final TextEditingController _controller;
 
   @override
@@ -75,7 +68,7 @@ class _StepCreationScreen extends State<StepCreationScreen> {
                   controller: _controller,
                   keyboardType: TextInputType.multiline,
                   onChanged: (String value) {
-                    _stepInfo.description = value;
+                    _stepName = value;
                   },
                 ),
               ),
@@ -85,14 +78,14 @@ class _StepCreationScreen extends State<StepCreationScreen> {
                     "Quels sont le matériel et les ustensiles requis pour cette étape ?"),
               ),
               SizedBox(height: 20),
-              ...widget._utensilsList.map((item) {
+              ...items.map((item) {
                 return CheckboxListTile(
-                  value: _stepInfo.utensilsSet.contains(item.value),
-                  title: Text(item.label),
-                  controlAffinity: ListTileControlAffinity.leading,
-                  onChanged: (checked) =>
-                      _onUtensilCheckedChange(item.value, checked!),
-                );
+                    value: _ustensils.keys.contains(item.value),
+                    title: Text(item.label),
+                    controlAffinity: ListTileControlAffinity.leading,
+                    onChanged: (checked) {
+                      _onUtensilCheckedChange(item.value, checked!);
+                    });
               }).toList(),
               SizedBox(height: 20),
               Center(
@@ -115,15 +108,38 @@ class _StepCreationScreen extends State<StepCreationScreen> {
   _onUtensilCheckedChange(int value, bool checked) {
     setState(() {
       if (checked) {
-        _stepInfo.utensilsSet.add(value);
+        for (UstensilDTO u in listUstensilDTO) {
+          if (u.id == value) {
+            _ustensils[value] = u;
+          }
+        }
       } else {
-        _stepInfo.utensilsSet.remove(value);
+        for (UstensilDTO u in listUstensilDTO) {
+          if (u.id == value) {
+            _ustensils.remove(value);
+          }
+        }
       }
     });
   }
 
+  List<UstensilDTO> convertMultiSelectToIngredientDTO() {
+    return items.map((e) => listUstensilDTO.elementAt(e.value)).toList();
+  }
+
   _submitStepData() {
-    var stepInfo = _stepInfo;
-    Navigator.pop(context, stepInfo);
+    var step = StepDTO(
+        name: _stepName,
+        stepNumber: widget.step.stepNumber,
+        ustensils: _ustensils.values.toList(),
+        stepType: StepTypeDTO(id: 1, name: "Préparation"));
+    debugPrint(step.id.toString() +
+        " " +
+        step.name.toString() +
+        " " +
+        step.stepNumber.toString() +
+        " " +
+        step.ustensils.toString());
+    Navigator.pop(context, step);
   }
 }

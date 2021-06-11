@@ -7,13 +7,11 @@ part 'IngredientLineDTO.g.dart';
 @JsonSerializable()
 class IngredientLineDTO {
   final int? id;
-  final RecetteDTO recetteDTO;
   final IngredientDTO ingredient;
   final int quantity;
 
   IngredientLineDTO(
       {this.id,
-      required this.recetteDTO,
       required this.ingredient,
       required this.quantity});
 

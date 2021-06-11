@@ -11,8 +11,10 @@ class OptimizationApiClient extends LoginApiClient {
     jsonEncode(map);
     final http.Response response =
         await postData('/recipesOptimization/optimize_recipes_list', map);
-    return response.statusCode == 200
-        ? jsonDecode(response.body)
-        : jsonDecode("\"Test\": \"Test\"");
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Failed to fetch optimization");
+    }
   }
 }

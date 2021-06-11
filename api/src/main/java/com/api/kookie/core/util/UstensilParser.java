@@ -33,4 +33,12 @@ public class UstensilParser {
         }
         return listUstensilsDTO;
     }
+
+    public static List<Ustensil> parseListToEntity(List<UstensilDTO> ustensils) {
+        List<Ustensil> listUstensils = new ArrayList<>();
+        for (UstensilDTO ustensil : ustensils) {
+            listUstensils.add(toEntity(ustensil));
+        }
+        return listUstensils;
+    }
 }

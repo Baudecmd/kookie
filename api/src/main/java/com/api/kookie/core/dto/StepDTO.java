@@ -1,5 +1,6 @@
 package com.api.kookie.core.dto;
 
+import java.util.List;
 import java.util.Objects;
 
 public class StepDTO {
@@ -17,6 +18,8 @@ public class StepDTO {
     private boolean isPreparationStep;
 
     private StepTypeDTO stepType;
+
+    private List<UstensilDTO> ustensils;
 
     public StepDTO() {
     }
@@ -77,17 +80,25 @@ public class StepDTO {
         isPreparationStep = preparationStep;
     }
 
+    public List<UstensilDTO> getUstensils() {
+        return ustensils;
+    }
+
+    public void setUstensils(List<UstensilDTO> ustensils) {
+        this.ustensils = ustensils;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof StepDTO)) return false;
         StepDTO stepDTO = (StepDTO) o;
-        return getDuration() == stepDTO.getDuration() && Objects.equals(getId(), stepDTO.getId()) && Objects.equals(getName(), stepDTO.getName()) && Objects.equals(ingredientLine, stepDTO.ingredientLine) && Objects.equals(stepNumber, stepDTO.stepNumber) && Objects.equals(stepType, stepDTO.stepType);
+        return getDuration() == stepDTO.getDuration() && isPreparationStep() == stepDTO.isPreparationStep() && Objects.equals(getId(), stepDTO.getId()) && Objects.equals(getName(), stepDTO.getName()) && Objects.equals(getIngredientLine(), stepDTO.getIngredientLine()) && Objects.equals(getStepNumber(), stepDTO.getStepNumber()) && Objects.equals(getStepType(), stepDTO.getStepType()) && Objects.equals(getUstensils(), stepDTO.getUstensils());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), ingredientLine, getDuration(), stepNumber, stepType);
+        return Objects.hash(getId(), getName(), getIngredientLine(), getDuration(), getStepNumber(), isPreparationStep(), getStepType(), getUstensils());
     }
 
     @Override
@@ -98,8 +109,9 @@ public class StepDTO {
                 ", ingredientLine=" + ingredientLine +
                 ", duration=" + duration +
                 ", stepNumber=" + stepNumber +
-                ", stepType=" + stepType +
                 ", isPreparationStep=" + isPreparationStep +
+                ", stepType=" + stepType +
+                ", ustensils=" + ustensils +
                 '}';
     }
 }

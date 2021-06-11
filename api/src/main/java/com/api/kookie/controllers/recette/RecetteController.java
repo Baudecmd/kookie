@@ -1,10 +1,8 @@
 package com.api.kookie.controllers.recette;
 
-import com.api.kookie.controllers.security.JwtUtils;
 import com.api.kookie.core.dto.RecetteDTO;
 import com.api.kookie.core.dto.RecetteThumbnailDTO;
 import com.api.kookie.core.recette.RecetteService;
-import com.api.kookie.data.entity.Profile;
 import com.api.kookie.data.entity.Recette;
 import com.api.kookie.data.profile.ProfileRepository;
 import com.api.kookie.data.recette.RecetteRepository;
@@ -15,9 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "recette", produces = "application/json; charset=utf-8")

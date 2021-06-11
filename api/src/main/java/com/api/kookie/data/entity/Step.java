@@ -1,9 +1,9 @@
 package com.api.kookie.data.entity;
 
-import com.api.kookie.core.dto.StepTypeDTO;
-import com.api.kookie.data.entity.ingredient.IngredientLine;
+import com.api.kookie.data.entity.Ustensil.Ustensil;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Step {
@@ -23,6 +23,9 @@ public class Step {
 
     @OneToOne
     private StepType stepType;
+
+    @OneToMany
+    private List<Ustensil> ustensils;
 
     public Step() {
     }
@@ -83,15 +86,23 @@ public class Step {
         this.stepType = stepType;
     }
 
+    public List<Ustensil> getUstensils() {
+        return ustensils;
+    }
+
+    public void setUstensils(List<Ustensil> ustensils) {
+        this.ustensils = ustensils;
+    }
+
     @Override
     public String toString() {
         return "Step{" +
                 "id=" + id +
-                //", ingredientLine=" + ingredientLine +
                 ", stepName='" + stepName + '\'' +
                 ", duration=" + duration +
                 ", stepNumber=" + stepNumber +
                 ", stepType=" + stepType +
+                ", ustensils=" + ustensils +
                 '}';
     }
 }

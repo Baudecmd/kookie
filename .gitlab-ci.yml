@@ -92,10 +92,10 @@ Android:MobileBuild:
     - flutter clean
   script:
     - flutter doctor --android-licenses
-    - flutter build apk --flavor production --release
+    - flutter build apk
   artifacts:
     paths:
-      - "mobile/kookie/**/**/**/**/**/**/*.apk"
+      - "mobile/kookie/build/app/outputs/flutter-apk/*.apk"
     expire_in: 1 day
   only:
     - staging

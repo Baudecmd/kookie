@@ -15,17 +15,42 @@ class RecipeDetails extends StatefulWidget {
 
 class _RecipeDetailsState extends State<RecipeDetails> {
   var recette;
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text("Ingrédients"),
+  List<Widget> _widgetOptions = [
+    Text("Oki"),
     Text("Ustensils"),
     Text("Étapes")
   ];
 
+  @override
   initState() {
+    super.initState();
     RecipeClient().recetteFromID(widget.recipeId).then((value) => setState(() {
           recette = value;
           var steptype = StepTypeDTO(name: "Cuisson");
+          _widgetOptions = initTab();
         }));
+  }
+
+/* ListView.builder(
+          itemCount: ustensils.length,
+          itemBuilder: (BuildContext ctxt, int index) {
+            return new Text(ustensils[index].name);
+          })*/
+  List<Widget> initTab() {
+    //var ustensils = recette.getAllUstensils();
+    return <Widget>[
+      ListView.builder(
+          itemCount: recette.ingredientLines!.length,
+          itemBuilder: (BuildContext ctxt, int index) {
+            return new Text(recette.ingredientLines[index].ingredient.name);
+          }),
+      Text("Ustensiles"),
+      ListView.builder(
+          itemCount: recette.steps!.length,
+          itemBuilder: (BuildContext ctxt, int index) {
+            return new Text(recette.steps[index].name);
+          })
+    ];
   }
 
   int _selectedIndex = 0;
@@ -65,6 +90,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
               child: Text(recette.name,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30))),
           Container(
+            height: MediaQuery.of(context).size.height - 110,
             padding: EdgeInsets.only(top: 20.0),
             child: _widgetOptions.elementAt(_selectedIndex),
           )

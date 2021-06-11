@@ -44,7 +44,7 @@ public class UstensilDTO {
     public String toString() {
         return "UstensilDTO{" +
                 "id=" + id +
-                ", nom='" + name + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

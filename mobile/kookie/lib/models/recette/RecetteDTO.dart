@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:kookie/models/Ustensil/UstensilDTO.dart';
 import 'package:kookie/models/category/CategoryDTO.dart';
 import 'package:kookie/models/ingredient/IngredientLineDTO.dart';
 import 'package:kookie/models/opinion/OpinionDTO.dart';
@@ -32,4 +33,14 @@ class RecetteDTO {
       _$RecetteDTOFromJson(json);
 
   Map<String, dynamic> toJson() => _$RecetteDTOToJson(this);
+
+  List<UstensilDTO> getAllUstensils() {
+    List<UstensilDTO> UstensilList = [];
+
+    for (var step in steps!) {
+      UstensilList.addAll(step.ustensils as Iterable<UstensilDTO>);
+    }
+
+    return UstensilList;
+  }
 }

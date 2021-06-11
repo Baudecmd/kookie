@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kookie/api/recipe_api_client.dart';
 import 'package:kookie/datas/data.dart';
+import 'package:kookie/models/Ustensil/UstensilDTO.dart';
 import 'package:kookie/models/category/CategoryDTO.dart';
 import 'package:kookie/models/ingredient/IngredientLineDTO.dart';
 import 'package:kookie/models/recette/RecetteDTO.dart';
 import 'package:kookie/models/step/StepDTO.dart';
+import 'package:kookie/screens/home_screen.dart';
 import 'package:kookie/screens/step_creation_screen.dart';
 import 'package:kookie/widgets/custom_button.dart';
 
@@ -24,7 +26,7 @@ class RecipesStepsCreationScreen extends StatefulWidget {
 }
 
 class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
-  final List<int> _items = List<int>.generate(1, (int index) => index);
+  final List<int> _items = List<int>.generate(1, (int index) => index + 1);
   List<StepDTO> _steps = [];
 
   RecipeApiClient recipeApiClient = RecipeApiClient();
@@ -55,7 +57,8 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
                       margin: const EdgeInsets.all(10),
                       color: Color.fromRGBO(205, 205, 205, 1),
                       child: ListTile(
-                        title: Text('Étape ${_items[index]}'),
+                        title: Text(
+                            'Étape ${_steps[index].stepNumber.toString()}'),
                         trailing: Icon(Icons.drag_handle_outlined),
                         onTap: () => _openTileInfo(index),
                       ),
@@ -108,6 +111,7 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
   }
 
   _openTileInfo(index) async {
+    debugPrint('index ta mere ' + index.toString());
     debugPrint(_steps[index].stepNumber.toString());
     StepDTO result = await Navigator.push(
       context,
@@ -116,19 +120,22 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
           fullscreenDialog: true),
     );
     if (result != null) {
-      StepDTO? step;
-      _steps.forEach((element) {
-        if (element.stepNumber == result.stepNumber) step = element;
-      });
-      if (step != null) _steps[index] = result;
+      _steps[index] = result;
+    }
+    for (StepDTO s in _steps) {
+      debugPrint("---------------------------------------------");
+      debugPrint("stepNumber : " + s.stepNumber.toString());
+      debugPrint("Name : " + s.name!);
+      if (s.ustensils != null) {
+        for (UstensilDTO u in s.ustensils!) {
+          debugPrint("Ustensil Name : " + u.name!);
+        }
+      }
+      debugPrint("---------------------------------------------");
     }
   }
 
   _submitInfo() {
-    //List<IngredientDTO> listIngredientDTO;
-    //widget.ingredients.forEach((element) {listIngredientDTO.add(new )})
-
-    //RecetteDTO recetteDTO = RecetteDTO(name: widget.recipeName, category: widget., imageURL: widget.base64Image, ingredientLines: widget.ingredients, opinions: , profile: , stepLines: );
     int stepIndex = 1;
     _steps.forEach((element) {
       element.stepNumber = stepIndex;
@@ -142,8 +149,8 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
         ingredientLines: widget.ingredientLines,
         steps: _steps));
 
-    /*Navigator.of(context).pushAndRemoveUntil(
+    Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => HomeScreen()),
-        (Route<dynamic> route) => false);*/
+        (Route<dynamic> route) => false);
   }
 }

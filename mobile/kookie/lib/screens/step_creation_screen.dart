@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kookie/datas/data.dart';
 import 'package:kookie/models/Ustensil/UstensilDTO.dart';
 import 'package:kookie/models/step/StepDTO.dart';
+import 'package:kookie/models/step/StepTypeDTO.dart';
 import 'package:kookie/widgets/custom_button.dart';
 import 'package:kookie/widgets/multiselect_dialog.dart';
 
@@ -128,7 +129,10 @@ class _StepCreationScreen extends State<StepCreationScreen> {
 
   _submitStepData() {
     var step = StepDTO(
-        name: _stepName, stepNumber: 0, ustensils: _ustensils.values.toList());
+        name: _stepName,
+        stepNumber: widget.step.stepNumber,
+        ustensils: _ustensils.values.toList(),
+        stepType: StepTypeDTO(id: 1, name: "Préparation"));
     debugPrint(step.id.toString() +
         " " +
         step.name.toString() +

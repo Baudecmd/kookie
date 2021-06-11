@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:kookie/models/Ustensil/UstensilDTO.dart';
@@ -22,6 +23,7 @@ class RecipeApiClient extends LoginApiClient {
   Future<RecetteDTO?> createRecipe(RecetteDTO recipe) async {
     final http.Response response =
         await postData('/recette/create', recipe.toJson());
+    if (response.statusCode != 201) log(response.body);
     return response.statusCode == 201
         ? RecetteDTO.fromJson(jsonDecode(response.body))
         : null;

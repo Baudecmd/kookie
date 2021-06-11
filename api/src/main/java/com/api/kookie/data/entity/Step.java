@@ -24,8 +24,8 @@ public class Step {
     @OneToOne
     private StepType stepType;
 
-    @OneToMany
-    private List<Ustensil> ustensils;
+    //@OneToMany(cascade = CascadeType.MERGE)
+    //private List<Ustensil> ustensils;
 
     public Step() {
     }
@@ -86,13 +86,13 @@ public class Step {
         this.stepType = stepType;
     }
 
-    public List<Ustensil> getUstensils() {
+    /*public List<Ustensil> getUstensils() {
         return ustensils;
     }
 
     public void setUstensils(List<Ustensil> ustensils) {
         this.ustensils = ustensils;
-    }
+    }*/
 
     @Override
     public String toString() {
@@ -102,7 +102,7 @@ public class Step {
                 ", duration=" + duration +
                 ", stepNumber=" + stepNumber +
                 ", stepType=" + stepType +
-                ", ustensils=" + ustensils +
+                //", ustensils=" + ustensils +
                 '}';
     }
 }

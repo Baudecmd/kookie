@@ -55,6 +55,7 @@ staging: # staging is executed for all commits that were pushed to master branch
 ####
 Android:mobileTest:
   stage: test
+  image: cirrusci/flutter
   script:
     - cd mobile/kookie
     -  flutter test
@@ -67,6 +68,7 @@ Android:mobileTest:
 ####
 Android:mobileBuild:
   stage: build
+  image: cirrusci/flutter
   needs:
     - Android:mobileTest
   before_script:

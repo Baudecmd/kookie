@@ -3,13 +3,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:kookie/api/recipe_api_client.dart';
 import 'package:kookie/models/ingredient/IngredientDTO.dart';
+import 'package:kookie/models/ingredient/IngredientLineDTO.dart';
 import 'package:kookie/screens/recipe_steps_creation_screen.dart';
 import 'package:kookie/widgets/custom_button.dart';
 import 'package:kookie/widgets/custom_text_field.dart';
 import 'package:kookie/widgets/multiselect_dialog.dart';
 
+import '../datas/data.dart';
 import '../models/ingredient/IngredientDTO.dart';
 
 class RecipeCreationScreen extends StatefulWidget {
@@ -20,22 +21,25 @@ class RecipeCreationScreen extends StatefulWidget {
 class _RecipeCreationScreen extends State<RecipeCreationScreen> {
   final _recipeFormKey = GlobalKey<FormState>();
   var _ingredients = Set<int>();
+  List<MultiSelectDialogItem> items = [];
   File? _image;
   Image? _imageWidget;
-  late String _base64Image;
-  late String _recipeName;
+  String _base64Image = '';
+  String _recipeName = '';
   var overlayEntry;
-  final items = <MultiSelectDialogItem>[
-    MultiSelectDialogItem(1, "Pomme de terre"),
-    MultiSelectDialogItem(2, "Saucisse"),
-    MultiSelectDialogItem(3, "Carotte"),
-  ];
 
   @override
   void initState() {
-    List<IngredientDTO> listIngredientDTO = [];
-    RecipeApiClient().getIngredients().then((v) => {listIngredientDTO = v!});
-    debugPrint(listIngredientDTO.toString());
+    super.initState();
+    makeMultiSelectItems();
+  }
+
+  void makeMultiSelectItems() {
+    if (listIngredientDTO.isNotEmpty) {
+      listIngredientDTO.forEach((e) {
+        items.add(MultiSelectDialogItem(listIngredientDTO.indexOf(e), e.name));
+      });
+    }
   }
 
   Future<void> selectImage() async {
@@ -145,7 +149,7 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
   }
 
   _submitRecipe() {
-    if (_ingredients.isEmpty || _recipeName == null || _base64Image == null) {
+    if (_ingredients.isEmpty || _base64Image == '' || _recipeName == '') {
       ScaffoldMessenger.of(context)
         ..removeCurrentSnackBar()
         ..showSnackBar(SnackBar(
@@ -158,12 +162,21 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
     }
   }
 
+  List<IngredientLineDTO> convertMultiSelectToIngredientDTO() {
+    List<IngredientDTO> _ingredientDTOs =
+        _ingredients.map((e) => listIngredientDTO.elementAt(e)).toList();
+    List<IngredientLineDTO> _ingredientLines = _ingredientDTOs
+        .map((e) => IngredientLineDTO(ingredient: e, quantity: 0))
+        .toList();
+    return _ingredientLines;
+  }
+
   _pushStepsScreen() {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (_) => RecipesStepsCreationScreen(
-            ingredients: _ingredients,
+            ingredientLines: convertMultiSelectToIngredientDTO(),
             recipeName: _recipeName,
             base64Image: _base64Image),
       ),

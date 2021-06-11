@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kookie/api/favorite_api_client.dart';
-import 'package:kookie/models/ingredient/IngredientDTO.dart';
+import 'package:kookie/api/optimization_api_client.dart';
 import 'package:kookie/models/recette/RecetteDTO.dart';
-import 'package:kookie/screens/home_screen.dart';
-import 'package:kookie/widgets/favorite_item.dart';
+import 'package:kookie/widgets/custom_button.dart';
 import 'package:kookie/widgets/favorite_list.dart';
 
 class FavouritesScreen extends StatefulWidget {
@@ -14,10 +13,12 @@ class FavouritesScreen extends StatefulWidget {
 
 class _FavouritesScreen extends State<FavouritesScreen> {
   late List<RecetteDTO> listeRecette;
+  final GlobalKey<FavoriteListState> _key = GlobalKey();
+
   @override
   void initState() {
     listeRecette = [];
-    FavortiteClient().favoriteList(15).then((value) => setState(() {
+    FavoriteClient().favoriteList(15).then((value) => setState(() {
           listeRecette = value;
         }));
 
@@ -37,8 +38,29 @@ class _FavouritesScreen extends State<FavouritesScreen> {
           centerTitle: true,
           elevation: 0,
         ),
-        body: FavoriteList(
-          listeRecette: this.listeRecette,
-        ));
+        body: Column(
+          children: [
+            Expanded(
+              child: FavoriteList(
+                key: _key,
+              listeRecette: this.listeRecette,
+            ),
+          ),
+          SizedBox(height: 20),
+          CustomButton(
+            text: "Lancer la séance !",
+            onTap: _submitBatchSession,
+          ),
+          SizedBox(height: 20),
+        ],
+      ),
+    );
+  }
+
+  void _submitBatchSession() {
+    Set<int> recipesIds = _key.currentState!.getRecipesIds();
+    OptimizationApiClient optimizationAPI = OptimizationApiClient();
+    var test = optimizationAPI.optimizeSession(recipesIds);
+    debugPrint(test.toString());
   }
 }

@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:kookie/models/recette/RecetteThumbnailDTO.dart';
+import 'package:kookie/screens/recipe_detail_screen.dart';
 
 class CardCarousel extends StatefulWidget {
   final String title;
@@ -28,10 +29,17 @@ class _CardCarouselState extends State<CardCarousel>
           scale = pageController.page! - index;
           scale = (1 - (scale.abs() * 0.25)).clamp(0.0, 1.0);
         }
-        return Center(
-          child: SizedBox(
-            height: Curves.easeInOut.transform(scale) * 500.0,
-            child: widget,
+        return GestureDetector(
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => RecipeDetails(recipeId: recipe.id),
+              )),
+          child: Center(
+            child: SizedBox(
+              height: Curves.easeInOut.transform(scale) * 500.0,
+              child: widget,
+            ),
           ),
         );
       },

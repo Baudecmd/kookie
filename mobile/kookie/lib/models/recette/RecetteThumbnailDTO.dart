@@ -8,7 +8,7 @@ class RecetteThumbnailDTO {
   final String name;
   final String? imageURL;
   final int? note;
-  final bool isFavorite;
+  bool isFavorite;
 
   RecetteThumbnailDTO(
       {required this.id,

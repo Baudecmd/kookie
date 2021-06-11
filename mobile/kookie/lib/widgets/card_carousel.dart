@@ -1,7 +1,9 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:kookie/datas/data.dart';
 import 'package:kookie/models/recette/RecetteThumbnailDTO.dart';
+import 'package:kookie/repositories/profile_repository.dart';
 import 'package:kookie/screens/recipe_detail_screen.dart';
 
 class CardCarousel extends StatefulWidget {
@@ -16,6 +18,8 @@ class CardCarousel extends StatefulWidget {
 
 class _CardCarouselState extends State<CardCarousel>
     with AutomaticKeepAliveClientMixin<CardCarousel> {
+  ProfileRepository profileRepository = ProfileRepository();
+
   PageController pageController =
       PageController(initialPage: 0, viewportFraction: 0.8);
 
@@ -94,8 +98,15 @@ class _CardCarouselState extends State<CardCarousel>
                 ),
               ]),
               SizedBox(height: 6.0),
-              Row(children: [
-                Container(
+              GestureDetector(
+                onTap: () {
+                  profileRepository
+                      .addRecipeToFavorite(profile!.id!, recipe.id)
+                      .then((value) {
+                    recipe.isFavorite = value;
+                  });
+                },
+                child: Container(
                     padding: EdgeInsets.all(5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
@@ -113,7 +124,7 @@ class _CardCarouselState extends State<CardCarousel>
                           : Theme.of(context).primaryColor,
                       size: 20,
                     )),
-              ])
+              )
             ])
           ])
         ]),
@@ -129,14 +140,14 @@ class _CardCarouselState extends State<CardCarousel>
       children: [
         widget.title.isNotEmpty
             ? Padding(
-                padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
-                child: Text(
-                  widget.title,
-                  style: TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 2.0),
-                ))
+            padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+            child: Text(
+              widget.title,
+              style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 2.0),
+            ))
             : SizedBox(),
         Container(
           height: 500.0,

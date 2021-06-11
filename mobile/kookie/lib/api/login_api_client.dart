@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:kookie/api/api_client.dart';
+import 'package:kookie/datas/data.dart';
 import 'package:kookie/models/profile/ProfileDTO.dart';
 import 'package:kookie/models/user/CredentialDTO.dart';
 import 'package:kookie/services/storage_util.dart';
@@ -25,12 +26,12 @@ class LoginApiClient extends ApiClient {
     final http.Response response =
         await unauthenticatedPostRequest('/user/auth', credential.toJson());
     if (response.statusCode == 200) {
-      ProfileDTO profile = ProfileDTO.fromJson(jsonDecode(response.body));
+      ProfileDTO p = ProfileDTO.fromJson(jsonDecode(response.body));
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      await StorageUtil.putString(key: 'token', value: profile.user!.token!);
-      await prefs.setString("id", profile.user!.token!);
-
-      return profile;
+      await StorageUtil.putString(key: 'token', value: p.user!.token!);
+      await prefs.setString("id", p.user!.token!);
+      profile = p;
+      return p;
     } else {
       log(response.body);
       return new ProfileDTO();

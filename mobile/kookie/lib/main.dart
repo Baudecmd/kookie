@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kookie/screens/home_screen.dart';
 import 'package:kookie/services/storage_util.dart';
 
+import 'datas/data.dart';
 import 'screens/home_screen.dart';
 
 void main() async {
@@ -14,6 +15,7 @@ class KookieApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    initData();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Kookie',

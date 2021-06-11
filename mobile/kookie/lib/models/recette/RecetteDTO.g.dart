@@ -13,14 +13,14 @@ RecetteDTO _$RecetteDTOFromJson(Map<String, dynamic> json) {
         ? null
         : ProfileDTO.fromJson(json['profile'] as Map<String, dynamic>),
     name: json['name'] as String,
-    imageURL: json['imageURL'] as String?,
+    image: json['image'] as String?,
     category: json['category'] == null
         ? null
         : CategoryDTO.fromJson(json['category'] as Map<String, dynamic>),
     ingredientLines: (json['ingredientLines'] as List<dynamic>?)
-        ?.map((e) => IngredientDTO.fromJson(e as Map<String, dynamic>))
+        ?.map((e) => IngredientLineDTO.fromJson(e as Map<String, dynamic>))
         .toList(),
-    stepLines: (json['stepLines'] as List<dynamic>?)
+    steps: (json['steps'] as List<dynamic>?)
         ?.map((e) => StepDTO.fromJson(e as Map<String, dynamic>))
         .toList(),
     opinions: (json['opinions'] as List<dynamic>?)
@@ -34,9 +34,9 @@ Map<String, dynamic> _$RecetteDTOToJson(RecetteDTO instance) =>
       'id': instance.id,
       'profile': instance.profile,
       'name': instance.name,
-      'imageURL': instance.imageURL,
+      'image': instance.image,
       'category': instance.category,
       'ingredientLines': instance.ingredientLines,
-      'stepLines': instance.stepLines,
+      'steps': instance.steps,
       'opinions': instance.opinions,
     };

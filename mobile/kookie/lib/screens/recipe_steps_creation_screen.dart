@@ -1,15 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kookie/api/recipe_api_client.dart';
+import 'package:kookie/datas/data.dart';
+import 'package:kookie/models/Ustensil/UstensilDTO.dart';
+import 'package:kookie/models/category/CategoryDTO.dart';
+import 'package:kookie/models/ingredient/IngredientLineDTO.dart';
+import 'package:kookie/models/recette/RecetteDTO.dart';
+import 'package:kookie/models/step/StepDTO.dart';
 import 'package:kookie/screens/home_screen.dart';
 import 'package:kookie/screens/step_creation_screen.dart';
 import 'package:kookie/widgets/custom_button.dart';
 
 class RecipesStepsCreationScreen extends StatefulWidget {
-  final Set<int> ingredients;
+  final List<IngredientLineDTO> ingredientLines;
   final String recipeName;
   final String base64Image;
+
   RecipesStepsCreationScreen(
-      {required this.ingredients,
+      {required this.ingredientLines,
       required this.recipeName,
       required this.base64Image});
 
@@ -18,8 +26,16 @@ class RecipesStepsCreationScreen extends StatefulWidget {
 }
 
 class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
-  final List<int> _items = List<int>.generate(1, (int index) => index);
-  final Map<int, StepInfo> _itemsMap = {0: StepInfo("", Set<int>())};
+  final List<int> _items = List<int>.generate(1, (int index) => index + 1);
+  List<StepDTO> _steps = [];
+
+  RecipeApiClient recipeApiClient = RecipeApiClient();
+
+  @override
+  void initState() {
+    super.initState();
+    _steps.add(StepDTO(stepNumber: 1));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +57,8 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
                       margin: const EdgeInsets.all(10),
                       color: Color.fromRGBO(205, 205, 205, 1),
                       child: ListTile(
-                        title: Text('Étape ${_items[index]}'),
+                        title: Text(
+                            'Étape ${_steps[index].stepNumber.toString()}'),
                         trailing: Icon(Icons.drag_handle_outlined),
                         onTap: () => _openTileInfo(index),
                       ),
@@ -78,7 +95,7 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
   }
 
   _addStep() {
-    var stepNumber = 0;
+    var stepNumber = 1;
     var isInList = true;
     while (isInList) {
       if (_items.contains(stepNumber)) {
@@ -90,26 +107,47 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
     setState(() {
       _items.insert(_items.length, stepNumber);
     });
-    _itemsMap[stepNumber] = StepInfo("", Set<int>());
+    _steps.insert(stepNumber - 1, StepDTO(stepNumber: stepNumber));
   }
 
   _openTileInfo(index) async {
-    var result = await Navigator.push(
+    debugPrint('index ta mere ' + index.toString());
+    debugPrint(_steps[index].stepNumber.toString());
+    StepDTO result = await Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (_) => StepCreationScreen(_itemsMap[index]!),
+          builder: (_) => StepCreationScreen(_steps[index]),
           fullscreenDialog: true),
     );
     if (result != null) {
-      _itemsMap[index] = result;
+      _steps[index] = result;
+    }
+    for (StepDTO s in _steps) {
+      debugPrint("---------------------------------------------");
+      debugPrint("stepNumber : " + s.stepNumber.toString());
+      debugPrint("Name : " + s.name!);
+      if (s.ustensils != null) {
+        for (UstensilDTO u in s.ustensils!) {
+          debugPrint("Ustensil Name : " + u.name!);
+        }
+      }
+      debugPrint("---------------------------------------------");
     }
   }
 
   _submitInfo() {
-    //List<IngredientDTO> listIngredientDTO;
-    //widget.ingredients.forEach((element) {listIngredientDTO.add(new )})
-
-    //RecetteDTO recetteDTO = RecetteDTO(name: widget.recipeName, category: widget., imageURL: widget.base64Image, ingredientLines: widget.ingredients, opinions: , profile: , stepLines: );
+    int stepIndex = 1;
+    _steps.forEach((element) {
+      element.stepNumber = stepIndex;
+      stepIndex++;
+    });
+    recipeApiClient.createRecipe(RecetteDTO(
+        profile: profile,
+        name: widget.recipeName,
+        image: widget.base64Image,
+        category: CategoryDTO(id: 10, name: "Français"),
+        ingredientLines: widget.ingredientLines,
+        steps: _steps));
 
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => HomeScreen()),

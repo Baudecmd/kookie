@@ -1,38 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:kookie/models/recette/RecetteDTO.dart';
-import 'package:kookie/screens/home_screen.dart';
-import 'package:kookie/screens/recipe_detail_screen.dart';
 import 'package:kookie/widgets/favorite_item.dart';
 
 class FavoriteList extends StatefulWidget {
   final List<RecetteDTO> listeRecette;
-  FavoriteList({Key? key, required this.listeRecette}) : super(key: key);
+  const FavoriteList({required Key? key, required this.listeRecette})
+      : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => new _FavoriteListState();
+  State<StatefulWidget> createState() => FavoriteListState();
 }
 
-class _FavoriteListState extends State<FavoriteList> {
+class FavoriteListState extends State<FavoriteList> {
+  final Set<int> _recipesIds = Set<int>();
+
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
+    return ListView.builder(
       padding: const EdgeInsets.all(15),
       itemCount: widget.listeRecette.length,
       itemBuilder: (BuildContext context, int index) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      RecipeDetails(recipeId: widget.listeRecette[index].id)),
-            );
-          },
+        return SingleChildScrollView(
           child: Container(
-              height: 70, child: FavoriteItem(widget.listeRecette[index])),
+            height: 70,
+            decoration: BoxDecoration(border: Border(bottom: BorderSide())),
+            child: FavoriteItem(
+              recette: widget.listeRecette[index],
+              onTap: (int elementId) {
+                if (_recipesIds.contains(elementId)) {
+                  _recipesIds.remove(elementId);
+                } else {
+                  _recipesIds.add(elementId);
+                }
+              },
+            ),
+          ),
         );
       },
-      separatorBuilder: (BuildContext context, int index) => const Divider(),
     );
+  }
+
+  Set<int> getRecipesIds() {
+    return _recipesIds;
   }
 }

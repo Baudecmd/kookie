@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kookie/models/recette/RecetteDTO.dart';
 import 'package:kookie/screens/home_screen.dart';
+import 'package:kookie/screens/recipe_detail_screen.dart';
 import 'package:kookie/widgets/favorite_item.dart';
 
 class FavoriteList extends StatefulWidget {
@@ -22,7 +23,9 @@ class _FavoriteListState extends State<FavoriteList> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => HomeScreen()),
+              MaterialPageRoute(
+                  builder: (context) =>
+                      RecipeDetails(recipeId: widget.listeRecette[index].id)),
             );
           },
           child: Container(

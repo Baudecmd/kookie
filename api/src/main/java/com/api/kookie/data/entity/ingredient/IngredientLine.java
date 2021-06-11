@@ -9,7 +9,7 @@ public class IngredientLine {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Ingredient ingredient;
 
     private Integer quantity;

@@ -12,8 +12,8 @@ public class Step {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private IngredientLine ingredientLine;
+    /*@OneToOne
+    private IngredientLine ingredientLine;*/
 
     private String stepName;
 
@@ -21,14 +21,14 @@ public class Step {
 
     private Integer stepNumber;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private StepType stepType;
 
     public Step() {
     }
 
-    public Step(IngredientLine ingredientLine, String stepName, Integer duration, Integer stepNumber, StepType stepType) {
-        this.ingredientLine = ingredientLine;
+    public Step(String stepName, Integer duration, Integer stepNumber, StepType stepType) {
+        //this.ingredientLine = ingredientLine;
         this.stepName = stepName;
         this.duration = duration;
         this.stepNumber = stepNumber;
@@ -43,13 +43,13 @@ public class Step {
         this.id = id;
     }
 
-    public IngredientLine getIngredientLine() {
+    /*public IngredientLine getIngredientLine() {
         return ingredientLine;
     }
 
     public void setIngredientLine(IngredientLine ingredientLine) {
         this.ingredientLine = ingredientLine;
-    }
+    }*/
 
     public String getStepName() {
         return stepName;
@@ -87,7 +87,7 @@ public class Step {
     public String toString() {
         return "Step{" +
                 "id=" + id +
-                ", ingredientLine=" + ingredientLine +
+                //", ingredientLine=" + ingredientLine +
                 ", stepName='" + stepName + '\'' +
                 ", duration=" + duration +
                 ", stepNumber=" + stepNumber +

@@ -59,10 +59,16 @@ public class RecetteServiceImpl implements RecetteService {
 
     @Override
     @Transactional
-    public RecetteDTO createRecipe(RecetteDTO recipe) {
-        LOGGER.debug("[RecetteServiceImpl, createRecipe] recipe = " + recipe.toString());
+    public RecetteDTO createRecipe(RecetteDTO recipeDTO) {
+        LOGGER.debug("[RecetteServiceImpl, createRecipe] recipe = " + recipeDTO.toString());
 
-        return RecetteParser.toDTO(recetteRepository.save(RecetteParser.toEntity(recipe)));
+        Recette recipe = RecetteParser.toEntity(recipeDTO);
+        List<IngredientLine> ingredientLines = (List<IngredientLine>) ingredientLineRepository.saveAll(recipe.getIngredientLines());
+        List<Step> steps = (List<Step>) stepRepository.saveAll(recipe.getSteps());
+        recipe.setIngredientLines(ingredientLines);
+        recipe.setSteps(steps);
+
+        return RecetteParser.toDTO(recetteRepository.save(recipe));
     }
 
     @Override

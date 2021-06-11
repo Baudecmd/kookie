@@ -13,7 +13,7 @@ public class StepParser {
         if (step != null) {
             stepDTO.setId(step.getId());
             stepDTO.setName(step.getStepName());
-            stepDTO.setIngredientLine(IngredientLineParser.toDTO(step.getIngredientLine()));
+            //stepDTO.setIngredientLine(IngredientLineParser.toDTO(step.getIngredientLine()));
             stepDTO.setDuration(step.getDuration());
             stepDTO.setStepNumber(step.getStepNumber());
             stepDTO.setStepType(StepTypeParser.toDTO(step.getStepType()));
@@ -26,7 +26,7 @@ public class StepParser {
         if (stepDTO != null) {
             step.setId(stepDTO.getId());
             step.setStepName(stepDTO.getName());
-            step.setIngredientLine(IngredientLineParser.toEntity(stepDTO.getIngredientLine()));
+            //step.setIngredientLine(IngredientLineParser.toEntity(stepDTO.getIngredientLine()));
             step.setDuration(stepDTO.getDuration());
             step.setStepNumber(stepDTO.getStepNumber());
             step.setStepType(StepTypeParser.toEntity(stepDTO.getStepType()));

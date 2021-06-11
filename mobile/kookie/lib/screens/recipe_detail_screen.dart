@@ -31,7 +31,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
         }));
   }
 
-/*ListView.builder(
+/* ListView.builder(
           itemCount: ustensils.length,
           itemBuilder: (BuildContext ctxt, int index) {
             return new Text(ustensils[index].name);
@@ -44,7 +44,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
           itemBuilder: (BuildContext ctxt, int index) {
             return new Text(recette.ingredientLines[index].ingredient.name);
           }),
-      Text("Ustensils"),
+      Text("Ustensiles"),
       ListView.builder(
           itemCount: recette.steps!.length,
           itemBuilder: (BuildContext ctxt, int index) {

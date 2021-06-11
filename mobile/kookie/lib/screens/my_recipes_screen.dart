@@ -32,7 +32,6 @@ class _MyRecipesScreen extends State<MyRecipesScreen> {
                   child: Column(
                     children: <Widget>[
                       SizedBox(height: 150),
-                      //TODO: error if sizedbox is too big or screen too small
                       Icon(
                         Icons.article_outlined,
                         size: 100,

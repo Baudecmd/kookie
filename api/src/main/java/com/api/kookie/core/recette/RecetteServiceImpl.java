@@ -58,6 +58,12 @@ public class RecetteServiceImpl implements RecetteService {
     }
 
     @Override
+    public List<RecetteDTO> getAllRecipes() {
+        LOGGER.debug("[RecetteServiceImpl, getAllRecipes]");
+        return RecetteParser.parseListToDTO(recetteRepository.findAll());
+    }
+
+    @Override
     @Transactional
     public RecetteDTO createRecipe(RecetteDTO recipeDTO) {
         LOGGER.debug("[RecetteServiceImpl, createRecipe] recipe = " + recipeDTO.toString());

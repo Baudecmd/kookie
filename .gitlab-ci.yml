@@ -51,15 +51,35 @@ staging: # staging is executed for all commits that were pushed to master branch
     - staging
 
 ####
-#### BACKEND - API - DEPLOY PRODUCTION
+#### FRONTEND - MOBILE - TEST - ANDROID
 ####
-production: # production is executed for all pushed tags.
-  stage: deploy
-  needs:
-    - apiTest
+Android:mobileTest:
+  stage: test
   script:
-    - gem install dpl
-    - cd api
-    - dpl --provider=heroku --app=$HEROKU_APP_PRODUCTION --api_key=$HEROKU_API_KEY
+    - cd mobile/kookie
+    -  flutter test
   only:
+    - staging
+    - tags
+
+####
+#### FRONTEND - MOBILE - BUILD - ANDROID
+####
+Android:mobileBuild:
+  stage: build
+  needs:
+    - Android:mobileTest
+  before_script:
+    - cd mobile/kookie
+    - flutter packages get
+    - flutter clean
+  script:
+    - flutter doctor --android-licenses
+    - flutter build apk --flavor production --release
+  artifacts:
+    paths:
+      - "mobile/kookie/**/**/**/**/**/**/*.apk"
+    expire_in: 1 day
+  only:
+    - staging
     - tags

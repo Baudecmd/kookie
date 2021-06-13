@@ -144,7 +144,7 @@ public class RecetteServiceImpl implements RecetteService {
         });
         steps.removeAll(newList);
         newList.addAll(steps);
-        newList.sort(Comparator.comparing(o -> o.getIngredientLine().getIngredient().getName()));
+        //newList.sort(Comparator.comparing(o -> o.getIngredientLine().getIngredient().getName()));
         return newList;
     }
 

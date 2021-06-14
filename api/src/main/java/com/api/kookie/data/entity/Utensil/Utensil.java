@@ -9,7 +9,7 @@ import java.util.List;
 public class Utensil {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "utensil_id_seq_generator")
-    @SequenceGenerator(name = "utensil_id_seq_generator", sequenceName = "utensil_line_id_seq", allocationSize = 1)
+    @SequenceGenerator(name = "utensil_id_seq_generator", sequenceName = "utensil_id_seq", allocationSize = 1)
     private Integer id;
 
     private String name;

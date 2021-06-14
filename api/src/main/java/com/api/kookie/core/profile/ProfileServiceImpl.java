@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -72,8 +73,13 @@ public class ProfileServiceImpl implements ProfileService {
         Profile profile = profileRepository.findOneById(profileId);
         Recipe recipe = recipeRepository.findOneById(recetteId);
         if (profile != null && recipe != null) {
+            List<Recipe> currentRecipes = profile.getFavoriteRecettes().stream().filter(r -> r.getId() == recetteId).collect(Collectors.toList());
             List<Recipe> favorites = profile.getFavoriteRecettes();
-            favorites.add(recipe);
+            if (currentRecipes.isEmpty()) {
+                favorites.add(recipe);
+            } else {
+                favorites.removeAll(currentRecipes);
+            }
             profile.setFavoriteRecettes(favorites);
             Profile updatedProfile = profileRepository.save(profile);
             return profile.equals(updatedProfile);

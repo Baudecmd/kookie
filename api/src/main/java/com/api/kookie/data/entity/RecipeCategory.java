@@ -13,7 +13,7 @@ public class RecipeCategory {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Recette> recipes;
+    private List<Recipe> recipes;
 
     public RecipeCategory() {
     }
@@ -39,11 +39,11 @@ public class RecipeCategory {
         this.name = name;
     }
 
-    public List<Recette> getRecipes() {
+    public List<Recipe> getRecipes() {
         return recipes;
     }
 
-    public void setRecipes(List<Recette> recipes) {
+    public void setRecipes(List<Recipe> recipes) {
         this.recipes = recipes;
     }
 

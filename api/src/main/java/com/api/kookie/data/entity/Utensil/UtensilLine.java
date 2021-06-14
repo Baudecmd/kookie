@@ -1,24 +1,24 @@
-package com.api.kookie.data.entity.Ustensil;
+package com.api.kookie.data.entity.Utensil;
 
 import javax.persistence.*;
 
 @Entity
-public class UstensilLine {
+public class UtensilLine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
     @OneToOne
-    Ustensil ustensil;
+    Utensil utensil;
 
     int nb;
 
-    public UstensilLine() {
+    public UtensilLine() {
 
     }
 
-    public UstensilLine(Ustensil ustensil, int nb) {
-        this.ustensil = ustensil;
+    public UtensilLine(Utensil utensil, int nb) {
+        this.utensil = utensil;
         this.nb = nb;
     }
 
@@ -30,12 +30,12 @@ public class UstensilLine {
         this.id = id;
     }
 
-    public Ustensil getUstensil() {
-        return ustensil;
+    public Utensil getUstensil() {
+        return utensil;
     }
 
-    public void setUstensil(Ustensil ustensil) {
-        this.ustensil = ustensil;
+    public void setUstensil(Utensil utensil) {
+        this.utensil = utensil;
     }
 
     public int getNb() {
@@ -50,7 +50,7 @@ public class UstensilLine {
     public String toString() {
         return "UstensilLine{" +
                 "id=" + id +
-                ", ustensil=" + ustensil +
+                ", ustensil=" + utensil +
                 ", nb=" + nb +
                 '}';
     }

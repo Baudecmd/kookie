@@ -1,6 +1,6 @@
 package com.api.kookie.data.entity;
 
-import com.api.kookie.data.entity.Ustensil.Ustensil;
+import com.api.kookie.data.entity.Utensil.Utensil;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,14 +15,14 @@ public class StepType {
     private String name;
 
     @OneToMany
-    private List<Ustensil> ustensils;
+    private List<Utensil> utensils;
 
     public StepType() {
     }
 
-    public StepType(String name, List<Ustensil> ustensils) {
+    public StepType(String name, List<Utensil> utensils) {
         this.name = name;
-        this.ustensils = ustensils;
+        this.utensils = utensils;
     }
 
     public Integer getId() {
@@ -41,11 +41,11 @@ public class StepType {
         this.name = name;
     }
 
-    public List<Ustensil> getUstensils() {
-        return ustensils;
+    public List<Utensil> getUstensils() {
+        return utensils;
     }
 
-    public void setUstensils(List<Ustensil> ustensils) {
-        this.ustensils = ustensils;
+    public void setUstensils(List<Utensil> utensils) {
+        this.utensils = utensils;
     }
 }

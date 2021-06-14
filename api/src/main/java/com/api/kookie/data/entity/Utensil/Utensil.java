@@ -1,4 +1,4 @@
-package com.api.kookie.data.entity.Ustensil;
+package com.api.kookie.data.entity.Utensil;
 
 import com.api.kookie.data.entity.Step;
 
@@ -6,21 +6,21 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Ustensil {
+public class Utensil {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String nom;
+    private String name;
 
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Step> steps;
 
-    public Ustensil(String nom) {
-        this.nom = nom;
+    public Utensil(String name) {
+        this.name = name;
     }
 
-    public Ustensil() {
+    public Utensil() {
 
     }
 
@@ -32,12 +32,12 @@ public class Ustensil {
         this.id = id;
     }
 
-    public String getNom() {
-        return nom;
+    public String getName() {
+        return name;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Step> getSteps() {
@@ -52,7 +52,7 @@ public class Ustensil {
     public String toString() {
         return "Ustensil{" +
                 "id=" + id +
-                ", nom='" + nom + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

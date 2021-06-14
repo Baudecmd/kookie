@@ -3,9 +3,8 @@ package com.api.kookie.controllers.recette;
 import com.api.kookie.core.dto.RecetteDTO;
 import com.api.kookie.core.dto.RecetteThumbnailDTO;
 import com.api.kookie.core.recette.RecetteService;
-import com.api.kookie.data.entity.Recette;
 import com.api.kookie.data.profile.ProfileRepository;
-import com.api.kookie.data.recette.RecetteRepository;
+import com.api.kookie.data.recipe.RecipeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ public class RecetteController {
     private static final Logger LOGGER = LoggerFactory.getLogger(RecetteController.class);
 
     @Autowired
-    RecetteRepository recetteRepository;
+    RecipeRepository recipeRepository;
     @Autowired
     ProfileRepository profileRepository;
     @Autowired

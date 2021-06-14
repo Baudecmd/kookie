@@ -1,7 +1,5 @@
 package com.api.kookie.core.dto;
 
-import com.api.kookie.data.entity.Ustensil.Ustensil;
-
 import java.util.Objects;
 
 public class UstensilLineDTO {

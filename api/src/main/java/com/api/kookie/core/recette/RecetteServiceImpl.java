@@ -6,13 +6,11 @@ import com.api.kookie.core.dto.StepDTO;
 import com.api.kookie.core.util.RecetteParser;
 import com.api.kookie.core.util.StepParser;
 import com.api.kookie.data.entity.*;
-import com.api.kookie.data.entity.Ustensil.Ustensil;
-import com.api.kookie.data.entity.ingredient.Ingredient;
 import com.api.kookie.data.entity.ingredient.IngredientLine;
 import com.api.kookie.data.ingredient.IngredientLineRepository;
 import com.api.kookie.data.profile.ProfileRepository;
-import com.api.kookie.data.recette.RecetteRepository;
-import com.api.kookie.data.recette.RecipeCategoryRepository;
+import com.api.kookie.data.recipe.RecipeRepository;
+import com.api.kookie.data.recipe.RecipeCategoryRepository;
 import com.api.kookie.data.step.StepRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +29,7 @@ public class RecetteServiceImpl implements RecetteService {
     private static final Logger LOGGER = LoggerFactory.getLogger(RecetteServiceImpl.class);
 
     @Autowired
-    RecetteRepository recetteRepository;
+    RecipeRepository recipeRepository;
 
     @Autowired
     ProfileRepository profileRepository;
@@ -50,19 +47,19 @@ public class RecetteServiceImpl implements RecetteService {
     public RecetteDTO getOneById(Integer recipeId) {
         LOGGER.debug("[RecetteServiceImpl, getOneById] recipeId = " + recipeId);
 
-        Recette recette = recetteRepository.findOneById(recipeId);
-        List<IngredientLine> ingredientLines = (List<IngredientLine>) ingredientLineRepository.saveAll(recette.getIngredientLines());
-        List<Step> steps = (List<Step>) stepRepository.saveAll(recette.getSteps());
-        recette.setIngredientLines(ingredientLines);
-        recette.setSteps(steps);
+        Recipe recipe = recipeRepository.findOneById(recipeId);
+        List<IngredientLine> ingredientLines = (List<IngredientLine>) ingredientLineRepository.saveAll(recipe.getIngredientLines());
+        List<Step> steps = (List<Step>) stepRepository.saveAll(recipe.getSteps());
+        recipe.setIngredientLines(ingredientLines);
+        recipe.setSteps(steps);
 
-        return RecetteParser.toDTO(recette);
+        return RecetteParser.toDTO(recipe);
     }
 
     @Override
     public List<RecetteDTO> getAllRecipes() {
         LOGGER.debug("[RecetteServiceImpl, getAllRecipes]");
-        return RecetteParser.parseListToDTO(recetteRepository.findAll());
+        return RecetteParser.parseListToDTO(recipeRepository.findAll());
     }
 
     @Override
@@ -70,19 +67,19 @@ public class RecetteServiceImpl implements RecetteService {
     public RecetteDTO createRecipe(RecetteDTO recipeDTO) {
         LOGGER.debug("[RecetteServiceImpl, createRecipe] recipe = " + recipeDTO.toString());
 
-        Recette recipe = RecetteParser.toEntity(recipeDTO);
+        Recipe recipe = RecetteParser.toEntity(recipeDTO);
         List<IngredientLine> ingredientLines = (List<IngredientLine>) ingredientLineRepository.saveAll(recipe.getIngredientLines());
         List<Step> steps = (List<Step>) stepRepository.saveAll(recipe.getSteps());
         recipe.setIngredientLines(ingredientLines);
         recipe.setSteps(steps);
 
-        return RecetteParser.toDTO(recetteRepository.save(recipe));
+        return RecetteParser.toDTO(recipeRepository.save(recipe));
     }
 
     @Override
     public List<RecetteDTO> searchByString(String s) {
-        ArrayList<Recette> recetteArrayList = (ArrayList<Recette>) recetteRepository.findAllByNom(s);
-        return RecetteParser.parseListToDTO(recetteArrayList);
+        ArrayList<Recipe> recipeArrayList = (ArrayList<Recipe>) recipeRepository.findAllByName(s);
+        return RecetteParser.parseListToDTO(recipeArrayList);
     }
 
 
@@ -93,16 +90,16 @@ public class RecetteServiceImpl implements RecetteService {
 
         Profile profile = profileRepository.findOneById(profileId);
 
-        List<Recette> recettes = recetteRepository.findAll();
+        List<Recipe> recipes = recipeRepository.findAll();
         List<RecetteThumbnailDTO> thumbnails = new ArrayList<>();
 
-        if (recettes != null && profile != null) {
+        if (recipes != null && profile != null) {
             ArrayList<Integer> favoritesRecettesId = profile.getFavoriteRecettes().stream()
-                    .map(Recette::getId).collect(Collectors.toCollection(ArrayList::new));
-            for (Recette r : recettes) {
+                    .map(Recipe::getId).collect(Collectors.toCollection(ArrayList::new));
+            for (Recipe r : recipes) {
                 RecetteThumbnailDTO thumbnailDTO = new RecetteThumbnailDTO();
                 thumbnailDTO.setId(r.getId());
-                thumbnailDTO.setName(r.getNom());
+                thumbnailDTO.setName(r.getName());
                 int sumNotes = r.getOpinions().stream().map(Opinion::getNote).reduce(0, Integer::sum);
                 if (r.getOpinions().size() != 0) thumbnailDTO.setNote(sumNotes / r.getOpinions().size());
                 thumbnailDTO.setIsFavorite(favoritesRecettesId.contains(favoritesRecettesId));
@@ -123,11 +120,11 @@ public class RecetteServiceImpl implements RecetteService {
 
         if (recipeCategory.getRecipes() != null && recipeCategory != null) {
             ArrayList<Integer> favoritesRecettesId = profile.getFavoriteRecettes().stream()
-                    .map(Recette::getId).collect(Collectors.toCollection(ArrayList::new));
-            for (Recette r : recipeCategory.getRecipes()) {
+                    .map(Recipe::getId).collect(Collectors.toCollection(ArrayList::new));
+            for (Recipe r : recipeCategory.getRecipes()) {
                 RecetteThumbnailDTO thumbnailDTO = new RecetteThumbnailDTO();
                 thumbnailDTO.setId(r.getId());
-                thumbnailDTO.setName(r.getNom());
+                thumbnailDTO.setName(r.getName());
                 int sumNotes = r.getOpinions().stream().map(Opinion::getNote).reduce(0, Integer::sum);
                 if (r.getOpinions().size() != 0) thumbnailDTO.setNote(sumNotes / r.getOpinions().size());
                 thumbnailDTO.setIsFavorite(favoritesRecettesId.contains(favoritesRecettesId));
@@ -158,18 +155,18 @@ public class RecetteServiceImpl implements RecetteService {
         return steps;
     }
 
-    public List<Recette> getAllRecipesByIdList(List<Integer> ids){
-        List<Recette> recipes = new ArrayList<>();
+    public List<Recipe> getAllRecipesByIdList(List<Integer> ids){
+        List<Recipe> recipes = new ArrayList<>();
         for(Integer integer: ids){
-            recipes.add(recetteRepository.findOneById(integer));
+            recipes.add(recipeRepository.findOneById(integer));
         }
         return recipes;
     }
 
     public List<StepDTO> getAllStepsDTOs(List<Integer> ids) {
         List<StepDTO> steps = new ArrayList<>();
-        List<Recette> recipes = getAllRecipesByIdList(ids);
-        for(Recette recipe: recipes){
+        List<Recipe> recipes = getAllRecipesByIdList(ids);
+        for(Recipe recipe: recipes){
             steps.addAll(StepParser.parseListToDTO(recipe.getSteps()));
         }
         return steps;

@@ -1,6 +1,6 @@
 package com.api.kookie.data.entity;
 
-import com.api.kookie.data.entity.Ustensil.Ustensil;
+import com.api.kookie.data.entity.Utensil.Utensil;
 import com.api.kookie.data.entity.ingredient.Ingredient;
 
 import javax.persistence.*;
@@ -27,19 +27,19 @@ public class Step {
     private StepType stepType;
 
     @ManyToMany(mappedBy = "steps")
-    private List<Ustensil> ustensils;
+    private List<Utensil> utensils;
 
     public Step() {
     }
 
-    public Step(Integer id, List<Ingredient> ingredients, String stepName, Integer duration, Integer stepNumber, StepType stepType, List<Ustensil> ustensils) {
+    public Step(Integer id, List<Ingredient> ingredients, String stepName, Integer duration, Integer stepNumber, StepType stepType, List<Utensil> utensils) {
         this.id = id;
         this.ingredients = ingredients;
         this.stepName = stepName;
         this.duration = duration;
         this.stepNumber = stepNumber;
         this.stepType = stepType;
-        this.ustensils = ustensils;
+        this.utensils = utensils;
     }
 
     public Integer getId() {
@@ -90,12 +90,12 @@ public class Step {
         this.stepType = stepType;
     }
 
-    public List<Ustensil> getUstensils() {
-        return ustensils;
+    public List<Utensil> getUstensils() {
+        return utensils;
     }
 
-    public void setUstensils(List<Ustensil> ustensils) {
-        this.ustensils = ustensils;
+    public void setUstensils(List<Utensil> utensils) {
+        this.utensils = utensils;
     }
 
     @Override
@@ -107,7 +107,7 @@ public class Step {
                 ", duration=" + duration +
                 ", stepNumber=" + stepNumber +
                 ", stepType=" + stepType +
-                ", ustensils=" + ustensils +
+                ", ustensils=" + utensils +
                 '}';
     }
 }

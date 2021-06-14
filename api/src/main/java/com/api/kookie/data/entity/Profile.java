@@ -1,6 +1,6 @@
 package com.api.kookie.data.entity;
 
-import com.api.kookie.data.entity.Ustensil.UstensilLine;
+import com.api.kookie.data.entity.Utensil.UtensilLine;
 
 import javax.persistence.*;
 import java.util.List;
@@ -20,13 +20,13 @@ public class Profile {
     private String lastName;
 
     @OneToMany
-    private List<Recette> favoriteRecettes;
+    private List<Recipe> favoriteRecipes;
 
     @OneToMany
-    private List<Recette> createdRecettes;
+    private List<Recipe> createdRecipes;
 
     @OneToMany
-    private List<UstensilLine> ustensilLines;
+    private List<UtensilLine> utensilLines;
 
     @OneToMany
     private List<Opinion> opinions;
@@ -34,14 +34,14 @@ public class Profile {
     public Profile() {
     }
 
-    public Profile(Integer id, User user, String firstName, String lastName, List<Recette> favoriteRecettes, List<Recette> createdRecettes, List<UstensilLine> ustensilLines, List<Opinion> opinions) {
+    public Profile(Integer id, User user, String firstName, String lastName, List<Recipe> favoriteRecipes, List<Recipe> createdRecipes, List<UtensilLine> utensilLines, List<Opinion> opinions) {
         this.id = id;
         this.user = user;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.favoriteRecettes = favoriteRecettes;
-        this.createdRecettes = createdRecettes;
-        this.ustensilLines = ustensilLines;
+        this.favoriteRecipes = favoriteRecipes;
+        this.createdRecipes = createdRecipes;
+        this.utensilLines = utensilLines;
         this.opinions = opinions;
     }
 
@@ -77,28 +77,28 @@ public class Profile {
         this.lastName = lastName;
     }
 
-    public List<Recette> getFavoriteRecettes() {
-        return favoriteRecettes;
+    public List<Recipe> getFavoriteRecettes() {
+        return favoriteRecipes;
     }
 
-    public void setFavoriteRecettes(List<Recette> favoriteRecettes) {
-        this.favoriteRecettes = favoriteRecettes;
+    public void setFavoriteRecettes(List<Recipe> favoriteRecipes) {
+        this.favoriteRecipes = favoriteRecipes;
     }
 
-    public List<Recette> getCreatedRecettes() {
-        return createdRecettes;
+    public List<Recipe> getCreatedRecettes() {
+        return createdRecipes;
     }
 
-    public void setCreatedRecettes(List<Recette> createdRecettes) {
-        this.createdRecettes = createdRecettes;
+    public void setCreatedRecettes(List<Recipe> createdRecipes) {
+        this.createdRecipes = createdRecipes;
     }
 
-    public List<UstensilLine> getUstensilLines() {
-        return ustensilLines;
+    public List<UtensilLine> getUstensilLines() {
+        return utensilLines;
     }
 
-    public void setUstensilLines(List<UstensilLine> ustensilLines) {
-        this.ustensilLines = ustensilLines;
+    public void setUstensilLines(List<UtensilLine> utensilLines) {
+        this.utensilLines = utensilLines;
     }
 
     public List<Opinion> getOpinions() {
@@ -116,9 +116,9 @@ public class Profile {
                 ", user=" + user +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", favoriteRecettes=" + favoriteRecettes +
-                ", createdRecettes=" + createdRecettes +
-                ", ustensilLines=" + ustensilLines +
+                ", favoriteRecettes=" + favoriteRecipes +
+                ", createdRecettes=" + createdRecipes +
+                ", ustensilLines=" + utensilLines +
                 ", opinions=" + opinions +
                 '}';
     }

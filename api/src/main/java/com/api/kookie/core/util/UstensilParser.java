@@ -1,44 +1,44 @@
 package com.api.kookie.core.util;
 
 import com.api.kookie.core.dto.UstensilDTO;
-import com.api.kookie.data.entity.Ustensil.Ustensil;
+import com.api.kookie.data.entity.Utensil.Utensil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UstensilParser {
 
-    public static UstensilDTO toDTO(Ustensil ustensil) {
+    public static UstensilDTO toDTO(Utensil utensil) {
         UstensilDTO ustensilDTO = new UstensilDTO();
-        if (ustensil != null) {
-            ustensilDTO.setId(ustensil.getId());
-            ustensilDTO.setName(ustensil.getNom());
+        if (utensil != null) {
+            ustensilDTO.setId(utensil.getId());
+            ustensilDTO.setName(utensil.getName());
         }
         return ustensilDTO;
     }
 
-    public static Ustensil toEntity(UstensilDTO ustensilDTO) {
-        Ustensil ustensil = new Ustensil();
+    public static Utensil toEntity(UstensilDTO ustensilDTO) {
+        Utensil utensil = new Utensil();
         if (ustensilDTO != null) {
-            ustensil.setId(ustensilDTO.getId());
-            ustensil.setNom(ustensilDTO.getName());
+            utensil.setId(ustensilDTO.getId());
+            utensil.setName(ustensilDTO.getName());
         }
-        return ustensil;
+        return utensil;
     }
 
-    public static List<UstensilDTO> parseListToDTO(List<Ustensil> ustensils) {
+    public static List<UstensilDTO> parseListToDTO(List<Utensil> utensils) {
         List<UstensilDTO> listUstensilsDTO = new ArrayList<>();
-        for (Ustensil ustensil : ustensils) {
-            listUstensilsDTO.add(toDTO(ustensil));
+        for (Utensil utensil : utensils) {
+            listUstensilsDTO.add(toDTO(utensil));
         }
         return listUstensilsDTO;
     }
 
-    public static List<Ustensil> parseListToEntity(List<UstensilDTO> ustensils) {
-        List<Ustensil> listUstensils = new ArrayList<>();
+    public static List<Utensil> parseListToEntity(List<UstensilDTO> ustensils) {
+        List<Utensil> listUtensils = new ArrayList<>();
         for (UstensilDTO ustensil : ustensils) {
-            listUstensils.add(toEntity(ustensil));
+            listUtensils.add(toEntity(ustensil));
         }
-        return listUstensils;
+        return listUtensils;
     }
 }

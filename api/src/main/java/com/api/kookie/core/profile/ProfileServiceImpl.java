@@ -8,9 +8,9 @@ import com.api.kookie.core.user.UserService;
 import com.api.kookie.core.util.ProfileParser;
 import com.api.kookie.core.util.RecetteParser;
 import com.api.kookie.data.entity.Profile;
-import com.api.kookie.data.entity.Recette;
+import com.api.kookie.data.entity.Recipe;
 import com.api.kookie.data.profile.ProfileRepository;
-import com.api.kookie.data.recette.RecetteRepository;
+import com.api.kookie.data.recipe.RecipeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class ProfileServiceImpl implements ProfileService {
     private ProfileRepository profileRepository;
 
     @Autowired
-    private RecetteRepository recetteRepository;
+    private RecipeRepository recipeRepository;
 
     @Override
     @Transactional
@@ -70,10 +70,10 @@ public class ProfileServiceImpl implements ProfileService {
     public Boolean addFavorite(Integer profileId, Integer recetteId) {
         LOGGER.debug("[ProfileService, addFavorite] profileId = " + profileId + ", recetteID = " + recetteId);
         Profile profile = profileRepository.findOneById(profileId);
-        Recette recette = recetteRepository.findOneById(recetteId);
-        if (profile != null && recette != null) {
-            List<Recette> favorites = profile.getFavoriteRecettes();
-            favorites.add(recette);
+        Recipe recipe = recipeRepository.findOneById(recetteId);
+        if (profile != null && recipe != null) {
+            List<Recipe> favorites = profile.getFavoriteRecettes();
+            favorites.add(recipe);
             profile.setFavoriteRecettes(favorites);
             Profile updatedProfile = profileRepository.save(profile);
             return profile.equals(updatedProfile);

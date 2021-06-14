@@ -1,9 +1,5 @@
 package com.api.kookie.core.dto;
 
-import com.api.kookie.data.entity.Ustensil.UstensilLine;
-
-import javax.persistence.OneToMany;
-import java.util.List;
 import java.util.Objects;
 
 public class ProfileDTO {

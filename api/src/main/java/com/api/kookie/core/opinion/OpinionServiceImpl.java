@@ -4,11 +4,10 @@ import com.api.kookie.core.dto.OpinionDTO;
 import com.api.kookie.core.util.OpinionParser;
 import com.api.kookie.data.entity.Opinion;
 import com.api.kookie.data.entity.Profile;
-import com.api.kookie.data.entity.Recette;
-import com.api.kookie.data.entity.User;
+import com.api.kookie.data.entity.Recipe;
 import com.api.kookie.data.opinion.OpinionRepository;
 import com.api.kookie.data.profile.ProfileRepository;
-import com.api.kookie.data.recette.RecetteRepository;
+import com.api.kookie.data.recipe.RecipeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class OpinionServiceImpl implements OpinionService {
     OpinionRepository opinionRepository;
 
     @Autowired
-    RecetteRepository recetteRepository;
+    RecipeRepository recipeRepository;
 
     @Autowired
     ProfileRepository profileRepository;
@@ -34,15 +33,15 @@ public class OpinionServiceImpl implements OpinionService {
     public Boolean addOpinion(OpinionDTO opinion) {
         LOGGER.debug("[OpinionService, addOpinion] opinion : " + opinion.toString());
 
-        Recette recette = recetteRepository.findOneById(opinion.getRecette().getId());
+        Recipe recipe = recipeRepository.findOneById(opinion.getRecette().getId());
         Profile profile = profileRepository.findOneById(opinion.getProfile().getId());
 
-        if (recette != null && profile != null) {
+        if (recipe != null && profile != null) {
             if (opinion.getId() == null) {
                 Opinion savedOpinion = opinionRepository.save(OpinionParser.toEntity(opinion));
-                recette.getOpinions().add(savedOpinion);
+                recipe.getOpinions().add(savedOpinion);
                 profile.getOpinions().add(savedOpinion);
-                recetteRepository.save(recette);
+                recipeRepository.save(recipe);
                 profileRepository.save(profile);
                 return true;
             }
@@ -55,10 +54,10 @@ public class OpinionServiceImpl implements OpinionService {
     public Boolean updateOpinion(OpinionDTO opinion) {
         LOGGER.debug("[OpinionService, updateOpinion] opinion : " + opinion.toString());
 
-        Recette recette = recetteRepository.findOneById(opinion.getRecette().getId());
+        Recipe recipe = recipeRepository.findOneById(opinion.getRecette().getId());
         Profile profile = profileRepository.findOneById(opinion.getProfile().getId());
 
-        if (recette != null && profile != null) {
+        if (recipe != null && profile != null) {
             if (opinion.getId() != null) {
                 opinionRepository.save(OpinionParser.toEntity(opinion));
                 return true;

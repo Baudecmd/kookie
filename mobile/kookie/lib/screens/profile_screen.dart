@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kookie/screens/home_screen.dart';
 
+import 'my_ustensils_screen.dart';
+
 class ProfileScreen extends StatefulWidget {
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -73,8 +75,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
               ),
-              _buildProfileOption('Mes Ustensiles', () {}),
-              _buildProfileOption('Mes Appareils', () {}),
+              _buildProfileOption('Mes Ustensiles', () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyUstensilsScreen()),
+                );
+              }),
               _buildProfileOption('A propos', () {}),
               _buildProfileOption('Faire une donation', () {}),
             ],

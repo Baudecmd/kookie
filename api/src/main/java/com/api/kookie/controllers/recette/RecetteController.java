@@ -29,8 +29,10 @@ public class RecetteController {
     RecetteService recetteService;
 
     @GetMapping("/all")
-    public List<Recette> liste_recette() {
-        return recetteRepository.findAll();
+    public ResponseEntity<List<RecetteDTO>> getAllRecipes() {
+        LOGGER.debug("[RecetteController, getAllRecipes]");
+
+        return ResponseEntity.status(HttpStatus.OK).body(recetteService.getAllRecipes());
     }
 
     @GetMapping("/one")

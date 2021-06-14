@@ -17,7 +17,7 @@ public class StepParser {
             stepDTO.setDuration(step.getDuration());
             stepDTO.setStepNumber(step.getStepNumber());
             stepDTO.setStepType(StepTypeParser.toDTO(step.getStepType()));
-            stepDTO.setUstensils(UstensilParser.parseListToDTO(step.getUstensils()));
+            //stepDTO.setUstensils(UstensilParser.parseListToDTO(step.getUstensils()));
         }
         return stepDTO;
     }
@@ -31,7 +31,7 @@ public class StepParser {
             step.setDuration(stepDTO.getDuration());
             step.setStepNumber(stepDTO.getStepNumber());
             step.setStepType(StepTypeParser.toEntity(stepDTO.getStepType()));
-            step.setUstensils(UstensilParser.parseListToEntity(stepDTO.getUstensils()));
+            //step.setUstensils(UstensilParser.parseListToEntity(stepDTO.getUstensils()));
         }
         return step;
     }

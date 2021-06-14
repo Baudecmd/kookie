@@ -75,14 +75,19 @@ public class ProfileServiceImpl implements ProfileService {
         if (profile != null && recipe != null) {
             List<Recipe> currentRecipes = profile.getFavoriteRecettes().stream().filter(r -> r.getId() == recetteId).collect(Collectors.toList());
             List<Recipe> favorites = profile.getFavoriteRecettes();
+            Boolean isFavorite;
             if (currentRecipes.isEmpty()) {
                 favorites.add(recipe);
+                isFavorite = true;
             } else {
                 favorites.removeAll(currentRecipes);
+                isFavorite = false;
             }
             profile.setFavoriteRecettes(favorites);
             Profile updatedProfile = profileRepository.save(profile);
-            return profile.equals(updatedProfile);
+            if (profile.equals(updatedProfile)) {
+                return isFavorite;
+            }
         }
         return null;
     }

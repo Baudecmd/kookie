@@ -14,7 +14,7 @@ public class Step {
     @SequenceGenerator(name = "step_id_seq_generator", sequenceName = "step_id_seq", allocationSize = 1)
     private Integer id;
 
-    @ManyToMany(mappedBy = "steps")
+    @ManyToMany
     private List<Ingredient> ingredients;
 
     private String stepName;
@@ -26,7 +26,7 @@ public class Step {
     @OneToOne
     private StepType stepType;
 
-    @ManyToMany(mappedBy = "steps")
+    @ManyToMany
     private List<Utensil> utensils;
 
     public Step() {

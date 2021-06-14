@@ -9,7 +9,8 @@ import java.util.List;
 public class Profile {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "profile_id_seq_generator")
+    @SequenceGenerator(name = "profile_id_seq_generator", sequenceName = "profile_id_seq", allocationSize = 1)
     private Integer id;
 
     @OneToOne(cascade = CascadeType.ALL)

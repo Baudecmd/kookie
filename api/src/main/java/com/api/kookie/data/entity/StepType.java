@@ -9,7 +9,8 @@ import java.util.List;
 public class StepType {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "step_type_id_seq_generator")
+    @SequenceGenerator(name = "step_type_id_seq_generator", sequenceName = "step_type_id_seq", allocationSize = 1)
     private Integer id;
 
     private String name;

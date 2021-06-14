@@ -6,7 +6,8 @@ import javax.persistence.*;
 public class Opinion {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "opinion_id_seq_generator")
+    @SequenceGenerator(name = "opinion_id_seq_generator", sequenceName = "opinion_id_seq", allocationSize = 1)
     private Integer id;
 
     @OneToOne

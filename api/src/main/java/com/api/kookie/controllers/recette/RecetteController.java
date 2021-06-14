@@ -54,10 +54,10 @@ public class RecetteController {
     }
 
     @GetMapping("/thumbnail/all")
-    public ResponseEntity<?> getAllRecettesThumbnails() {
-        LOGGER.debug("[RecetteController, getAllRecettesThumbnails]");
+    public ResponseEntity<?> getAllRecettesThumbnails(@RequestParam Integer profileId) {
+        LOGGER.debug("[RecetteController, getAllRecettesThumbnails] profileId = " + profileId);
 
-        List<RecetteThumbnailDTO> recettes = recetteService.getAllRecipesThumbnails(15);
+        List<RecetteThumbnailDTO> recettes = recetteService.getAllRecipesThumbnails(profileId);
 
         return ResponseEntity.status(HttpStatus.OK).body(recettes);
 

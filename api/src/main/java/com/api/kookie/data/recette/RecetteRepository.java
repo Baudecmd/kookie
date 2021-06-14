@@ -13,7 +13,7 @@ public interface RecetteRepository extends CrudRepository<Recette, Integer> {
 
     List<Recette> findAll();
 
-    Recette findOneById(Long recetteId);
+    Recette findOneById(Integer recetteId);
 
     List<Recette> findAllByCategoryId(Integer categoryId);
 }

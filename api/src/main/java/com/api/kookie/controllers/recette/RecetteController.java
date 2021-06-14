@@ -36,7 +36,7 @@ public class RecetteController {
     }
 
     @GetMapping("/one")
-    public ResponseEntity<?> getOneByRecipeId(@RequestParam Long recipeId) {
+    public ResponseEntity<?> getOneByRecipeId(@RequestParam Integer recipeId) {
         LOGGER.debug("[RecetteController, getOneByRecipeId] recipeId = " + recipeId);
 
         RecetteDTO recipe = recetteService.getOneById(recipeId);

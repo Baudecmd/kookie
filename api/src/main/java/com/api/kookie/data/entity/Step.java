@@ -1,6 +1,7 @@
 package com.api.kookie.data.entity;
 
 import com.api.kookie.data.entity.Ustensil.Ustensil;
+import com.api.kookie.data.entity.ingredient.Ingredient;
 
 import javax.persistence.*;
 import java.util.List;
@@ -9,11 +10,12 @@ import java.util.List;
 public class Step {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "step_id_seq_generator")
+    @SequenceGenerator(name = "step_id_seq_generator", sequenceName = "step_id_seq", allocationSize = 1)
     private Integer id;
 
-    /*@OneToOne
-    private IngredientLine ingredientLine;*/
+    @ManyToMany(mappedBy = "steps")
+    private List<Ingredient> ingredients;
 
     private String stepName;
 
@@ -24,18 +26,20 @@ public class Step {
     @OneToOne
     private StepType stepType;
 
-    //@OneToMany(cascade = CascadeType.MERGE)
-    //private List<Ustensil> ustensils;
+    @ManyToMany(mappedBy = "steps")
+    private List<Ustensil> ustensils;
 
     public Step() {
     }
 
-    public Step(String stepName, Integer duration, Integer stepNumber, StepType stepType) {
-        //this.ingredientLine = ingredientLine;
+    public Step(Integer id, List<Ingredient> ingredients, String stepName, Integer duration, Integer stepNumber, StepType stepType, List<Ustensil> ustensils) {
+        this.id = id;
+        this.ingredients = ingredients;
         this.stepName = stepName;
         this.duration = duration;
         this.stepNumber = stepNumber;
         this.stepType = stepType;
+        this.ustensils = ustensils;
     }
 
     public Integer getId() {
@@ -46,13 +50,13 @@ public class Step {
         this.id = id;
     }
 
-    /*public IngredientLine getIngredientLine() {
-        return ingredientLine;
+    public List<Ingredient> getIngredients() {
+        return ingredients;
     }
 
-    public void setIngredientLine(IngredientLine ingredientLine) {
-        this.ingredientLine = ingredientLine;
-    }*/
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
 
     public String getStepName() {
         return stepName;
@@ -86,23 +90,24 @@ public class Step {
         this.stepType = stepType;
     }
 
-    /*public List<Ustensil> getUstensils() {
+    public List<Ustensil> getUstensils() {
         return ustensils;
     }
 
     public void setUstensils(List<Ustensil> ustensils) {
         this.ustensils = ustensils;
-    }*/
+    }
 
     @Override
     public String toString() {
         return "Step{" +
                 "id=" + id +
+                ", ingredients=" + ingredients +
                 ", stepName='" + stepName + '\'' +
                 ", duration=" + duration +
                 ", stepNumber=" + stepNumber +
                 ", stepType=" + stepType +
-                //", ustensils=" + ustensils +
+                ", ustensils=" + ustensils +
                 '}';
     }
 }

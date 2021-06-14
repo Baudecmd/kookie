@@ -1,6 +1,9 @@
 package com.api.kookie.data.entity.ingredient;
 
+import com.api.kookie.data.entity.Step;
+
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,6 +19,9 @@ public class Ingredient {
 
     @OneToOne
     private IngredientCategory ingredientCategory;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Step> steps;
 
     public Ingredient() {
     }
@@ -67,6 +73,13 @@ public class Ingredient {
         this.ingredientCategory = ingredientCategory;
     }
 
+    public List<Step> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<Step> steps) {
+        this.steps = steps;
+    }
 
     @Override
     public String toString() {

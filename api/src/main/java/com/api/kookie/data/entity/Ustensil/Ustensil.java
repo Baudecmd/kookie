@@ -1,17 +1,20 @@
 package com.api.kookie.data.entity.Ustensil;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.api.kookie.data.entity.Step;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Ustensil {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    private Integer id;
 
-    String nom;
+    private String nom;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Step> steps;
 
     public Ustensil(String nom) {
         this.nom = nom;
@@ -21,11 +24,11 @@ public class Ustensil {
 
     }
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -35,6 +38,14 @@ public class Ustensil {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public List<Step> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<Step> steps) {
+        this.steps = steps;
     }
 
     @Override

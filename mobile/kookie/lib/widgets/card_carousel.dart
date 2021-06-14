@@ -78,6 +78,8 @@ class _CardCarouselState extends State<CardCarousel>
           Column(children: [
             Text(
               recipe.name,
+              softWrap: true,
+              maxLines: 2,
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
@@ -103,18 +105,21 @@ class _CardCarouselState extends State<CardCarousel>
                   profileRepository
                       .addRecipeToFavorite(profile!.id!, recipe.id)
                       .then((value) {
-                    recipe.isFavorite = value;
+                    setState(() {
+                      recipe.isFavorite = value;
+                    });
                   });
                 },
                 child: Container(
                     padding: EdgeInsets.all(5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
+                      color: recipe.isFavorite
+                          ? Theme.of(context).primaryColor
+                          : Colors.white,
                       border: Border.all(
                         width: 2,
-                        color: recipe.isFavorite
-                            ? Colors.white
-                            : Theme.of(context).primaryColor,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                     child: Icon(

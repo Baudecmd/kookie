@@ -10,7 +10,8 @@ import java.util.List;
 @Table(name = "Recipe", schema = "PUBLIC")
 public class Recipe {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recipe_id_seq_generator")
+    @SequenceGenerator(name = "recipe_id_seq_generator", sequenceName = "recipe_id_seq", allocationSize = 1)
     private Integer id;
 
     @OneToOne

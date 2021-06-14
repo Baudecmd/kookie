@@ -7,7 +7,8 @@ import java.util.List;
 public class RecipeLevel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recipe_level_id_seq_generator")
+    @SequenceGenerator(name = "recipe_level_id_seq_generator", sequenceName = "recipe_level_id_seq", allocationSize = 1)
     private Integer id;
 
     private String name;

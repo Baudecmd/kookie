@@ -5,7 +5,8 @@ import javax.persistence.*;
 @Entity
 public class UtensilLine {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "utensil_line_id_seq_generator")
+    @SequenceGenerator(name = "utensil_line_seq_generator", sequenceName = "utensil_line_id_seq", allocationSize = 1)
     long id;
 
     @OneToOne

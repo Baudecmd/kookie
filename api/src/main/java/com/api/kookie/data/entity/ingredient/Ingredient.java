@@ -10,7 +10,8 @@ import java.util.Set;
 public class Ingredient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ingredient_id_seq_generator")
+    @SequenceGenerator(name = "ingredient_id_seq_generator", sequenceName = "ingredient_id_seq", allocationSize = 1)
     private Integer id;
 
     private String name;
@@ -20,7 +21,7 @@ public class Ingredient {
     @OneToOne
     private IngredientCategory ingredientCategory;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "ingredients")
     private List<Step> steps;
 
     public Ingredient() {

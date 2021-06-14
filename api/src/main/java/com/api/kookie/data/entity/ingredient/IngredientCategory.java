@@ -7,7 +7,8 @@ import java.util.Set;
 public class IngredientCategory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ingredient_category_id_seq_generator")
+    @SequenceGenerator(name = "ingredient_category_id_seq_generator", sequenceName = "ingredient_category_id_seq", allocationSize = 1)
     private Integer id;
 
     private String name;

@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class RecetteThumbnailDTO {
 
-    private Long id;
+    private Integer id;
 
     private String name;
 
@@ -15,11 +15,11 @@ public class RecetteThumbnailDTO {
     public RecetteThumbnailDTO() {
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -11,7 +11,7 @@ import java.util.List;
 public class Recette {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    private Integer id;
 
     @OneToOne
     private Profile createur;
@@ -36,7 +36,7 @@ public class Recette {
 
     }
 
-    public Recette(long id, Profile createur, String nom, RecipeCategory category, List<IngredientLine> ingredientLines, List<Step> steps) {
+    public Recette(Integer id, Profile createur, String nom, RecipeCategory category, List<IngredientLine> ingredientLines, List<Step> steps) {
         this.id = id;
         this.createur = createur;
         this.nom = nom;
@@ -53,11 +53,11 @@ public class Recette {
         return false;
     }
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

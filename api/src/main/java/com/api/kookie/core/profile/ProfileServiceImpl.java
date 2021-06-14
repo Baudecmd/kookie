@@ -84,10 +84,8 @@ public class ProfileServiceImpl implements ProfileService {
                 isFavorite = false;
             }
             profile.setFavoriteRecettes(favorites);
-            Profile updatedProfile = profileRepository.save(profile);
-            if (profile.equals(updatedProfile)) {
-                return isFavorite;
-            }
+            profileRepository.save(profile);
+            return isFavorite;
         }
         return null;
     }

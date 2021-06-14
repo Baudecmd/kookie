@@ -72,17 +72,7 @@ public class RecetteServiceImpl implements RecetteService {
 
         Recette recipe = RecetteParser.toEntity(recipeDTO);
         List<IngredientLine> ingredientLines = (List<IngredientLine>) ingredientLineRepository.saveAll(recipe.getIngredientLines());
-        List<Step> steps = new ArrayList<>();
-        for (Step s : recipe.getSteps()) {
-            List<Ingredient> stepsIngredients = s.getIngredients();
-            List<Ustensil> stepsUtensils = s.getUstensils();
-            s.setUstensils(null);
-            s.setIngredients(null);
-            stepRepository.save(s);
-            s.setIngredients(stepsIngredients);
-            s.setUstensils(stepsUtensils);
-            steps.add(stepRepository.save(s));
-        }
+        List<Step> steps = (List<Step>) stepRepository.saveAll(recipe.getSteps());
         recipe.setIngredientLines(ingredientLines);
         recipe.setSteps(steps);
 

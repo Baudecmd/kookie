@@ -13,7 +13,7 @@ public class Opinion {
     @OneToOne
     private Recipe recipe;
 
-    @OneToOne
+    @ManyToOne
     private Profile profile;
 
     //TODO: ADD Interval (0 -> 5)

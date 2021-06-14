@@ -14,7 +14,7 @@ public class Recipe {
     @SequenceGenerator(name = "recipe_id_seq_generator", sequenceName = "recipe_id_seq", allocationSize = 1)
     private Integer id;
 
-    @OneToOne
+    @ManyToOne
     private Profile creator;
 
     private String name;

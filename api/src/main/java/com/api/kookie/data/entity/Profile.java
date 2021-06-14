@@ -23,13 +23,13 @@ public class Profile {
     @OneToMany
     private List<Recipe> favoriteRecipes;
 
-    @OneToMany
+    @OneToMany(mappedBy = "creator")
     private List<Recipe> createdRecipes;
 
     @OneToMany
     private List<UtensilLine> utensilLines;
 
-    @OneToMany
+    @OneToMany(mappedBy = "profile")
     private List<Opinion> opinions;
 
     public Profile() {

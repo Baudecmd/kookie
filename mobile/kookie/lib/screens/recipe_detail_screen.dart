@@ -1,10 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:kookie/models/recette/RecetteDTO.dart';
-import 'package:kookie/models/step/StepTypeDTO.dart';
-
-class RecipeDetails extends StatefulWidget {
+import 'package:kookie/api/recipe_id_client_apis extends StatefulWidget {
   final RecetteDTO recette;
 
   const RecipeDetails({Key? key, required this.recette}) : super(key: key);

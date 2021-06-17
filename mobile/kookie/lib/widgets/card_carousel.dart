@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:core';
 
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class CardCarousel extends StatefulWidget {
 
 class CardCarouselState extends State<CardCarousel>
     with AutomaticKeepAliveClientMixin<CardCarousel> {
+  late BuildContext dialogContext;
   ProfileRepository profileRepository = ProfileRepository();
 
   PageController pageController =
@@ -65,9 +67,7 @@ class CardCarouselState extends State<CardCarousel>
               child: Image(
                 height: MediaQuery.of(context).size.width * 0.6,
                 width: MediaQuery.of(context).size.width * 0.6,
-                image: recipe.image == null
-                    ? AssetImage('assets/images/post0.jpg')
-                    : AssetImage(recipe.image!),
+                image: MemoryImage(base64Decode(recipe.image!)),
                 fit: BoxFit.cover,
               ),
             ),
@@ -146,14 +146,14 @@ class CardCarouselState extends State<CardCarousel>
       children: [
         widget.title.isNotEmpty
             ? Padding(
-                padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
-                child: Text(
-                  widget.title,
-                  style: TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 2.0),
-                ))
+            padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+            child: Text(
+              widget.title,
+              style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 2.0),
+            ))
             : SizedBox(),
         Container(
           height: 450.0,
@@ -170,11 +170,27 @@ class CardCarouselState extends State<CardCarousel>
   }
 
   showRecipeDetails(int recipeId) {
-    RecipeApiClient().getOneRecipe(recipeId).then((v) => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => RecipeDetails(recette: v!),
-        )));
+    showDialog(
+        context: context,
+        builder: (_) => Dialog(
+              child: Container(
+                width: 200,
+                height: 200,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: ExactAssetImage('assets/images/chargement.gif'),
+                        fit: BoxFit.cover)),
+              ),
+            ));
+    dialogContext = context;
+    RecipeApiClient().getOneRecipe(recipeId).then((v) {
+      Navigator.pop(dialogContext);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => RecipeDetails(recette: v!),
+          ));
+    });
   }
 
   @override

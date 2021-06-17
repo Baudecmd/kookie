@@ -1,7 +1,6 @@
-# Kookie - THE Batch Cooking App
+# Kookie API - THE Batch Cooking API
 
-Meilleure application de batch cooking qui optimise votre temps grâce à
-notre [API](https://gitlab.com/Elayve/kookie/-/tree/master/api)
+Meilleure application de batch cooking qui optimise votre temps, le frontend se trouve ici [Kookie](https://gitlab.com/Elayve/kookie/-/tree/master/mobile/kookie)
 
 ## Description long
 
@@ -10,23 +9,16 @@ Kookie est un gestionnaire de recettes avec de nombreuses fonctionnalités dont 
 Une fois que vous avez créé votre compte, vous pourriez synchroniser vos recettes à travers vos appareils.
 
 ## Guide de démarrage
-
-1. Installer flutter
-2. Configurer son environnement de dev
-3. Installer les extensions pour votre IDE
-
-### Flutter CLI
-
-1. flutter pub get
-2. flutter run lib/main.dart
-  1. specifier l'emulateur : flutter run -d emulator-4 -t lib/main.dart
-
+### Pour commencer il faut
+ - créer une BDD prostgresql
+ - modifier /src/main/resources/application.properties
+   - spring.datasource.url=127.0.0.1:<port de ta BDD>
+   - spring.datasource.username=tonlogin
+   - spring.datasource.password=tonmddp
 ### RTFM
-
-[Lire les docs](https://flutter.dev/docs)
+[Lire les docs](https://spring.io/guides/gs/rest-service/)
 
 ## Dépendance utilisée:
-
 - [json_annotation](https://pub.dev/packages?q=json_annotation)
 - [http](https://pub.dev/packages?q=http)
 - [shared_preferences](https://pub.dev/packages?q=shared_preferences)
@@ -36,9 +28,7 @@ Une fois que vous avez créé votre compte, vous pourriez synchroniser vos recet
 - [json_serializable](https://pub.dev/packages?q=json_serializable)
 
 ## Fonctionnalités
-
 ## Fonctionnalités actuelles:
-
 - Créer un compte
 - S'authentifier
 - Afficher une liste de recette (thumbnail)
@@ -48,23 +38,20 @@ Une fois que vous avez créé votre compte, vous pourriez synchroniser vos recet
 - Afficher de son profil
 - Créer une recette
 - Afficher ses recette crée sur l'ecran
-  - mes recettes
-  - accueil
+    - mes recettes
+    - accueil
 - Afficher la page de recette (détaille)
 - Lancer la préparation de la recette
 - Optimiser une recette au lancement de la préparation
 
 Voir les infos liée a la version actuelle:
-
 - [Milestone](https://gitlab.com/Elayve/kookie/-/milestones/1)
 - [tag](https://gitlab.com/Elayve/kookie/-/tags/LIVRAISON_FINALE)
 - [Release](https://gitlab.com/Elayve/kookie/-/releases)
 
 ## Fonctionnalités Future:
-
 Le futur milestone est en cours, nous sommes entrain de definir les fonctionalités de la version suivante.  
 Voici ce qu'on a pour le moment :
-
 - Modifier le nombre de repas de la recette
 - Rechercher une recette par son nom
 - Filtrer les recettes en fonction des ingrédients
@@ -79,16 +66,14 @@ Voici ce qu'on a pour le moment :
 
 Si vous avez des propositions, n'hésites pas [c'est par ici](https://gitlab.com/Elayve/kookie/-/issues)  
 Un petit rapelle de guideline d'issues :
-
 - Fonctionalité :
-  - feat(mobile): superfeature
-  - feat(api): superfeature
-  - feat(api-mobile): superfeature
+    - feat(mobile): superfeature
+    - feat(api): superfeature
+    - feat(api-mobile): superfeature
 - Bug :
-  - bug(mobile): Petite Description
-  - bug(api): Petite Description
-  - bug(api-mobile): Petite Description
-
+    - bug(mobile): Petite Description
+    - bug(api): Petite Description
+    - bug(api-mobile): Petite Description
 ## Screenshots:
 
  <div style="display: flex; flex-wrap: wrap;">

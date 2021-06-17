@@ -37,4 +37,12 @@ public class IngredientParser {
         }
         return listIngredientsDTO;
     }
+
+    public static List<Ingredient> parseListToEntity(List<IngredientDTO> ingredients) {
+        List<Ingredient> listIngredients = new ArrayList<>();
+        for (IngredientDTO ingredient : ingredients) {
+            listIngredients.add(toEntity(ingredient));
+        }
+        return listIngredients;
+    }
 }

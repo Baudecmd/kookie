@@ -7,13 +7,14 @@ import java.util.List;
 public class RecipeCategory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recipe_category_id_seq_generator")
+    @SequenceGenerator(name = "recipe_category_id_seq_generator", sequenceName = "recipe_category_id_seq", allocationSize = 1)
     private Integer id;
 
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Recette> recipes;
+    private List<Recipe> recipes;
 
     public RecipeCategory() {
     }
@@ -39,11 +40,11 @@ public class RecipeCategory {
         this.name = name;
     }
 
-    public List<Recette> getRecipes() {
+    public List<Recipe> getRecipes() {
         return recipes;
     }
 
-    public void setRecipes(List<Recette> recipes) {
+    public void setRecipes(List<Recipe> recipes) {
         this.recipes = recipes;
     }
 

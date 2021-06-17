@@ -1,49 +1,47 @@
 package com.api.kookie.core.util;
 
-import com.api.kookie.core.dto.CategoryDTO;
 import com.api.kookie.core.dto.RecetteDTO;
-import com.api.kookie.data.entity.Opinion;
-import com.api.kookie.data.entity.Recette;
+import com.api.kookie.data.entity.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecetteParser {
-    public static RecetteDTO toDTO(Recette recette) {
+    public static RecetteDTO toDTO(Recipe recipe) {
         RecetteDTO recetteDTO = new RecetteDTO();
-        if (recette != null) {
-            recetteDTO.setId(recette.getId());
-            recetteDTO.setProfile(ProfileParser.toDTO(recette.getCreateur()));
-            recetteDTO.setName(recette.getNom());
-            recetteDTO.setImage(recette.getImage());
-            recetteDTO.setCategory(RecipeCategoryParser.toDTO(recette.getCategory()));
-            recetteDTO.setIngredientLines(IngredientLineParser.parseListToDTO(recette.getIngredientLines()));
-            recetteDTO.setSteps(StepParser.parseListToDTO(recette.getSteps()));
-            if (recetteDTO.getOpinions() != null) recetteDTO.setOpinions(OpinionParser.parseListToDTO(recette.getOpinions()));
+        if (recipe != null) {
+            recetteDTO.setId(recipe.getId());
+            recetteDTO.setProfile(ProfileParser.toDTO(recipe.getCreator()));
+            recetteDTO.setName(recipe.getName());
+            recetteDTO.setImage(recipe.getImage());
+            recetteDTO.setCategory(RecipeCategoryParser.toDTO(recipe.getCategory()));
+            recetteDTO.setIngredientLines(IngredientLineParser.parseListToDTO(recipe.getIngredientLines()));
+            recetteDTO.setSteps(StepParser.parseListToDTO(recipe.getSteps()));
+            if (recetteDTO.getOpinions() != null) recetteDTO.setOpinions(OpinionParser.parseListToDTO(recipe.getOpinions()));
 
         }
         return recetteDTO;
     }
 
-    public static Recette toEntity(RecetteDTO recetteDTO) {
-        Recette recette = new Recette();
+    public static Recipe toEntity(RecetteDTO recetteDTO) {
+        Recipe recipe = new Recipe();
         if (recetteDTO != null) {
-            recette.setId(recetteDTO.getId());
-            recette.setCreateur(ProfileParser.toEntity(recetteDTO.getProfile()));
-            recette.setNom(recetteDTO.getName());
-            recette.setImage(recetteDTO.getImage());
-            recette.setCategory(RecipeCategoryParser.toEntity(recetteDTO.getCategory()));
-            recette.setIngredientLines(IngredientLineParser.parseListToEntity(recetteDTO.getIngredientLines()));
-            recette.setSteps(StepParser.parseListToEntity(recetteDTO.getSteps()));
-            if (recette.getOpinions()!=null) recette.setOpinions(OpinionParser.parseListEntity(recetteDTO.getOpinions()));
+            recipe.setId(recetteDTO.getId());
+            recipe.setCreator(ProfileParser.toEntity(recetteDTO.getProfile()));
+            recipe.setName(recetteDTO.getName());
+            recipe.setImage(recetteDTO.getImage());
+            recipe.setCategory(RecipeCategoryParser.toEntity(recetteDTO.getCategory()));
+            recipe.setIngredientLines(IngredientLineParser.parseListToEntity(recetteDTO.getIngredientLines()));
+            recipe.setSteps(StepParser.parseListToEntity(recetteDTO.getSteps()));
+            if (recipe.getOpinions()!=null) recipe.setOpinions(OpinionParser.parseListEntity(recetteDTO.getOpinions()));
         }
-        return recette;
+        return recipe;
     }
 
-    public static List<RecetteDTO> parseListToDTO(List<Recette> recettes) {
+    public static List<RecetteDTO> parseListToDTO(List<Recipe> recipes) {
         List<RecetteDTO> listRecettesDTO = new ArrayList<>();
-        for (Recette recette : recettes) {
-            listRecettesDTO.add(toDTO(recette));
+        for (Recipe recipe : recipes) {
+            listRecettesDTO.add(toDTO(recipe));
         }
         return listRecettesDTO;
     }

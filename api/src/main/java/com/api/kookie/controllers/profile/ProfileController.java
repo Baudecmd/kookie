@@ -35,7 +35,7 @@ public class ProfileController {
     }
 
     @GetMapping("/favorite/add")
-    public ResponseEntity<Boolean> addFavorite(@RequestParam Integer profileId, @RequestParam Long recetteId) {
+    public ResponseEntity<Boolean> addFavorite(@RequestParam Integer profileId, @RequestParam Integer recetteId) {
         LOGGER.debug("[ProfileController, addFavorite] profileId : " + profileId + " recetteId : " + recetteId);
 
         if (profileId == null || recetteId == null) {

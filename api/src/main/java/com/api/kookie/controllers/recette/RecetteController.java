@@ -3,9 +3,8 @@ package com.api.kookie.controllers.recette;
 import com.api.kookie.core.dto.RecetteDTO;
 import com.api.kookie.core.dto.RecetteThumbnailDTO;
 import com.api.kookie.core.recette.RecetteService;
-import com.api.kookie.data.entity.Recette;
 import com.api.kookie.data.profile.ProfileRepository;
-import com.api.kookie.data.recette.RecetteRepository;
+import com.api.kookie.data.recipe.RecipeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,24 +21,24 @@ public class RecetteController {
     private static final Logger LOGGER = LoggerFactory.getLogger(RecetteController.class);
 
     @Autowired
-    RecetteRepository recetteRepository;
+    RecipeRepository recipeRepository;
     @Autowired
     ProfileRepository profileRepository;
     @Autowired
     RecetteService recetteService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<RecetteDTO>> getAllRecipes() {
-        LOGGER.debug("[RecetteController, getAllRecipes]");
+    public ResponseEntity<List<RecetteDTO>> getAllRecipes(Integer profileId) {
+        LOGGER.debug("[RecetteController, getAllRecipes] profileId = " + profileId);
 
-        return ResponseEntity.status(HttpStatus.OK).body(recetteService.getAllRecipes());
+        return ResponseEntity.status(HttpStatus.OK).body(recetteService.getAllRecipes(profileId));
     }
 
     @GetMapping("/one")
-    public ResponseEntity<?> getOneByRecipeId(@RequestParam Long recipeId) {
-        LOGGER.debug("[RecetteController, getOneByRecipeId] recipeId = " + recipeId);
+    public ResponseEntity<?> getOneByRecipeId(@RequestParam Integer profileId, @RequestParam Integer recipeId) {
+        LOGGER.debug("[RecetteController, getOneByRecipeId] profileId = " + profileId + "recipeId = " + recipeId);
 
-        RecetteDTO recipe = recetteService.getOneById(recipeId);
+        RecetteDTO recipe = recetteService.getOneById(profileId, recipeId);
 
         return ResponseEntity.status(HttpStatus.OK).body(recipe);
 
@@ -55,10 +54,10 @@ public class RecetteController {
     }
 
     @GetMapping("/thumbnail/all")
-    public ResponseEntity<?> getAllRecettesThumbnails() {
-        LOGGER.debug("[RecetteController, getAllRecettesThumbnails]");
+    public ResponseEntity<?> getAllRecettesThumbnails(@RequestParam Integer profileId) {
+        LOGGER.debug("[RecetteController, getAllRecettesThumbnails] profileId = " + profileId);
 
-        List<RecetteThumbnailDTO> recettes = recetteService.getAllRecipesThumbnails(15);
+        List<RecetteThumbnailDTO> recettes = recetteService.getAllRecipesThumbnails(profileId);
 
         return ResponseEntity.status(HttpStatus.OK).body(recettes);
 

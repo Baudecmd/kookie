@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kookie/api/recipe_id_client_api.dart';
-import 'package:kookie/models/recette/RecetteDTO.dart';
-import 'package:kookie/models/step/StepDTO.dart';
 import 'package:kookie/models/step/StepTypeDTO.dart';
 
 class RecipeDetails extends StatefulWidget {

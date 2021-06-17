@@ -18,13 +18,18 @@ class StepCreationScreen extends StatefulWidget {
 
 class _StepCreationScreen extends State<StepCreationScreen> {
   List<MultiSelectDialogItem> items = [];
-  Map<int, UstensilDTO> _ustensils = {};
+  late List<UstensilDTO> _ustensils;
+  final textKey = GlobalKey<FormState>();
+  final utensilsListKey = GlobalKey<FormState>();
+  late String? _stepName;
+  late final TextEditingController _controller;
 
   @override
   void initState() {
     super.initState();
-    StepDTO _step = widget.step;
-    this._controller = new TextEditingController(text: _step.name);
+    _stepName = widget.step.name;
+    this._controller = new TextEditingController(text: widget.step.name);
+    _ustensils = widget.step.ustensils!.toList();
     makeMultiSelectItems();
   }
 
@@ -35,11 +40,6 @@ class _StepCreationScreen extends State<StepCreationScreen> {
       });
     }
   }
-
-  final textKey = GlobalKey<FormState>();
-  final utensilsListKey = GlobalKey<FormState>();
-  String? _stepName;
-  late final TextEditingController _controller;
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +64,8 @@ class _StepCreationScreen extends State<StepCreationScreen> {
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: TextField(
                   key: textKey,
-                  maxLines: null,
                   controller: _controller,
+                  maxLines: null,
                   keyboardType: TextInputType.multiline,
                   onChanged: (String value) {
                     _stepName = value;
@@ -80,7 +80,7 @@ class _StepCreationScreen extends State<StepCreationScreen> {
               SizedBox(height: 20),
               ...items.map((item) {
                 return CheckboxListTile(
-                    value: _ustensils.keys.contains(item.value),
+                    value: isInUtensilsList(item),
                     title: Text(item.label),
                     controlAffinity: ListTileControlAffinity.leading,
                     onChanged: (checked) {
@@ -110,17 +110,23 @@ class _StepCreationScreen extends State<StepCreationScreen> {
       if (checked) {
         for (UstensilDTO u in listUstensilDTO) {
           if (u.id == value) {
-            _ustensils[value] = u;
+            _ustensils.add(u);
           }
         }
       } else {
-        for (UstensilDTO u in listUstensilDTO) {
-          if (u.id == value) {
-            _ustensils.remove(value);
-          }
-        }
+        _ustensils.removeWhere((element) => element.id == value);
       }
     });
+  }
+
+  bool isInUtensilsList(item) {
+    bool result = false;
+    _ustensils.forEach((element) {
+      if (element.id == item.value && element.name == item.label) {
+        result = true;
+      }
+    });
+    return result;
   }
 
   List<UstensilDTO> convertMultiSelectToIngredientDTO() {
@@ -131,15 +137,8 @@ class _StepCreationScreen extends State<StepCreationScreen> {
     var step = StepDTO(
         name: _stepName,
         stepNumber: widget.step.stepNumber,
-        ustensils: _ustensils.values.toList(),
+        ustensils: _ustensils,
         stepType: StepTypeDTO(id: 1, name: "Préparation"));
-    debugPrint(step.id.toString() +
-        " " +
-        step.name.toString() +
-        " " +
-        step.stepNumber.toString() +
-        " " +
-        step.ustensils.toString());
     Navigator.pop(context, step);
   }
 }

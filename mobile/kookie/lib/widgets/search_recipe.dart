@@ -36,10 +36,9 @@ class SearchRecipe extends SearchDelegate {
         child: Column(
           children: [
             Text(selectedResults!.name),
-            selectedResults!.imageURL == null
+            selectedResults!.image != null
                 ? Image(
-                    image:
-                        MemoryImage(base64Decode(selectedResults!.imageURL!)),
+              image: MemoryImage(base64Decode(selectedResults!.image!)),
                   )
                 : Text('pas d\'image'),
           ],
@@ -62,14 +61,19 @@ class SearchRecipe extends SearchDelegate {
     return ListView.builder(
       itemCount: suggestionList.length,
       itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(
-            suggestionList[index],
-          ),
-          onTap: () {
-            selectedResults = listRecetteTmb[index];
-            showResults(context);
-          },
+        return Column(
+          children: [
+            ListTile(
+              title: Text(
+                suggestionList[index],
+              ),
+              onTap: () {
+                selectedResults = listRecetteTmb[index];
+                showResults(context);
+              },
+            ),
+            // todo: build card
+          ],
         );
       },
     );

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:kookie/datas/data.dart';
 import 'package:kookie/models/user/CredentialDTO.dart';
@@ -35,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Form(
             key: _formKey,
             child: Column(
+              //todo: champs invalide
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image(

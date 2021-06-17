@@ -16,4 +16,9 @@ class ProfileDTO {
       _$ProfileDTOFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProfileDTOToJson(this);
+
+  @override
+  String toString() {
+    return "id ${this.id}, user {${this.user}}, fname ${this.firstName}, lname ${this.lastName}";
+  }
 }

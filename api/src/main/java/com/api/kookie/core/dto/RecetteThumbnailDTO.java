@@ -8,6 +8,8 @@ public class RecetteThumbnailDTO {
 
     private String name;
 
+    private String image;
+
     private Integer note;
 
     private boolean isFavorite;
@@ -31,6 +33,14 @@ public class RecetteThumbnailDTO {
         this.name = name;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public Integer getNote() {
         return note;
     }
@@ -43,8 +53,8 @@ public class RecetteThumbnailDTO {
         return isFavorite;
     }
 
-    public void setIsFavorite(boolean favorite) {
-        isFavorite = favorite;
+    public void setIsFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
     }
 
     @Override
@@ -52,12 +62,12 @@ public class RecetteThumbnailDTO {
         if (this == o) return true;
         if (!(o instanceof RecetteThumbnailDTO)) return false;
         RecetteThumbnailDTO that = (RecetteThumbnailDTO) o;
-        return getIsFavorite() == that.getIsFavorite() && Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getNote(), that.getNote());
+        return isFavorite == that.isFavorite && Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getImage(), that.getImage()) && Objects.equals(getNote(), that.getNote());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getNote(), getIsFavorite());
+        return Objects.hash(getId(), getName(), getImage(), getNote(), isFavorite);
     }
 
     @Override

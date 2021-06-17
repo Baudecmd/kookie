@@ -8,9 +8,9 @@ import com.api.kookie.core.user.UserService;
 import com.api.kookie.core.util.ProfileParser;
 import com.api.kookie.core.util.RecetteParser;
 import com.api.kookie.data.entity.Profile;
-import com.api.kookie.data.entity.Recette;
+import com.api.kookie.data.entity.Recipe;
 import com.api.kookie.data.profile.ProfileRepository;
-import com.api.kookie.data.recette.RecetteRepository;
+import com.api.kookie.data.recipe.RecipeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -36,7 +37,7 @@ public class ProfileServiceImpl implements ProfileService {
     private ProfileRepository profileRepository;
 
     @Autowired
-    private RecetteRepository recetteRepository;
+    private RecipeRepository recipeRepository;
 
     @Override
     @Transactional
@@ -67,16 +68,24 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     @Transactional
-    public Boolean addFavorite(Integer profileId, Long recetteId) {
+    public Boolean addFavorite(Integer profileId, Integer recetteId) {
         LOGGER.debug("[ProfileService, addFavorite] profileId = " + profileId + ", recetteID = " + recetteId);
         Profile profile = profileRepository.findOneById(profileId);
-        Recette recette = recetteRepository.findOneById(recetteId);
-        if (profile != null && recette != null) {
-            List<Recette> favorites = profile.getFavoriteRecettes();
-            favorites.add(recette);
+        Recipe recipe = recipeRepository.findOneById(recetteId);
+        if (profile != null && recipe != null) {
+            List<Recipe> currentRecipes = profile.getFavoriteRecettes().stream().filter(r -> r.getId() == recetteId).collect(Collectors.toList());
+            List<Recipe> favorites = profile.getFavoriteRecettes();
+            Boolean isFavorite;
+            if (currentRecipes.isEmpty()) {
+                favorites.add(recipe);
+                isFavorite = true;
+            } else {
+                favorites.removeAll(currentRecipes);
+                isFavorite = false;
+            }
             profile.setFavoriteRecettes(favorites);
-            Profile updatedProfile = profileRepository.save(profile);
-            return profile.equals(updatedProfile);
+            profileRepository.save(profile);
+            return isFavorite;
         }
         return null;
     }

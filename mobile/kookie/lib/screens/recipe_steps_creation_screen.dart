@@ -26,7 +26,6 @@ class RecipesStepsCreationScreen extends StatefulWidget {
 }
 
 class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
-  final List<int> _items = List<int>.generate(1, (int index) => index + 1);
   List<StepDTO> _steps = [];
 
   RecipeApiClient recipeApiClient = RecipeApiClient();
@@ -34,7 +33,7 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
   @override
   void initState() {
     super.initState();
-    _steps.add(StepDTO(stepNumber: 1));
+    _steps.add(StepDTO(stepNumber: 1, ustensils: List<UstensilDTO>.empty()));
   }
 
   @override
@@ -46,14 +45,13 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
           children: [
             Expanded(
               child: ReorderableListView.builder(
-                itemCount: _items.length,
+                itemCount: _steps.length,
                 itemBuilder: (context, index) {
                   return Dismissible(
-                    key: Key(_items[index].toString()),
+                    key: Key(_steps[index].stepNumber.toString()),
                     onDismissed: (direction) =>
-                        {_items.removeAt(index), _refreshListView()},
+                        {_steps.removeAt(index), _refreshListView()},
                     child: Card(
-                      key: ValueKey(index),
                       margin: const EdgeInsets.all(10),
                       color: Color.fromRGBO(205, 205, 205, 1),
                       child: ListTile(
@@ -70,8 +68,9 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
                     if (oldIndex < newIndex) {
                       newIndex -= 1;
                     }
-                    final int item = _items.removeAt(oldIndex);
-                    _items.insert(newIndex, item);
+                    final StepDTO step = _steps.removeAt(oldIndex);
+                    _steps.insert(newIndex, step);
+                    _updateStepsNumbers();
                   });
                 },
               ),
@@ -94,45 +93,50 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
     setState(() {});
   }
 
+  _updateStepsNumbers() {
+    var newStepNumber = 1;
+    _steps.forEach((element) {
+      element.stepNumber = newStepNumber;
+      newStepNumber++;
+    });
+  }
+
   _addStep() {
     var stepNumber = 1;
     var isInList = true;
     while (isInList) {
-      if (_items.contains(stepNumber)) {
+      if (_isInStepsList(stepNumber)) {
         stepNumber++;
       } else {
         isInList = false;
       }
     }
     setState(() {
-      _items.insert(_items.length, stepNumber);
+      _steps.insert(
+          stepNumber - 1,
+          StepDTO(
+              stepNumber: stepNumber, ustensils: List<UstensilDTO>.empty()));
     });
-    _steps.insert(stepNumber - 1, StepDTO(stepNumber: stepNumber));
+  }
+
+  bool _isInStepsList(stepNumber) {
+    bool result = false;
+    _steps.forEach((element) {
+      if (element.stepNumber == stepNumber) {
+        result = true;
+      }
+    });
+    return result;
   }
 
   _openTileInfo(index) async {
-    debugPrint('index ta mere ' + index.toString());
-    debugPrint(_steps[index].stepNumber.toString());
     StepDTO result = await Navigator.push(
       context,
       MaterialPageRoute(
           builder: (_) => StepCreationScreen(_steps[index]),
           fullscreenDialog: true),
     );
-    if (result != null) {
-      _steps[index] = result;
-    }
-    for (StepDTO s in _steps) {
-      debugPrint("---------------------------------------------");
-      debugPrint("stepNumber : " + s.stepNumber.toString());
-      debugPrint("Name : " + s.name!);
-      if (s.ustensils != null) {
-        for (UstensilDTO u in s.ustensils!) {
-          debugPrint("Ustensil Name : " + u.name!);
-        }
-      }
-      debugPrint("---------------------------------------------");
-    }
+    _steps[index] = result;
   }
 
   _submitInfo() {

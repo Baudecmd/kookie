@@ -1,4 +1,4 @@
-package com.api.kookie.data.recette;
+package com.api.kookie.data.recipe;
 
 import com.api.kookie.data.entity.RecipeCategory;
 import org.springframework.data.repository.CrudRepository;

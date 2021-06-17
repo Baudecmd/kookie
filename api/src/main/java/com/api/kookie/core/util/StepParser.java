@@ -13,11 +13,11 @@ public class StepParser {
         if (step != null) {
             stepDTO.setId(step.getId());
             stepDTO.setName(step.getStepName());
-            //stepDTO.setIngredientLine(IngredientLineParser.toDTO(step.getIngredientLine()));
+            if (step.getIngredients() != null) stepDTO.setIngredients(IngredientParser.parseListToDTO(step.getIngredients()));
             stepDTO.setDuration(step.getDuration());
             stepDTO.setStepNumber(step.getStepNumber());
             stepDTO.setStepType(StepTypeParser.toDTO(step.getStepType()));
-            //stepDTO.setUstensils(UstensilParser.parseListToDTO(step.getUstensils()));
+            if (step.getUstensils() != null) stepDTO.setUstensils(UstensilParser.parseListToDTO(step.getUstensils()));
         }
         return stepDTO;
     }
@@ -27,11 +27,11 @@ public class StepParser {
         if (stepDTO != null) {
             step.setId(stepDTO.getId());
             step.setStepName(stepDTO.getName());
-            //step.setIngredientLine(IngredientLineParser.toEntity(stepDTO.getIngredientLine()));
+            if (stepDTO.getIngredients() != null) step.setIngredients(IngredientParser.parseListToEntity(stepDTO.getIngredients()));
             step.setDuration(stepDTO.getDuration());
             step.setStepNumber(stepDTO.getStepNumber());
             step.setStepType(StepTypeParser.toEntity(stepDTO.getStepType()));
-            //step.setUstensils(UstensilParser.parseListToEntity(stepDTO.getUstensils()));
+            if (stepDTO.getUstensils() != null)step.setUstensils(UstensilParser.parseListToEntity(stepDTO.getUstensils()));
         }
         return step;
     }

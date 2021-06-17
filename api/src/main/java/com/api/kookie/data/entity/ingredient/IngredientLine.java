@@ -6,7 +6,8 @@ import javax.persistence.*;
 public class IngredientLine {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ingredient_line_id_seq_generator")
+    @SequenceGenerator(name = "ingredient_line_id_seq_generator", sequenceName = "ingredient_line_id_seq", allocationSize = 1)
     private Integer id;
 
     @OneToOne

@@ -5,7 +5,7 @@ import com.api.kookie.core.dto.RecipeLevelDTO;
 import com.api.kookie.core.util.RecetteParser;
 import com.api.kookie.core.util.RecipeLevelParser;
 import com.api.kookie.data.entity.RecipeLevel;
-import com.api.kookie.data.recette.RecipeLevelRepository;
+import com.api.kookie.data.recipe.RecipeLevelRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

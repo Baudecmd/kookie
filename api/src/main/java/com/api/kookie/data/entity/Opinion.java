@@ -6,13 +6,14 @@ import javax.persistence.*;
 public class Opinion {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "opinion_id_seq_generator")
+    @SequenceGenerator(name = "opinion_id_seq_generator", sequenceName = "opinion_id_seq", allocationSize = 1)
     private Integer id;
 
     @OneToOne
-    private Recette recette;
+    private Recipe recipe;
 
-    @OneToOne
+    @ManyToOne
     private Profile profile;
 
     //TODO: ADD Interval (0 -> 5)
@@ -23,9 +24,9 @@ public class Opinion {
     public Opinion() {
     }
 
-    public Opinion(Integer id, Recette recette, Profile profile, Integer note, String comment) {
+    public Opinion(Integer id, Recipe recipe, Profile profile, Integer note, String comment) {
         this.id = id;
-        this.recette = recette;
+        this.recipe = recipe;
         this.profile = profile;
         this.note = note;
         this.comment = comment;
@@ -39,12 +40,12 @@ public class Opinion {
         this.id = id;
     }
 
-    public Recette getRecette() {
-        return recette;
+    public Recipe getRecette() {
+        return recipe;
     }
 
-    public void setRecette(Recette recette) {
-        this.recette = recette;
+    public void setRecette(Recipe recipe) {
+        this.recipe = recipe;
     }
 
     public Profile getProfile() {
@@ -75,7 +76,7 @@ public class Opinion {
     public String toString() {
         return "Opinion{" +
                 "id=" + id +
-                ", recette=" + recette +
+                ", recette=" + recipe +
                 ", profile=" + profile +
                 ", note=" + note +
                 ", comment='" + comment + '\'' +

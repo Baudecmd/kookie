@@ -7,16 +7,17 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "RECETTE", schema = "PUBLIC")
-public class Recette {
+@Table(name = "Recipe", schema = "PUBLIC")
+public class Recipe {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recipe_id_seq_generator")
+    @SequenceGenerator(name = "recipe_id_seq_generator", sequenceName = "recipe_id_seq", allocationSize = 1)
+    private Integer id;
 
-    @OneToOne
-    private Profile createur;
+    @ManyToOne
+    private Profile creator;
 
-    private String nom;
+    private String name;
 
     private String image;
 
@@ -32,14 +33,14 @@ public class Recette {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Opinion> opinions;
 
-    public Recette() {
+    public Recipe() {
 
     }
 
-    public Recette(long id, Profile createur, String nom, RecipeCategory category, List<IngredientLine> ingredientLines, List<Step> steps) {
+    public Recipe(Integer id, Profile creator, String name, RecipeCategory category, List<IngredientLine> ingredientLines, List<Step> steps) {
         this.id = id;
-        this.createur = createur;
-        this.nom = nom;
+        this.creator = creator;
+        this.name = name;
         this.category = category;
         this.ingredientLines = ingredientLines;
         this.steps = steps;
@@ -53,28 +54,28 @@ public class Recette {
         return false;
     }
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Profile getCreateur() {
-        return createur;
+    public Profile getCreator() {
+        return creator;
     }
 
-    public void setCreateur(Profile createur) {
-        this.createur = createur;
+    public void setCreator(Profile creator) {
+        this.creator = creator;
     }
 
-    public String getNom() {
-        return nom;
+    public String getName() {
+        return name;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getImage() {
@@ -121,8 +122,8 @@ public class Recette {
     public String toString() {
         return "Recette{" +
                 "id=" + id +
-                ", createur=" + createur +
-                ", nom='" + nom + '\'' +
+                ", creator=" + creator +
+                ", name='" + name + '\'' +
                 ", category=" + category +
                 ", ingredientLines=" + ingredientLines +
                 ", steps=" + steps +

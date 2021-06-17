@@ -14,6 +14,7 @@ class RecetteDTO {
   final ProfileDTO? profile;
   final String name;
   final String? image;
+  bool? isFavorite;
   final CategoryDTO? category;
   final List<IngredientLineDTO>? ingredientLines;
   final List<StepDTO>? steps;
@@ -24,6 +25,7 @@ class RecetteDTO {
       this.profile,
       required this.name,
       this.image,
+      this.isFavorite,
       this.category,
       this.ingredientLines,
       this.steps,

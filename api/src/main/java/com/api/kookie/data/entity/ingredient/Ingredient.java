@@ -1,13 +1,17 @@
 package com.api.kookie.data.entity.ingredient;
 
+import com.api.kookie.data.entity.Step;
+
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 public class Ingredient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ingredient_id_seq_generator")
+    @SequenceGenerator(name = "ingredient_id_seq_generator", sequenceName = "ingredient_id_seq", allocationSize = 1)
     private Integer id;
 
     private String name;
@@ -16,6 +20,9 @@ public class Ingredient {
 
     @OneToOne
     private IngredientCategory ingredientCategory;
+
+    @ManyToMany(mappedBy = "ingredients")
+    private List<Step> steps;
 
     public Ingredient() {
     }
@@ -67,6 +74,13 @@ public class Ingredient {
         this.ingredientCategory = ingredientCategory;
     }
 
+    public List<Step> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<Step> steps) {
+        this.steps = steps;
+    }
 
     @Override
     public String toString() {

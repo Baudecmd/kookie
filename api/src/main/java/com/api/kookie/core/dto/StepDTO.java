@@ -9,7 +9,7 @@ public class StepDTO {
 
     private String name;
 
-    private IngredientLineDTO ingredientLine;
+    private List<IngredientDTO> ingredients;
 
     private int duration;
 
@@ -40,12 +40,12 @@ public class StepDTO {
         this.name = name;
     }
 
-    public IngredientLineDTO getIngredientLine() {
-        return ingredientLine;
+    public List<IngredientDTO> getIngredients() {
+        return ingredients;
     }
 
-    public void setIngredientLine(IngredientLineDTO ingredientLine) {
-        this.ingredientLine = ingredientLine;
+    public void setIngredients(List<IngredientDTO> ingredients) {
+        this.ingredients = ingredients;
     }
 
     public Integer getStepNumber() {
@@ -93,12 +93,12 @@ public class StepDTO {
         if (this == o) return true;
         if (!(o instanceof StepDTO)) return false;
         StepDTO stepDTO = (StepDTO) o;
-        return getDuration() == stepDTO.getDuration() && isPreparationStep() == stepDTO.isPreparationStep() && Objects.equals(getId(), stepDTO.getId()) && Objects.equals(getName(), stepDTO.getName()) && Objects.equals(getIngredientLine(), stepDTO.getIngredientLine()) && Objects.equals(getStepNumber(), stepDTO.getStepNumber()) && Objects.equals(getStepType(), stepDTO.getStepType()) && Objects.equals(getUstensils(), stepDTO.getUstensils());
+        return getDuration() == stepDTO.getDuration() && isPreparationStep() == stepDTO.isPreparationStep() && Objects.equals(getId(), stepDTO.getId()) && Objects.equals(getName(), stepDTO.getName()) && Objects.equals(getIngredients(), stepDTO.getIngredients()) && Objects.equals(getStepNumber(), stepDTO.getStepNumber()) && Objects.equals(getStepType(), stepDTO.getStepType()) && Objects.equals(getUstensils(), stepDTO.getUstensils());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getIngredientLine(), getDuration(), getStepNumber(), isPreparationStep(), getStepType(), getUstensils());
+        return Objects.hash(getId(), getName(), getIngredients(), getDuration(), getStepNumber(), isPreparationStep(), getStepType(), getUstensils());
     }
 
     @Override
@@ -106,7 +106,7 @@ public class StepDTO {
         return "StepDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", ingredientLine=" + ingredientLine +
+                ", ingredients=" + ingredients +
                 ", duration=" + duration +
                 ", stepNumber=" + stepNumber +
                 ", isPreparationStep=" + isPreparationStep +

@@ -14,17 +14,17 @@ class CardCarousel extends StatefulWidget {
   const CardCarousel({required this.recipes, this.title = ''});
 
   @override
-  _CardCarouselState createState() => _CardCarouselState();
+  CardCarouselState createState() => CardCarouselState();
 }
 
-class _CardCarouselState extends State<CardCarousel>
+class CardCarouselState extends State<CardCarousel>
     with AutomaticKeepAliveClientMixin<CardCarousel> {
   ProfileRepository profileRepository = ProfileRepository();
 
   PageController pageController =
       PageController(initialPage: 0, viewportFraction: 0.8);
 
-  _buildCard(BuildContext context, int index) {
+  buildCard(BuildContext context, int index) {
     RecetteThumbnailDTO recipe = widget.recipes[index];
     return AnimatedBuilder(
       animation: pageController,
@@ -161,7 +161,7 @@ class _CardCarouselState extends State<CardCarousel>
             controller: pageController,
             itemCount: widget.recipes.length,
             itemBuilder: (BuildContext context, int index) {
-              return _buildCard(context, index);
+              return buildCard(context, index);
             },
           ),
         ),

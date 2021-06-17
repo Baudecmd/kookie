@@ -78,14 +78,16 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  ListView buildRecipeTabBarView() {
-    return ListView(
-      children: <Widget>[
-        CardCarousel(
-          recipes: recipes,
-        )
-      ],
-    );
+  Widget buildRecipeTabBarView() {
+    return recipes.isNotEmpty
+        ? ListView(
+            children: <Widget>[
+              CardCarousel(
+                recipes: recipes,
+              )
+            ],
+          )
+        : Image(image: AssetImage('assets/images/chargement.gif'));
   }
 
   Future<ListView> buildListViewFromCategory(CategoryDTO category) async {

@@ -65,9 +65,9 @@ class CardCarouselState extends State<CardCarousel>
               child: Image(
                 height: MediaQuery.of(context).size.width * 0.6,
                 width: MediaQuery.of(context).size.width * 0.6,
-                image: recipe.imageURL == null
+                image: recipe.image == null
                     ? AssetImage('assets/images/post0.jpg')
-                    : AssetImage(recipe.imageURL!),
+                    : AssetImage(recipe.image!),
                 fit: BoxFit.cover,
               ),
             ),

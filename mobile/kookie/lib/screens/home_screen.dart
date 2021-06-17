@@ -7,9 +7,9 @@ import 'package:kookie/models/category/CategoryDTO.dart';
 import 'package:kookie/models/profile/ProfileDTO.dart';
 import 'package:kookie/models/recette/RecetteThumbnailDTO.dart';
 import 'package:kookie/repositories/home_repository.dart';
-import 'package:kookie/widgets/Search.dart';
 import 'package:kookie/widgets/card_carousel.dart';
 import 'package:kookie/widgets/custom_drawer.dart';
+import 'package:kookie/widgets/search_recipe.dart';
 
 import '../services/storage_util.dart';
 import 'start_screen.dart';
@@ -62,14 +62,14 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ),
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(120.0),
+          preferredSize: Size.fromHeight(categories.isNotEmpty ? 120 : 80),
           child: categories.isNotEmpty
               ? Column(
-            children: [
-              buildSearchBar(context),
-              buildCategoryTabBar(context),
-            ],
-          )
+                  children: [
+                    buildSearchBar(context),
+                    buildCategoryTabBar(context),
+                  ],
+                )
               : buildSearchBar(context),
         ),
       ),
@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   Future<ListView> buildListViewFromCategory(CategoryDTO category) async {
     List<RecetteThumbnailDTO>? recipesFromCategory =
-    await homeRepository.getAllRecipeThumbnailsByCategory(category);
+        await homeRepository.getAllRecipeThumbnailsByCategory(category);
     return ListView(
       children: <Widget>[
         CardCarousel(recipes: recipesFromCategory!),
@@ -102,8 +102,7 @@ class _HomeScreenState extends State<HomeScreen>
     return TextButton(
       onPressed: () => {
         showSearch(
-            context: context,
-            delegate: Search(listExample: ['test1', 'test2', 'pastest1']))
+            context: context, delegate: SearchRecipe(listRecetteTmb: recipes))
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 30),

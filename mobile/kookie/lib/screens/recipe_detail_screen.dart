@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:kookie/api/recipe_id_client_api.dart';
+import 'package:kookie/models/recette/RecetteDTO.dart';
 import 'package:kookie/models/step/StepTypeDTO.dart';
 
 class RecipeDetails extends StatefulWidget {
-  final int? recipeId;
+  final RecetteDTO recette;
 
-  const RecipeDetails({Key? key, required this.recipeId}) : super(key: key);
+  const RecipeDetails({Key? key, required this.recette}) : super(key: key);
 
   @override
   _RecipeDetailsState createState() => _RecipeDetailsState();
 }
 
 class _RecipeDetailsState extends State<RecipeDetails> {
-  var recette;
   List<Widget> _widgetOptions = [
     Text("Oki"),
     Text("Ustensils"),
@@ -22,31 +21,24 @@ class _RecipeDetailsState extends State<RecipeDetails> {
   @override
   initState() {
     super.initState();
-    RecipeClient().recetteFromID(widget.recipeId).then((value) => setState(() {
-          recette = value;
-          var steptype = StepTypeDTO(name: "Cuisson");
-          _widgetOptions = initTab();
-        }));
+    var steptype = StepTypeDTO(name: "Cuisson");
+    _widgetOptions = initTab();
   }
 
-/* ListView.builder(
-          itemCount: ustensils.length,
-          itemBuilder: (BuildContext ctxt, int index) {
-            return new Text(ustensils[index].name);
-          })*/
   List<Widget> initTab() {
     //var ustensils = recette.getAllUstensils();
     return <Widget>[
       ListView.builder(
-          itemCount: recette.ingredientLines!.length,
+          itemCount: widget.recette.ingredientLines!.length,
           itemBuilder: (BuildContext ctxt, int index) {
-            return new Text(recette.ingredientLines[index].ingredient.name);
+            return new Text(
+                widget.recette.ingredientLines![index].ingredient.name);
           }),
       Text("Ustensiles"),
       ListView.builder(
-          itemCount: recette.steps!.length,
+          itemCount: widget.recette.steps!.length,
           itemBuilder: (BuildContext ctxt, int index) {
-            return new Text(recette.steps[index].name);
+            return new Text(widget.recette.steps![index].name!);
           })
     ];
   }
@@ -85,7 +77,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
               )),
           Container(
               padding: EdgeInsets.only(top: 15.0),
-              child: Text(recette.name,
+              child: Text(widget.recette.name,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30))),
           Container(
             height: MediaQuery.of(context).size.height - 110,

@@ -1,6 +1,7 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:kookie/api/recipe_api_client.dart';
 import 'package:kookie/datas/data.dart';
 import 'package:kookie/models/recette/RecetteThumbnailDTO.dart';
 import 'package:kookie/repositories/profile_repository.dart';
@@ -34,11 +35,7 @@ class _CardCarouselState extends State<CardCarousel>
           scale = (1 - (scale.abs() * 0.25)).clamp(0.0, 1.0);
         }
         return GestureDetector(
-          onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => RecipeDetails(recipeId: recipe.id),
-              )),
+          onTap: () => showRecipeDetails(recipe.id),
           child: Center(
             child: SizedBox(
               height: Curves.easeInOut.transform(scale) * 500.0,
@@ -145,17 +142,17 @@ class _CardCarouselState extends State<CardCarousel>
       children: [
         widget.title.isNotEmpty
             ? Padding(
-            padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
-            child: Text(
-              widget.title,
-              style: TextStyle(
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 2.0),
-            ))
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+                child: Text(
+                  widget.title,
+                  style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 2.0),
+                ))
             : SizedBox(),
         Container(
-          height: 500.0,
+          height: 450.0,
           child: PageView.builder(
             controller: pageController,
             itemCount: widget.recipes.length,
@@ -166,6 +163,14 @@ class _CardCarouselState extends State<CardCarousel>
         ),
       ],
     );
+  }
+
+  showRecipeDetails(int recipeId) {
+    RecipeApiClient().getOneRecipe(recipeId).then((v) => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => RecipeDetails(recette: v!),
+        )));
   }
 
   @override

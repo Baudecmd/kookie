@@ -15,4 +15,9 @@ class UserDTO {
       _$UserDTOFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserDTOToJson(this);
+
+  @override
+  String toString() {
+    return "username ${this.username}, pwd ${this.password}, token ${this.token}";
+  }
 }

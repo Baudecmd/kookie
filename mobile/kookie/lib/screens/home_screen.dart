@@ -1,7 +1,10 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:kookie/datas/data.dart';
 import 'package:kookie/models/category/CategoryDTO.dart';
+import 'package:kookie/models/profile/ProfileDTO.dart';
 import 'package:kookie/models/recette/RecetteThumbnailDTO.dart';
 import 'package:kookie/repositories/home_repository.dart';
 import 'package:kookie/widgets/Search.dart';
@@ -32,12 +35,13 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
-    StorageUtil.getString(key: 'token', defValue: '').then((v) {
-      debugPrint(v);
+    StorageUtil.getString(key: 'profile', defValue: '').then((v) {
       if (v == '') {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => StartScreen()));
       } else {
+        profile = ProfileDTO.fromJson(jsonDecode(v));
+        debugPrint('profile $profile');
         getDatas().then((v) => setState(() {}));
       }
     });
@@ -61,11 +65,11 @@ class _HomeScreenState extends State<HomeScreen>
           preferredSize: Size.fromHeight(120.0),
           child: categories.isNotEmpty
               ? Column(
-                  children: [
-                    buildSearchBar(context),
-                    buildCategoryTabBar(context),
-                  ],
-                )
+            children: [
+              buildSearchBar(context),
+              buildCategoryTabBar(context),
+            ],
+          )
               : buildSearchBar(context),
         ),
       ),
@@ -86,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   Future<ListView> buildListViewFromCategory(CategoryDTO category) async {
     List<RecetteThumbnailDTO>? recipesFromCategory =
-        await homeRepository.getAllRecipeThumbnailsByCategory(category);
+    await homeRepository.getAllRecipeThumbnailsByCategory(category);
     return ListView(
       children: <Widget>[
         CardCarousel(recipes: recipesFromCategory!),

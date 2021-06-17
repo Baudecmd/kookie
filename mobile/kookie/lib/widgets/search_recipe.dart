@@ -38,7 +38,7 @@ class SearchRecipe extends SearchDelegate {
             Text(selectedResults!.name),
             selectedResults!.image != null
                 ? Image(
-              image: MemoryImage(base64Decode(selectedResults!.image!)),
+                    image: MemoryImage(base64Decode(selectedResults!.image!)),
                   )
                 : Text('pas d\'image'),
           ],

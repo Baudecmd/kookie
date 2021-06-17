@@ -66,27 +66,27 @@ class _RecipeDetailsState extends State<RecipeDetails> {
         ),
         body: SingleChildScrollView(
             child:
-            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Container(
-                  padding: EdgeInsets.only(top: 30.0),
-                  width: double.infinity,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: MemoryImage(base64Decode(widget.recette.image!)),
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Container(
+              padding: EdgeInsets.only(top: 30.0),
+              width: double.infinity,
+              height: 200,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                    image: MemoryImage(base64Decode(widget.recette.image!)),
                     fit: BoxFit.fill),
-                  )),
-              Container(
-                  padding: EdgeInsets.only(top: 15.0),
-                  child: Text(widget.recette.name,
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30))),
-              Container(
-                height: MediaQuery.of(context).size.height - 110,
-                padding: EdgeInsets.only(top: 20.0),
-                child: _widgetOptions.elementAt(_selectedIndex),
-              )
-            ])),
+              )),
+          Container(
+              padding: EdgeInsets.only(top: 15.0),
+              child: Text(widget.recette.name,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30))),
+          Container(
+            height: MediaQuery.of(context).size.height - 110,
+            padding: EdgeInsets.only(top: 20.0),
+            child: _widgetOptions.elementAt(_selectedIndex),
+          )
+        ])),
         bottomNavigationBar: BottomNavigationBar(
           onTap: _onItemTapped,
           currentIndex: _selectedIndex,

@@ -28,17 +28,17 @@ public class RecetteController {
     RecetteService recetteService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<RecetteDTO>> getAllRecipes() {
-        LOGGER.debug("[RecetteController, getAllRecipes]");
+    public ResponseEntity<List<RecetteDTO>> getAllRecipes(Integer profileId) {
+        LOGGER.debug("[RecetteController, getAllRecipes] profileId = " + profileId);
 
-        return ResponseEntity.status(HttpStatus.OK).body(recetteService.getAllRecipes());
+        return ResponseEntity.status(HttpStatus.OK).body(recetteService.getAllRecipes(profileId));
     }
 
     @GetMapping("/one")
-    public ResponseEntity<?> getOneByRecipeId(@RequestParam Integer recipeId) {
-        LOGGER.debug("[RecetteController, getOneByRecipeId] recipeId = " + recipeId);
+    public ResponseEntity<?> getOneByRecipeId(@RequestParam Integer profileId, @RequestParam Integer recipeId) {
+        LOGGER.debug("[RecetteController, getOneByRecipeId] profileId = " + profileId + "recipeId = " + recipeId);
 
-        RecetteDTO recipe = recetteService.getOneById(recipeId);
+        RecetteDTO recipe = recetteService.getOneById(profileId, recipeId);
 
         return ResponseEntity.status(HttpStatus.OK).body(recipe);
 

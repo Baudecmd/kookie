@@ -44,22 +44,30 @@ public class RecetteServiceImpl implements RecetteService {
     StepRepository stepRepository;
 
     @Override
-    public RecetteDTO getOneById(Integer recipeId) {
-        LOGGER.debug("[RecetteServiceImpl, getOneById] recipeId = " + recipeId);
+    public RecetteDTO getOneById(Integer profileId, Integer recipeId) {
+        LOGGER.debug("[RecetteServiceImpl, getOneById] profileId = " + profileId + " recipeId = " + recipeId);
 
-        Recipe recipe = recipeRepository.findOneById(recipeId);
-        List<IngredientLine> ingredientLines = (List<IngredientLine>) ingredientLineRepository.saveAll(recipe.getIngredientLines());
-        List<Step> steps = (List<Step>) stepRepository.saveAll(recipe.getSteps());
-        recipe.setIngredientLines(ingredientLines);
-        recipe.setSteps(steps);
+        RecetteDTO recipe = RecetteParser.toDTO(recipeRepository.findOneById(recipeId));
+        Profile profile = profileRepository.findOneById(profileId);
+        ArrayList<Integer> favoritesRecettesId = profile.getFavoriteRecettes().stream()
+                .map(Recipe::getId).collect(Collectors.toCollection(ArrayList::new));
+        recipe.setIsFavorite(favoritesRecettesId.contains(favoritesRecettesId));
 
-        return RecetteParser.toDTO(recipe);
+        return recipe;
     }
 
     @Override
-    public List<RecetteDTO> getAllRecipes() {
-        LOGGER.debug("[RecetteServiceImpl, getAllRecipes]");
-        return RecetteParser.parseListToDTO(recipeRepository.findAll());
+    public List<RecetteDTO> getAllRecipes(Integer profileId) {
+        LOGGER.debug("[RecetteServiceImpl, getAllRecipes] profileId = " + profileId);
+
+        Profile profile = profileRepository.findOneById(profileId);
+        ArrayList<Integer> favoritesRecettesId = profile.getFavoriteRecettes().stream()
+                .map(Recipe::getId).collect(Collectors.toCollection(ArrayList::new));
+        List<RecetteDTO> recipes = RecetteParser.parseListToDTO(recipeRepository.findAll());
+        for (RecetteDTO r : recipes) {
+            r.setIsFavorite(favoritesRecettesId.contains(favoritesRecettesId));
+        }
+        return recipes;
     }
 
     @Override
@@ -81,8 +89,6 @@ public class RecetteServiceImpl implements RecetteService {
         ArrayList<Recipe> recipeArrayList = (ArrayList<Recipe>) recipeRepository.findAllByName(s);
         return RecetteParser.parseListToDTO(recipeArrayList);
     }
-
-
 
     @Override
     public List<RecetteThumbnailDTO> getAllRecipesThumbnails(Integer profileId) {

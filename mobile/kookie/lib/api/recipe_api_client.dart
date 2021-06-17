@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
+import 'package:kookie/datas/data.dart';
 import 'package:kookie/models/Ustensil/UstensilDTO.dart';
 import 'package:kookie/models/category/CategoryDTO.dart';
 import 'package:kookie/models/recette/RecetteDTO.dart';
@@ -12,12 +13,16 @@ import 'login_api_client.dart';
 
 class RecipeApiClient extends LoginApiClient {
   Future<List<RecetteThumbnailDTO>?> getAllRecipeThumbnails() async {
-    final http.Response response = await getData('/recette/thumbnail/all');
-    return response.statusCode == 200
-        ? (jsonDecode(response.body) as List)
-            .map((e) => RecetteThumbnailDTO.fromJson(e))
-            .toList()
-        : null;
+    if (profile != null) {
+      final http.Response response = await getData(
+          '/recette/thumbnail/all?profileId=' + profile!.id.toString());
+      return response.statusCode == 200
+          ? (jsonDecode(response.body) as List)
+              .map((e) => RecetteThumbnailDTO.fromJson(e))
+              .toList()
+          : null;
+    }
+    return null;
   }
 
   Future<RecetteDTO?> createRecipe(RecetteDTO recipe) async {

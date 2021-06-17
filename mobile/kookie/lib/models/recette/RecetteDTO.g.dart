@@ -14,6 +14,7 @@ RecetteDTO _$RecetteDTOFromJson(Map<String, dynamic> json) {
         : ProfileDTO.fromJson(json['profile'] as Map<String, dynamic>),
     name: json['name'] as String,
     image: json['image'] as String?,
+    isFavorite: json['isFavorite'] as bool?,
     category: json['category'] == null
         ? null
         : CategoryDTO.fromJson(json['category'] as Map<String, dynamic>),
@@ -35,6 +36,7 @@ Map<String, dynamic> _$RecetteDTOToJson(RecetteDTO instance) =>
       'profile': instance.profile,
       'name': instance.name,
       'image': instance.image,
+      'isFavorite': instance.isFavorite,
       'category': instance.category,
       'ingredientLines': instance.ingredientLines,
       'steps': instance.steps,

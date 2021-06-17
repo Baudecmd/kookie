@@ -1,7 +1,6 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:kookie/models/profile/ProfileDTO.dart';
+import 'package:kookie/datas/data.dart';
 import 'package:kookie/models/user/CredentialDTO.dart';
 import 'package:kookie/repositories/login_repository.dart';
 import 'package:kookie/widgets/custom_button.dart';
@@ -82,12 +81,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      ProfileDTO profile = await loginRepository
+      profile = await loginRepository
           .login(CredentialDTO(username: username, password: password));
-      log('username : $username password: $password');
-      //todo : store token
-
-      Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()));
+      if (profile != null) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => HomeScreen()));
+      }
     }
   }
 }

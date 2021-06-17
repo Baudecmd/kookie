@@ -23,7 +23,7 @@ class StepDTO {
       this.duration,
       required this.stepNumber,
       this.stepType,
-      this.ustensils});
+      required this.ustensils});
 
   factory StepDTO.fromJson(Map<String, dynamic> json) =>
       _$StepDTOFromJson(json);

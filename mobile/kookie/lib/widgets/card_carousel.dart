@@ -73,15 +73,19 @@ class _CardCarouselState extends State<CardCarousel>
             ),
           ),
           Column(children: [
-            Text(
-              recipe.name,
-              softWrap: true,
-              maxLines: 2,
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+              child: Text(
+                recipe.name,
+                softWrap: true,
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                overflow: TextOverflow.ellipsis,
               ),
-              overflow: TextOverflow.ellipsis,
             ),
             SizedBox(height: 6.0),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [

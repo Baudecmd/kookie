@@ -106,6 +106,7 @@ public class RecetteServiceImpl implements RecetteService {
                 RecetteThumbnailDTO thumbnailDTO = new RecetteThumbnailDTO();
                 thumbnailDTO.setId(r.getId());
                 thumbnailDTO.setName(r.getName());
+                thumbnailDTO.setImage(r.getImage());
                 int sumNotes = r.getOpinions().stream().map(Opinion::getNote).reduce(0, Integer::sum);
                 if (r.getOpinions().size() != 0) thumbnailDTO.setNote(sumNotes / r.getOpinions().size());
                 thumbnailDTO.setIsFavorite(favoritesRecettesId.contains(favoritesRecettesId));
@@ -131,6 +132,7 @@ public class RecetteServiceImpl implements RecetteService {
                 RecetteThumbnailDTO thumbnailDTO = new RecetteThumbnailDTO();
                 thumbnailDTO.setId(r.getId());
                 thumbnailDTO.setName(r.getName());
+                thumbnailDTO.setImage(r.getImage());
                 int sumNotes = r.getOpinions().stream().map(Opinion::getNote).reduce(0, Integer::sum);
                 if (r.getOpinions().size() != 0) thumbnailDTO.setNote(sumNotes / r.getOpinions().size());
                 thumbnailDTO.setIsFavorite(favoritesRecettesId.contains(favoritesRecettesId));

@@ -53,6 +53,8 @@ public class RecetteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(recipeDTO);
     }
 
+    //todo: renvoyé les images
+
     @GetMapping("/thumbnail/all")
     public ResponseEntity<?> getAllRecettesThumbnails(@RequestParam Integer profileId) {
         LOGGER.debug("[RecetteController, getAllRecettesThumbnails] profileId = " + profileId);

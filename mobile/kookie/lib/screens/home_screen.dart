@@ -1,12 +1,15 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:kookie/datas/data.dart';
 import 'package:kookie/models/category/CategoryDTO.dart';
+import 'package:kookie/models/profile/ProfileDTO.dart';
 import 'package:kookie/models/recette/RecetteThumbnailDTO.dart';
 import 'package:kookie/repositories/home_repository.dart';
-import 'package:kookie/widgets/Search.dart';
 import 'package:kookie/widgets/card_carousel.dart';
 import 'package:kookie/widgets/custom_drawer.dart';
+import 'package:kookie/widgets/search_recipe.dart';
 
 import '../services/storage_util.dart';
 import 'start_screen.dart';
@@ -32,12 +35,13 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
-    StorageUtil.getString(key: 'token', defValue: '').then((v) {
-      debugPrint(v);
+    StorageUtil.getString(key: 'profile', defValue: '').then((v) {
       if (v == '') {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => StartScreen()));
       } else {
+        profile = ProfileDTO.fromJson(jsonDecode(v));
+        debugPrint('profile $profile');
         getDatas().then((v) => setState(() {}));
       }
     });
@@ -58,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ),
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(120.0),
+          preferredSize: Size.fromHeight(categories.isNotEmpty ? 120 : 80),
           child: categories.isNotEmpty
               ? Column(
                   children: [
@@ -74,14 +78,16 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  ListView buildRecipeTabBarView() {
-    return ListView(
-      children: <Widget>[
-        CardCarousel(
-          recipes: recipes,
-        )
-      ],
-    );
+  Widget buildRecipeTabBarView() {
+    return recipes.isNotEmpty
+        ? ListView(
+            children: <Widget>[
+              CardCarousel(
+                recipes: recipes,
+              )
+            ],
+          )
+        : Image(image: AssetImage('assets/images/chargement.gif'));
   }
 
   Future<ListView> buildListViewFromCategory(CategoryDTO category) async {
@@ -98,8 +104,7 @@ class _HomeScreenState extends State<HomeScreen>
     return TextButton(
       onPressed: () => {
         showSearch(
-            context: context,
-            delegate: Search(listExample: ['test1', 'test2', 'pastest1']))
+            context: context, delegate: SearchRecipe(listRecetteTmb: recipes))
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 30),

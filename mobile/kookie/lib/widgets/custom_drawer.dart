@@ -39,14 +39,9 @@ class CustomDrawer extends StatelessWidget {
                   ),
                   'Profil',
                   () {
-                    Navigator.of(context).pop();
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (_) => ProfileScreen(
-                            /*user: currentUser,*/
-                            ),
-                      ),
+                      MaterialPageRoute(builder: (_) => ProfileScreen()),
                     );
                   },
                 ),
@@ -59,13 +54,18 @@ class CustomDrawer extends StatelessWidget {
                     () => Navigator.push(context,
                         MaterialPageRoute(builder: (_) => FavouritesScreen()))),
                 _buildDrawerOption(
-                    Icon(
-                      Icons.sticky_note_2_outlined,
-                      color: Colors.white,
+                  Icon(
+                    Icons.sticky_note_2_outlined,
+                    color: Colors.white,
+                  ),
+                  'Mes Recettes',
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => MyRecipesScreen(),
                     ),
-                    'Mes Recettes',
-                    () => Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => MyRecipesScreen()))),
+                  ),
+                ),
                 Expanded(
                   child: Align(
                     alignment: FractionalOffset.bottomCenter,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kookie/screens/home_screen.dart';
+import 'package:kookie/datas/data.dart';
 
 import 'my_ustensils_screen.dart';
 
@@ -31,30 +31,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
         backgroundColor: Colors.white,
         leading: IconButton(
           icon: Icon(Icons.chevron_left, color: Colors.black),
-          onPressed: () => Navigator.push(
-              context, MaterialPageRoute(builder: (_) => HomeScreen())),
+          onPressed: () => Navigator.pop(context),
         ),
         elevation: 0,
       ),
       body: SingleChildScrollView(
         child: Container(
+          padding: EdgeInsets.all(30),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'Mon profil',
+                style: TextStyle(fontSize: 34),
               ),
               SizedBox(
-                height: 20,
+                height: 30,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Détails personnels'),
-                  Text('Changer'),
+                  Text(
+                    'Détails personnels',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                  Text(
+                    'Changer',
+                    style: TextStyle(color: Color(0xFF38784D), fontSize: 15),
+                  ),
                 ],
               ),
               SizedBox(
-                height: 20,
+                height: 30,
               ),
               Container(
                 decoration: BoxDecoration(),
@@ -66,23 +76,58 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Column(
                       children: [
-                        Text('Francis Dupont'),
-                        Text('francis.dupont@mel.fr'),
-                        Text('35 Recettes'),
-                        Text('135 Favoris'),
+                        Text(
+                          '${profile!.firstName} ${profile!.lastName}',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        Text(
+                          '${profile!.user!.username}',
+                          style:
+                              TextStyle(color: Color(0xFFADADAF), fontSize: 15),
+                        ),
+                        Wrap(children: [
+                          Icon(
+                            Icons.sticky_note_2_outlined,
+                            color: Color(0xFFADADAF),
+                          ),
+                          Text(
+                            '35 Recettes',
+                            style: TextStyle(
+                                color: Color(0xFFADADAF), fontSize: 15),
+                          ),
+                        ]),
+                        Wrap(children: [
+                          Icon(
+                            Icons.favorite_border_sharp,
+                            color: Color(0xFFADADAF),
+                          ),
+                          Text(
+                            '135 Favoris',
+                            style: TextStyle(
+                                color: Color(0xFFADADAF), fontSize: 15),
+                          ),
+                        ]),
                       ],
                     )
                   ],
                 ),
               ),
-              _buildProfileOption('Mes Ustensiles', () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyUstensilsScreen()),
-                );
-              }),
-              _buildProfileOption('A propos', () {}),
-              _buildProfileOption('Faire une donation', () {}),
+              SizedBox(
+                height: 30,
+              ),
+              Column(
+                children: [
+                  _buildProfileOption('Mes Ustensiles', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MyUstensilsScreen()),
+                    );
+                  }),
+                  _buildProfileOption('A propos', () {}),
+                  _buildProfileOption('Faire une donation', () {})
+                ],
+              )
             ],
           ),
         ),

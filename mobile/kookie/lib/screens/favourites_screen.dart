@@ -28,21 +28,21 @@ class _FavouritesScreen extends State<FavouritesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            icon: Icon(Icons.chevron_left, color: Colors.black),
-            onPressed: () => Navigator.pop(context),
-          ),
-          title: Text("Favoris"),
-          centerTitle: true,
-          elevation: 0,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: Icon(Icons.chevron_left, color: Colors.black),
+          onPressed: () => Navigator.pop(context),
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: FavoriteList(
-                key: _key,
+        title: Text("Favoris"),
+        centerTitle: true,
+        elevation: 0,
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: FavoriteList(
+              key: _key,
               listeRecette: this.listeRecette,
             ),
           ),
@@ -60,7 +60,7 @@ class _FavouritesScreen extends State<FavouritesScreen> {
   void _submitBatchSession() {
     Set<int> recipesIds = _key.currentState!.getRecipesIds();
     OptimizationApiClient optimizationAPI = OptimizationApiClient();
-    var test = optimizationAPI.optimizeSession(recipesIds);
+    var test = optimizationAPI.optimizeSession();
     debugPrint(test.toString());
   }
 }

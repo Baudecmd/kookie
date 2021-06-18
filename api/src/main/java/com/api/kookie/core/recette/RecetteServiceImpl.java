@@ -18,9 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.util.Comparator.comparingInt;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toCollection;
 
 @Service
 @Transactional(readOnly = true)
@@ -50,7 +53,7 @@ public class RecetteServiceImpl implements RecetteService {
         RecetteDTO recipe = RecetteParser.toDTO(recipeRepository.findOneById(recipeId));
         Profile profile = profileRepository.findOneById(profileId);
         ArrayList<Integer> favoritesRecettesId = profile.getFavoriteRecettes().stream()
-                .map(Recipe::getId).collect(Collectors.toCollection(ArrayList::new));
+                .map(Recipe::getId).collect(toCollection(ArrayList::new));
         recipe.setIsFavorite(favoritesRecettesId.contains(favoritesRecettesId));
 
         return recipe;
@@ -62,7 +65,7 @@ public class RecetteServiceImpl implements RecetteService {
 
         Profile profile = profileRepository.findOneById(profileId);
         ArrayList<Integer> favoritesRecettesId = profile.getFavoriteRecettes().stream()
-                .map(Recipe::getId).collect(Collectors.toCollection(ArrayList::new));
+                .map(Recipe::getId).collect(toCollection(ArrayList::new));
         List<RecetteDTO> recipes = RecetteParser.parseListToDTO(recipeRepository.findAll());
         for (RecetteDTO r : recipes) {
             r.setIsFavorite(favoritesRecettesId.contains(favoritesRecettesId));
@@ -101,7 +104,7 @@ public class RecetteServiceImpl implements RecetteService {
 
         if (recipes != null && profile != null) {
             ArrayList<Integer> favoritesRecettesId = profile.getFavoriteRecettes().stream()
-                    .map(Recipe::getId).collect(Collectors.toCollection(ArrayList::new));
+                    .map(Recipe::getId).collect(toCollection(ArrayList::new));
             for (Recipe r : recipes) {
                 RecetteThumbnailDTO thumbnailDTO = new RecetteThumbnailDTO();
                 thumbnailDTO.setId(r.getId());
@@ -126,7 +129,7 @@ public class RecetteServiceImpl implements RecetteService {
 
         if (recipeCategory.getRecipes() != null && recipeCategory != null) {
             ArrayList<Integer> favoritesRecettesId = profile.getFavoriteRecettes().stream()
-                    .map(Recipe::getId).collect(Collectors.toCollection(ArrayList::new));
+                    .map(Recipe::getId).collect(toCollection(ArrayList::new));
             for (Recipe r : recipeCategory.getRecipes()) {
                 RecetteThumbnailDTO thumbnailDTO = new RecetteThumbnailDTO();
                 thumbnailDTO.setId(r.getId());
@@ -149,16 +152,27 @@ public class RecetteServiceImpl implements RecetteService {
         });
         steps.removeAll(newList);
         newList.addAll(steps);
-        //TODO: Uncomment this fucking line
+        //TODO: Uncomment this line
         //newList.sort(Comparator.comparing(o -> o.getIngredientLine().getIngredient().getName()));
         return newList;
+    }
+
+    private List<StepDTO> removeDuplicate(List<StepDTO> steps){
+        Set<String> nameSet = new HashSet<>();
+        List<StepDTO> stepsDistinct = steps.stream()
+                .filter(e -> nameSet.add(e.getName()))
+                .collect(Collectors.toList());
+
+
+        return stepsDistinct;
     }
 
     @Override
     public List<StepDTO> optimizeRecipes(List<Integer> ids, Profile profile) {
         List<StepDTO> steps = getAllStepsDTOs(ids);
         steps = organizeSteps(steps);
-        return steps;
+
+        return removeDuplicate(steps);
     }
 
     public List<Recipe> getAllRecipesByIdList(List<Integer> ids){

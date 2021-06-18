@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kookie/models/category/CategoryDTO.dart';
 import 'package:kookie/models/ingredient/IngredientDTO.dart';
 import 'package:kookie/models/ingredient/IngredientLineDTO.dart';
 import 'package:kookie/screens/recipe_steps_creation_screen.dart';
@@ -21,7 +22,9 @@ class RecipeCreationScreen extends StatefulWidget {
 class _RecipeCreationScreen extends State<RecipeCreationScreen> {
   final _recipeFormKey = GlobalKey<FormState>();
   var _ingredients = Set<int>();
+  var _categories = Set<int>();
   List<MultiSelectDialogItem> items = [];
+  List<MultiSelectDialogItem> categoriesItems = [];
   File? _image;
   Image? _imageWidget;
   String _base64Image = '';
@@ -31,13 +34,23 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
   @override
   void initState() {
     super.initState();
-    makeMultiSelectItems();
+    makeIngredientsMultiSelectItems();
+    makeCategoriesMultiSelectItems();
   }
 
-  void makeMultiSelectItems() {
+  void makeIngredientsMultiSelectItems() {
     if (listIngredientDTO.isNotEmpty) {
       listIngredientDTO.forEach((e) {
         items.add(MultiSelectDialogItem(listIngredientDTO.indexOf(e), e.name));
+      });
+    }
+  }
+
+  void makeCategoriesMultiSelectItems() {
+    if (listCategoryDTO.isNotEmpty) {
+      listCategoryDTO.forEach((e) {
+        categoriesItems
+            .add(MultiSelectDialogItem(listCategoryDTO.indexOf(e), e.name));
       });
     }
   }
@@ -90,12 +103,13 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
                           SizedBox(height: 30),
                           FloatingActionButton(
                             onPressed: selectImage,
-                            tooltip: 'Pick Image',
+                            tooltip: 'Choisissez une image',
                             child: Icon(Icons.add_a_photo),
                           ),
                           SizedBox(height: 30),
                           _imageWidget == null
-                              ? Center(child: Text("No image selected."))
+                              ? Center(
+                                  child: Text("Aucune image sélectionnée."))
                               : Container(
                                   height:
                                       MediaQuery.of(context).size.height / 3,
@@ -105,9 +119,18 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
                           CustomButton(
                               text: "Ajouter des ingrédients",
                               onTap: (() => Overlay.of(context)?.insert(
-                                  overlayEntry = _createOverlayEntry()))),
+                                  overlayEntry =
+                                      _createIngredientsOverlayEntry()))),
                           SizedBox(height: 30),
-                          CustomButton(text: "Valider !", onTap: _submitRecipe)
+                          CustomButton(
+                            text: "Sélectionner la catégorie",
+                            onTap: (() => Overlay.of(context)?.insert(
+                                overlayEntry =
+                                    _createCategoriesOverlayEntry())),
+                          ),
+                          SizedBox(height: 30),
+                          CustomButton(text: "Valider !", onTap: _submitRecipe),
+                          SizedBox(height: 30),
                         ],
                       ),
                     ),
@@ -121,7 +144,7 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
     );
   }
 
-  _createOverlayEntry() {
+  _createIngredientsOverlayEntry() {
     final _recipeIngredientsKey = GlobalKey<FormState>();
     return OverlayEntry(builder: (BuildContext context) {
       return MultiSelectDialog(
@@ -130,13 +153,33 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
           items: items,
           initialSelectedValues: _ingredients,
           onSubmitData: (recoveredSetData) =>
-              _handleRecoveredSetData(recoveredSetData));
+              _handleRecoveredIngredients(recoveredSetData));
     });
   }
 
-  _handleRecoveredSetData(Set<int> _recoveredSet) {
+  _createCategoriesOverlayEntry() {
+    final _recipeCategoriesKey = GlobalKey<FormState>();
+    return OverlayEntry(builder: (BuildContext context) {
+      return MultiSelectDialog(
+          key: _recipeCategoriesKey,
+          title: "Select category",
+          items: categoriesItems,
+          initialSelectedValues: _categories,
+          onSubmitData: (recoveredSetData) =>
+              _handleRecoveredCategories(recoveredSetData));
+    });
+  }
+
+  _handleRecoveredIngredients(Set<int> _recoveredSet) {
     if (_recoveredSet.isNotEmpty) {
       _ingredients = _recoveredSet;
+    }
+    overlayEntry.remove();
+  }
+
+  _handleRecoveredCategories(Set<int> _recoveredSet) {
+    if (_recoveredSet.isNotEmpty) {
+      _categories = _recoveredSet;
     }
     overlayEntry.remove();
   }
@@ -155,9 +198,13 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
         ..showSnackBar(SnackBar(
             content: Text("Il manque des informations !",
                 textAlign: TextAlign.center)));
+    } else if (_categories.length != 1) {
+      ScaffoldMessenger.of(context)
+        ..removeCurrentSnackBar()
+        ..showSnackBar(SnackBar(
+            content: Text("Vous devez choisir une seule catégorie !",
+                textAlign: TextAlign.center)));
     } else {
-      debugPrint(
-          "[_submitRecipe] : $_recipeName | $_ingredients | _base64Image is not null");
       _pushStepsScreen();
     }
   }
@@ -171,12 +218,23 @@ class _RecipeCreationScreen extends State<RecipeCreationScreen> {
     return _ingredientLines;
   }
 
+  CategoryDTO getCategoryDTO(int value) {
+    var categoryDTO;
+    listCategoryDTO.forEach((element) {
+      if (element.id == value) {
+        categoryDTO = element;
+      }
+    });
+    return categoryDTO;
+  }
+
   _pushStepsScreen() {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (_) => RecipesStepsCreationScreen(
             ingredientLines: convertMultiSelectToIngredientDTO(),
+            category: getCategoryDTO(_categories.first + 1),
             recipeName: _recipeName,
             base64Image: _base64Image),
       ),

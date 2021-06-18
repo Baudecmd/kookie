@@ -43,6 +43,10 @@ class RecetteDTO {
       UstensilList.addAll(step.ustensils as Iterable<UstensilDTO>);
     }
 
+    final ids = UstensilList.map((e) => e.id).toSet();
+
+    UstensilList.retainWhere((x) => ids.remove(x.id));
+
     return UstensilList;
   }
 }

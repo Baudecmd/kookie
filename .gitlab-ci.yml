@@ -11,7 +11,7 @@ API:Test:
   image: maven:latest
   script:
     - cd api
-    - mvn test "-Dspring.datasource.url=$DATASOURCE_URL" "-Dspring.datasource.username=$DATASOURCE_USERNAME" "-Dspring.datasource.password=$DATASOURCE_PASSWORD" "-Dlogging.level.org.springframework=INFO" "-Dlogging.level.com.api.kookie=DEBUG"
+    - mvn test -e "-Dspring.datasource.url=$DATASOURCE_URL" "-Dspring.datasource.username=$DATASOURCE_USERNAME" "-Dspring.datasource.password=$DATASOURCE_PASSWORD" "-Dlogging.level.org.springframework=INFO" "-Dlogging.level.com.api.kookie=DEBUG"
   only:
     - staging
     - tags
@@ -28,9 +28,10 @@ API:Build:
     - cd api
     - mvn clean package -e "-Dspring.datasource.url=$DATASOURCE_URL" "-Dspring.datasource.username=$DATASOURCE_USERNAME" "-Dspring.datasource.password=$DATASOURCE_PASSWORD" "-Dlogging.level.org.springframework=INFO" "-Dlogging.level.com.api.kookie=DEBUG"
   after_script:
-    - mv target/*.war ../
+    - pwd
+    - mv api/target/*.war ./
   artifacts:
-    name: "kookie-api-v1.0.2"
+    name: "kookie-api-v1.0.3"
     expire_in: 1 week
     paths:
       - "*.war"
@@ -95,9 +96,10 @@ Android:MobileBuild:
     - flutter doctor --android-licenses
     - flutter build apk
   after_script:
-    - mv build/app/outputs/flutter-apk/*.apk ../../
+    - pwd
+    - mv mobile/kookie/build/app/outputs/flutter-apk/*.apk ./
   artifacts:
-    name: "kookie-v1.0.2"
+    name: "kookie-v1.0.3"
     expire_in: 1 day
     paths:
       - "*.apk"

@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.api</groupId>
-	<artifactId>kookie</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>kookie-api</artifactId>
+	<version>1.0.4</version>
 	<packaging>war</packaging>
 	<name>kookie</name>
 	<description>Kookie application</description>

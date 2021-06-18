@@ -9,8 +9,8 @@ import com.api.kookie.data.entity.*;
 import com.api.kookie.data.entity.ingredient.IngredientLine;
 import com.api.kookie.data.ingredient.IngredientLineRepository;
 import com.api.kookie.data.profile.ProfileRepository;
-import com.api.kookie.data.recipe.RecipeRepository;
 import com.api.kookie.data.recipe.RecipeCategoryRepository;
+import com.api.kookie.data.recipe.RecipeRepository;
 import com.api.kookie.data.step.StepRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -117,11 +117,11 @@ public class RecetteServiceImpl implements RecetteService {
     }
 
     @Override
-    public List<RecetteThumbnailDTO> getAllRecipesThumbnailsByCategoryId(Integer id) {
-        LOGGER.debug("[RecetteServiceImpl, getAllRecipesThumbnailsByCategoryId] id = " + id);
+    public List<RecetteThumbnailDTO> getAllRecipesThumbnailsByCategoryId(Integer categoryId, Integer profileId) {
+        LOGGER.debug("[RecetteServiceImpl, getAllRecipesThumbnailsByCategoryId] categoryId = " + categoryId + " profileId=" + profileId);
 
-        Profile profile = profileRepository.findOneById(15);
-        RecipeCategory recipeCategory = recipeCategoryRepository.findOneById(id);
+        Profile profile = profileRepository.findOneById(profileId);
+        RecipeCategory recipeCategory = recipeCategoryRepository.findOneById(categoryId);
 
         List<RecetteThumbnailDTO> thumbnails = new ArrayList<>();
 

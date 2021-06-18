@@ -30,7 +30,7 @@ API:Build:
   after_script:
     - mv target/*.war ../
   artifacts:
-    name: "kookie-api-v1.0.1"
+    name: "kookie-api-v1.0.2"
     expire_in: 1 week
     paths:
       - "*.war"
@@ -97,7 +97,7 @@ Android:MobileBuild:
   after_script:
     - mv build/app/outputs/flutter-apk/*.apk ../../
   artifacts:
-    name: "kookie-v1.0.0"
+    name: "kookie-v1.0.2"
     expire_in: 1 day
     paths:
       - "*.apk"

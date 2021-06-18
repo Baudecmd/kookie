@@ -27,13 +27,14 @@ API:Build:
   script:
     - cd api
     - mvn clean package -e "-Dspring.datasource.url=$DATASOURCE_URL" "-Dspring.datasource.username=$DATASOURCE_USERNAME" "-Dspring.datasource.password=$DATASOURCE_PASSWORD" "-Dlogging.level.org.springframework=INFO" "-Dlogging.level.com.api.kookie=DEBUG"
+  after_script:
+    - mv target/*.war ../
   artifacts:
-    name: "api-snapshot"
+    name: "kookie-api-v1.0.1"
     expire_in: 1 week
     paths:
-      - api/target/*.war
+      - "*.war"
   only:
-    - staging
     - tags
 
 ####
@@ -93,10 +94,12 @@ Android:MobileBuild:
   script:
     - flutter doctor --android-licenses
     - flutter build apk
+  after_script:
+    - mv build/app/outputs/flutter-apk/*.apk ../../
   artifacts:
-    paths:
-      - "mobile/kookie/build/app/outputs/flutter-apk/*.apk"
+    name: "kookie-v1.0.0"
     expire_in: 1 day
+    paths:
+      - "*.apk"
   only:
-    - staging
     - tags

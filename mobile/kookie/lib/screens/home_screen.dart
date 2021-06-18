@@ -2,12 +2,16 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:kookie/api/optimization_api_client.dart';
 import 'package:kookie/datas/data.dart';
 import 'package:kookie/models/category/CategoryDTO.dart';
 import 'package:kookie/models/profile/ProfileDTO.dart';
 import 'package:kookie/models/recette/RecetteThumbnailDTO.dart';
 import 'package:kookie/repositories/home_repository.dart';
+import 'package:kookie/screens/start_cooking.dart';
 import 'package:kookie/widgets/card_carousel.dart';
+import 'package:kookie/widgets/custom_button.dart';
+import 'package:kookie/widgets/custom_dialog.dart';
 import 'package:kookie/widgets/custom_drawer.dart';
 import 'package:kookie/widgets/search_recipe.dart';
 
@@ -21,6 +25,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
+  late BuildContext dialogContext;
   List<CategoryDTO> categories = [];
   List<RecetteThumbnailDTO> recipes = [];
 
@@ -84,6 +89,16 @@ class _HomeScreenState extends State<HomeScreen>
             children: <Widget>[
               CardCarousel(
                 recipes: recipes,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Center(
+                widthFactor: 1,
+                child: CustomButton(
+                  text: "Et c'est parti !",
+                  onTap: _startCooking,
+                ),
               )
             ],
           )
@@ -170,5 +185,32 @@ class _HomeScreenState extends State<HomeScreen>
         });
       });
     }
+  }
+
+  _startCooking() {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) => CustomDialog(),
+    );
+    dialogContext = context;
+    OptimizationApiClient().optimizeSession().then((v) {
+      Navigator.pop(dialogContext);
+      if (v == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.red,
+            content: Text('Pas de recettes choisies'),
+          ),
+        );
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => StartCooking(listStepDTO: v),
+          ),
+        );
+      }
+    });
   }
 }

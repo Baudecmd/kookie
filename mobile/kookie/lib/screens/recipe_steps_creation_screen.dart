@@ -12,6 +12,7 @@ import 'package:kookie/models/step/StepTypeDTO.dart';
 import 'package:kookie/screens/home_screen.dart';
 import 'package:kookie/screens/step_creation_screen.dart';
 import 'package:kookie/widgets/custom_button.dart';
+import 'package:kookie/widgets/custom_dialog.dart';
 
 class RecipesStepsCreationScreen extends StatefulWidget {
   final List<IngredientLineDTO> ingredientLines;
@@ -30,6 +31,7 @@ class RecipesStepsCreationScreen extends StatefulWidget {
 }
 
 class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
+  late BuildContext dialogContext;
   List<StepDTO> _steps = [];
 
   RecipeApiClient recipeApiClient = RecipeApiClient();
@@ -153,21 +155,36 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
   }
 
   _submitInfo() {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) => CustomDialog(),
+    );
+    dialogContext = context;
     int stepIndex = 1;
     _steps.forEach((element) {
       element.stepNumber = stepIndex;
       stepIndex++;
     });
-    recipeApiClient.createRecipe(RecetteDTO(
-        profile: profile,
-        name: widget.recipeName,
-        image: widget.base64Image,
-        category: widget.category,
-        ingredientLines: widget.ingredientLines,
-        steps: _steps));
-
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => HomeScreen()),
-        (Route<dynamic> route) => false);
+    recipeApiClient
+        .createRecipe(RecetteDTO(
+            profile: profile,
+            name: widget.recipeName,
+            image: widget.base64Image,
+            category: widget.category,
+            ingredientLines: widget.ingredientLines,
+            steps: _steps))
+        .then((v) {
+      if (v != null) {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+            (Route<dynamic> route) => false);
+      } else {
+        SnackBar(
+          content: Text('recipe not saved'),
+          backgroundColor: Colors.red,
+        );
+      }
+    });
   }
 }

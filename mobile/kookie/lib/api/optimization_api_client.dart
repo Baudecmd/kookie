@@ -6,14 +6,17 @@ import 'package:kookie/datas/data.dart';
 import 'package:kookie/models/step/StepDTO.dart';
 
 class OptimizationApiClient extends LoginApiClient {
-  Future<StepDTO> optimizeSession(Set<int> recipesIds) async {
+  Future<List<StepDTO>?> optimizeSession() async {
+    if (recipesToCook.isEmpty) return null;
     Map<String, dynamic> map = Map<String, dynamic>();
-    map["recipesIds"] = recipesIds.toList();
+    map["recipesIds"] = recipesToCook;
     map["profileId"] = profile!.id.toString();
     final http.Response response =
         await postData('/recipesOptimization/optimize_recipes_list', map);
     if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+      return (jsonDecode(response.body) as List)
+          .map((e) => StepDTO.fromJson(e))
+          .toList();
     } else {
       throw Exception("Failed to fetch optimization");
     }

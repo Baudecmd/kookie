@@ -20,3 +20,4 @@ List<UstensilDTO> listUstensilDTO = [];
 List<CategoryDTO> listCategoryDTO = [];
 List<StepTypeDTO> listStepTypeDTO = [];
 ProfileDTO? profile;
+List<int> recipesToCook = [2, 3];

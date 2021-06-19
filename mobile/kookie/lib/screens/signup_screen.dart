@@ -44,42 +44,65 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   children: [
                     CustomTextField(
                         hintText: 'Email',
+                        validateOnChanged: true,
+                        validator: (_) {
+                          if (username != null) {
+                            if (username!.isEmpty) {
+                              return 'Ce champ est obligatoire';
+                            }
+                            var validCharacters = RegExp(
+                                r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
+                            if (!validCharacters.hasMatch(username!)) {
+                              return "Veuillez entrer un email valide";
+                            }
+                            return null;
+                          }
+                          return 'Ce champ est obligatoire';
+                        },
                         onChanged: (String value) {
                           username = value;
-                          return null;
                         }),
                     SizedBox(height: 30),
                     CustomTextField(
                       hintText: 'Password',
                       isObscureText: true,
-                      onChanged: (String value) {
-                        if (value.isEmpty) {
-                          return 'Please enter a password';
-                        } else if (value.length < 8) {
-                          return 'Password length must be at least 8';
-                        } else {
-                          password1 = value;
+                      validateOnChanged: true,
+                      validator: (value) {
+                        if (password1 != null) {
+                          if (password1!.isEmpty) {
+                            return 'Please enter a password';
+                          } else if (password1!.length < 8) {
+                            return 'Password length must be at least 8';
+                          }
                           return null;
                         }
+                        return 'Please enter a password';
+                      },
+                      onChanged: (String value) {
+                        password1 = value;
                       },
                     ),
                     SizedBox(height: 30),
                     CustomTextField(
-                      hintText: 'Verify password',
-                      isObscureText: true,
-                      onChanged: (String value) {
-                        if (value.isEmpty) {
+                        hintText: 'Verify password',
+                        isObscureText: true,
+                        validateOnChanged: true,
+                        validator: (value) {
+                          if (password2 != null) {
+                            if (password2!.isEmpty) {
+                              return "Please enter a password";
+                            } else if (password2!.length < 8) {
+                              return "Password length must be at least 8";
+                            } else if (password2! != password1) {
+                              return "Password must be the same as above";
+                            }
+                            return null;
+                          }
                           return "Please enter a password";
-                        } else if (value.length < 8) {
-                          return "Password length must be at least 8";
-                        } else if (value != password1) {
-                          return "Password must be the same as above";
-                        } else {
+                        },
+                        onChanged: (String value) {
                           password2 = value;
-                          return null;
-                        }
-                      },
-                    ),
+                        }),
                     SizedBox(height: 30),
                     CustomButton(text: 'SUIVANT', onTap: _submitForm)
                   ],
@@ -92,15 +115,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  bool checkForm() {
-    if (username != null && password1 == password2) {
-      return true;
-    }
-    return false;
-  }
-
   _submitForm() {
-    if (_formKey.currentState!.validate() && checkForm()) {
+    if (_formKey.currentState!.validate()) {
       Navigator.push(
           context,
           MaterialPageRoute(

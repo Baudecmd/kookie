@@ -51,7 +51,7 @@ public class RecetteServiceImpl implements RecetteService {
         Profile profile = profileRepository.findOneById(profileId);
         ArrayList<Integer> favoritesRecettesId = profile.getFavoriteRecettes().stream()
                 .map(Recipe::getId).collect(Collectors.toCollection(ArrayList::new));
-        recipe.setIsFavorite(favoritesRecettesId.contains(favoritesRecettesId));
+        recipe.setIsFavorite(favoritesRecettesId.contains(recipe.getId()));
 
         return recipe;
     }
@@ -65,7 +65,7 @@ public class RecetteServiceImpl implements RecetteService {
                 .map(Recipe::getId).collect(Collectors.toCollection(ArrayList::new));
         List<RecetteDTO> recipes = RecetteParser.parseListToDTO(recipeRepository.findAll());
         for (RecetteDTO r : recipes) {
-            r.setIsFavorite(favoritesRecettesId.contains(favoritesRecettesId));
+            r.setIsFavorite(favoritesRecettesId.contains(r.getId()));
         }
         return recipes;
     }
@@ -80,8 +80,14 @@ public class RecetteServiceImpl implements RecetteService {
         List<Step> steps = (List<Step>) stepRepository.saveAll(recipe.getSteps());
         recipe.setIngredientLines(ingredientLines);
         recipe.setSteps(steps);
-
-        return RecetteParser.toDTO(recipeRepository.save(recipe));
+        Recipe savedRecipe = recipeRepository.save(recipe);
+        RecipeCategory category = recipeCategoryRepository.findOneById(savedRecipe.getCategory().getId());
+        category.getRecipes().add(savedRecipe);
+        recipeCategoryRepository.save(category);
+        Profile profile = profileRepository.findOneById(savedRecipe.getCreator().getId());
+        profile.getCreatedRecettes().add(savedRecipe);
+        profileRepository.save(profile);
+        return RecetteParser.toDTO(savedRecipe);
     }
 
     @Override
@@ -109,7 +115,7 @@ public class RecetteServiceImpl implements RecetteService {
                 thumbnailDTO.setImage(r.getImage());
                 int sumNotes = r.getOpinions().stream().map(Opinion::getNote).reduce(0, Integer::sum);
                 if (r.getOpinions().size() != 0) thumbnailDTO.setNote(sumNotes / r.getOpinions().size());
-                thumbnailDTO.setIsFavorite(favoritesRecettesId.contains(favoritesRecettesId));
+                thumbnailDTO.setIsFavorite(favoritesRecettesId.contains(thumbnailDTO.getId()));
                 thumbnails.add(thumbnailDTO);
             }
         }
@@ -135,7 +141,7 @@ public class RecetteServiceImpl implements RecetteService {
                 thumbnailDTO.setImage(r.getImage());
                 int sumNotes = r.getOpinions().stream().map(Opinion::getNote).reduce(0, Integer::sum);
                 if (r.getOpinions().size() != 0) thumbnailDTO.setNote(sumNotes / r.getOpinions().size());
-                thumbnailDTO.setIsFavorite(favoritesRecettesId.contains(favoritesRecettesId));
+                thumbnailDTO.setIsFavorite(favoritesRecettesId.contains(thumbnailDTO.getId()));
                 thumbnails.add(thumbnailDTO);
             }
         }

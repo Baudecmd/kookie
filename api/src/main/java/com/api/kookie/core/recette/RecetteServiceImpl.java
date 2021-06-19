@@ -80,8 +80,14 @@ public class RecetteServiceImpl implements RecetteService {
         List<Step> steps = (List<Step>) stepRepository.saveAll(recipe.getSteps());
         recipe.setIngredientLines(ingredientLines);
         recipe.setSteps(steps);
-
-        return RecetteParser.toDTO(recipeRepository.save(recipe));
+        Recipe savedRecipe = recipeRepository.save(recipe);
+        RecipeCategory category = recipeCategoryRepository.findOneById(savedRecipe.getCategory().getId());
+        category.getRecipes().add(savedRecipe);
+        recipeCategoryRepository.save(category);
+        Profile profile = profileRepository.findOneById(savedRecipe.getCreator().getId());
+        profile.getCreatedRecettes().add(savedRecipe);
+        profileRepository.save(profile);
+        return RecetteParser.toDTO(savedRecipe);
     }
 
     @Override

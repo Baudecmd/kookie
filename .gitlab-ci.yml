@@ -10,6 +10,7 @@ API:Test:
   stage: test
   image: maven:latest
   script:
+    - echo "#########################"
     - echo "$DATASOURCE_URL"
     - cd api
     - mvn test -e "-Dspring.datasource.url=$DATASOURCE_URL" "-Dspring.datasource.username=$DATASOURCE_USERNAME" "-Dspring.datasource.password=$DATASOURCE_PASSWORD" "-Dlogging.level.org.springframework=INFO" "-Dlogging.level.com.api.kookie=DEBUG"

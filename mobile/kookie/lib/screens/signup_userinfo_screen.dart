@@ -16,7 +16,6 @@ class SignUpUserInfoScreen extends StatefulWidget {
 }
 
 class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
-
   final _formKey = GlobalKey<FormState>();
   final SignUpRepository repository = SignUpRepository();
   String? firstName;
@@ -41,45 +40,56 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
               ),
               Image(
                   width: 0.6 * MediaQuery.of(context).size.width,
-                  image: AssetImage('assets/images/logo.png')
-              ),
+                  image: AssetImage('assets/images/logo.png')),
               Expanded(
                   child: Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomTextField(
-                          hintText: 'Nom',
-                          onChanged: (String value) {
-                        var validCharacters = RegExp(r'^[a-zA-Z ]+$');
-                        if (validCharacters.hasMatch(value)) {
-                          lastName = value;
-                          return null;
-                        } else if (value.isEmpty) {
-                          return "Name field is empty";
-                        } else {
-                          return "Alphabetical characters only !";
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomTextField(
+                      hintText: 'Nom',
+                      validateOnChanged: true,
+                      validator: (_) {
+                        if (lastName != null) {
+                          var validCharacters = RegExp(r'^[a-zA-Z ]+$');
+                          if (validCharacters.hasMatch(lastName!)) {
+                            return null;
+                          } else if (lastName!.isEmpty) {
+                            return "Name field is empty";
+                          } else {
+                            return "Alphabetical characters only !";
+                          }
                         }
+                        return "Name field is empty";
                       },
-                        ),
-                        SizedBox(height: 30),
-                        CustomTextField(
-                          hintText: 'Prénom',
-                          onChanged: (String value) {
-                            var validCharacters = RegExp(r'^[a-zA-Z ]+$');
-                        if (validCharacters.hasMatch(value)) {
-                          firstName = value;
-                          return null;
-                        } else if (value.isEmpty) {
-                          return "Firstname field is empty";
-                        } else {
-                          return "Alphabetical characters only !";
+                      onChanged: (String value) {
+                        lastName = value;
+                      },
+                    ),
+                    SizedBox(height: 30),
+                    CustomTextField(
+                      hintText: 'Prénom',
+                      validateOnChanged: true,
+                      validator: (_) {
+                        if (firstName != null) {
+                          var validCharacters = RegExp(r'^[a-zA-Z ]+$');
+                          if (validCharacters.hasMatch(firstName!)) {
+                            return null;
+                          } else if (firstName!.isEmpty) {
+                            return "Firstname field is empty";
+                          } else {
+                            return "Alphabetical characters only !";
+                          }
                         }
+                        return "Firstname field is empty";
                       },
-                        ),
-                        SizedBox(height: 30),
-                        CustomButton(text: 'VALIDER', onTap: _submitForm)
+                      onChanged: (String value) {
+                        firstName = value;
+                      },
+                    ),
+                    SizedBox(height: 30),
+                    CustomButton(text: 'VALIDER', onTap: _submitForm)
                   ],
                 ),
               ))
@@ -90,15 +100,8 @@ class _SignUpUserInfoScreenState extends State<SignUpUserInfoScreen> {
     );
   }
 
-  bool checkForm() {
-    if (firstName != null && lastName != null) {
-      return true;
-    }
-    return false;
-  }
-
   _submitForm() async {
-    if (_formKey.currentState!.validate() && checkForm()) {
+    if (_formKey.currentState!.validate()) {
       await repository.createProfile(ProfileDTO(
           firstName: firstName, lastName: lastName, user: widget.user));
       Navigator.push(

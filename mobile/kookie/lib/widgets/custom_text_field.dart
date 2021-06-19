@@ -1,29 +1,37 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatefulWidget {
-  final String? Function(String) onChanged;
-  final TextEditingController? controller;
+  final double? width;
+  final double? height;
   final String hintText;
+  final Function onChanged;
+  final Function? validator;
+  final bool? validateOnChanged;
+  final TextEditingController? controller;
   final bool isObscureText;
 
   CustomTextField(
-      {this.controller,
+      {this.width = 240,
+      this.height = 56,
       required this.hintText,
-      this.isObscureText = false,
-      required this.onChanged});
+      required this.onChanged,
+      this.validator,
+      this.validateOnChanged = false,
+      this.controller,
+      this.isObscureText = false});
 
   @override
   _CustomTextFieldState createState() => _CustomTextFieldState();
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-  var _error;
+  String? _errorText;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 240,
-      height: 56,
+      width: widget.width,
+      height: widget.height,
       decoration:
           BoxDecoration(borderRadius: BorderRadius.circular(50), boxShadow: [
         BoxShadow(color: Colors.black26, blurRadius: 4, offset: Offset(0, 2))
@@ -36,7 +44,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           fillColor: Colors.white,
           filled: true,
           hintText: widget.hintText,
-          errorText: _error,
+          errorText: _errorText,
           errorStyle: TextStyle(height: 0),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(50),
@@ -48,11 +56,20 @@ class _CustomTextFieldState extends State<CustomTextField> {
           ),
         ),
         obscureText: widget.isObscureText,
+        validator: widget.validator as String? Function(String?)?,
         onChanged: (String input) {
-          _error = widget.onChanged(input);
-          setState(() {});
+          widget.onChanged(input) as void Function(String)?;
+          setState(() {
+            _errorText = _validate(input);
+          });
         },
       ),
     );
+  }
+
+  String? _validate(String? value) {
+    if (widget.validateOnChanged! && widget.validator != null) {
+      return widget.validator!(value);
+    }
   }
 }

@@ -34,7 +34,6 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Form(
             key: _formKey,
             child: Column(
-              //todo: champs invalide
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image(
@@ -44,17 +43,38 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 60),
                 CustomTextField(
                     hintText: 'Email',
+                    validateOnChanged: true,
+                    validator: (_) {
+                      if (username != null) {
+                        if (username!.isEmpty) {
+                          return 'Ce champ est obligatoire';
+                        }
+                        var validCharacters = RegExp(
+                            r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
+                        if (!validCharacters.hasMatch(username!)) {
+                          return "Veuillez entrer un email valide";
+                        }
+                        return null;
+                      }
+                      return 'Ce champ est obligatoire';
+                    },
                     onChanged: (String value) {
                       username = value;
-                      return '';
                     }),
                 SizedBox(height: 30),
                 CustomTextField(
                   hintText: 'Password',
                   isObscureText: true,
+                  validator: (_) {
+                    if (password == null) {
+                      return 'Ce champ est obligatoire';
+                    } else if (password!.isEmpty) {
+                      return 'Ce champ est obligatoire';
+                    }
+                    return null;
+                  },
                   onChanged: (String value) {
                     password = value;
-                    return '';
                   },
                 ),
                 SizedBox(height: 30),

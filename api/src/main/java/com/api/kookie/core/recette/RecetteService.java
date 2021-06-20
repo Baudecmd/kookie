@@ -12,7 +12,7 @@ public interface RecetteService {
 
     List<RecetteThumbnailDTO> getAllRecipesThumbnails(Integer profileId);
 
-    List<RecetteThumbnailDTO> getAllRecipesThumbnailsByCategoryId(Integer categoryId);
+    List<RecetteThumbnailDTO> getAllRecipesThumbnailsByCategoryId(Integer categoryId, Integer profileId);
 
     RecetteDTO getOneById(Integer profileId, Integer recipeId);
 

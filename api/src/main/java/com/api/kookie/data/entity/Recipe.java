@@ -21,7 +21,7 @@ public class Recipe {
 
     private String image;
 
-    @OneToOne
+    @ManyToOne
     private RecipeCategory category;
 
     @OneToMany(cascade = CascadeType.ALL)

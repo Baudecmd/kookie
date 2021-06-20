@@ -9,8 +9,8 @@ import com.api.kookie.data.entity.*;
 import com.api.kookie.data.entity.ingredient.IngredientLine;
 import com.api.kookie.data.ingredient.IngredientLineRepository;
 import com.api.kookie.data.profile.ProfileRepository;
-import com.api.kookie.data.recipe.RecipeRepository;
 import com.api.kookie.data.recipe.RecipeCategoryRepository;
+import com.api.kookie.data.recipe.RecipeRepository;
 import com.api.kookie.data.step.StepRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,8 +53,8 @@ public class RecetteServiceImpl implements RecetteService {
         RecetteDTO recipe = RecetteParser.toDTO(recipeRepository.findOneById(recipeId));
         Profile profile = profileRepository.findOneById(profileId);
         ArrayList<Integer> favoritesRecettesId = profile.getFavoriteRecettes().stream()
-                .map(Recipe::getId).collect(toCollection(ArrayList::new));
-        recipe.setIsFavorite(favoritesRecettesId.contains(favoritesRecettesId));
+                .map(Recipe::getId).collect(Collectors.toCollection(ArrayList::new));
+        recipe.setIsFavorite(favoritesRecettesId.contains(recipe.getId()));
 
         return recipe;
     }
@@ -68,7 +68,7 @@ public class RecetteServiceImpl implements RecetteService {
                 .map(Recipe::getId).collect(toCollection(ArrayList::new));
         List<RecetteDTO> recipes = RecetteParser.parseListToDTO(recipeRepository.findAll());
         for (RecetteDTO r : recipes) {
-            r.setIsFavorite(favoritesRecettesId.contains(favoritesRecettesId));
+            r.setIsFavorite(favoritesRecettesId.contains(r.getId()));
         }
         return recipes;
     }
@@ -83,8 +83,14 @@ public class RecetteServiceImpl implements RecetteService {
         List<Step> steps = (List<Step>) stepRepository.saveAll(recipe.getSteps());
         recipe.setIngredientLines(ingredientLines);
         recipe.setSteps(steps);
-
-        return RecetteParser.toDTO(recipeRepository.save(recipe));
+        Recipe savedRecipe = recipeRepository.save(recipe);
+        RecipeCategory category = recipeCategoryRepository.findOneById(savedRecipe.getCategory().getId());
+        category.getRecipes().add(savedRecipe);
+        recipeCategoryRepository.save(category);
+        Profile profile = profileRepository.findOneById(savedRecipe.getCreator().getId());
+        profile.getCreatedRecettes().add(savedRecipe);
+        profileRepository.save(profile);
+        return RecetteParser.toDTO(savedRecipe);
     }
 
     @Override
@@ -109,9 +115,10 @@ public class RecetteServiceImpl implements RecetteService {
                 RecetteThumbnailDTO thumbnailDTO = new RecetteThumbnailDTO();
                 thumbnailDTO.setId(r.getId());
                 thumbnailDTO.setName(r.getName());
+                thumbnailDTO.setImage(r.getImage());
                 int sumNotes = r.getOpinions().stream().map(Opinion::getNote).reduce(0, Integer::sum);
                 if (r.getOpinions().size() != 0) thumbnailDTO.setNote(sumNotes / r.getOpinions().size());
-                thumbnailDTO.setIsFavorite(favoritesRecettesId.contains(favoritesRecettesId));
+                thumbnailDTO.setIsFavorite(favoritesRecettesId.contains(thumbnailDTO.getId()));
                 thumbnails.add(thumbnailDTO);
             }
         }
@@ -119,11 +126,11 @@ public class RecetteServiceImpl implements RecetteService {
     }
 
     @Override
-    public List<RecetteThumbnailDTO> getAllRecipesThumbnailsByCategoryId(Integer id) {
-        LOGGER.debug("[RecetteServiceImpl, getAllRecipesThumbnailsByCategoryId] id = " + id);
+    public List<RecetteThumbnailDTO> getAllRecipesThumbnailsByCategoryId(Integer categoryId, Integer profileId) {
+        LOGGER.debug("[RecetteServiceImpl, getAllRecipesThumbnailsByCategoryId] categoryId = " + categoryId + " profileId=" + profileId);
 
-        Profile profile = profileRepository.findOneById(15);
-        RecipeCategory recipeCategory = recipeCategoryRepository.findOneById(id);
+        Profile profile = profileRepository.findOneById(profileId);
+        RecipeCategory recipeCategory = recipeCategoryRepository.findOneById(categoryId);
 
         List<RecetteThumbnailDTO> thumbnails = new ArrayList<>();
 
@@ -134,9 +141,10 @@ public class RecetteServiceImpl implements RecetteService {
                 RecetteThumbnailDTO thumbnailDTO = new RecetteThumbnailDTO();
                 thumbnailDTO.setId(r.getId());
                 thumbnailDTO.setName(r.getName());
+                thumbnailDTO.setImage(r.getImage());
                 int sumNotes = r.getOpinions().stream().map(Opinion::getNote).reduce(0, Integer::sum);
                 if (r.getOpinions().size() != 0) thumbnailDTO.setNote(sumNotes / r.getOpinions().size());
-                thumbnailDTO.setIsFavorite(favoritesRecettesId.contains(favoritesRecettesId));
+                thumbnailDTO.setIsFavorite(favoritesRecettesId.contains(thumbnailDTO.getId()));
                 thumbnails.add(thumbnailDTO);
             }
         }

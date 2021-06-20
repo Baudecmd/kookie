@@ -37,7 +37,10 @@ class RecipeApiClient extends LoginApiClient {
   Future<List<RecetteThumbnailDTO>?> getAllRecipeThumbnailsByCategory(
       CategoryDTO category) async {
     final http.Response response = await getData(
-        '/recette/thumbnail/byCategory?categoryId=' + category.id!.toString());
+        '/recette/thumbnail/byCategory?categoryId=' +
+            category.id!.toString() +
+            "&profileId=" +
+            profile!.id.toString());
     return response.statusCode == 200
         ? (jsonDecode(response.body) as List)
             .map((e) => RecetteThumbnailDTO.fromJson(e))
@@ -61,5 +64,16 @@ class RecipeApiClient extends LoginApiClient {
             .map((e) => UstensilDTO.fromJson(e))
             .toList()
         : null;
+  }
+
+  Future<RecetteDTO?> getOneRecipe(int recipeId) async {
+    if (profile != null) {
+      final http.Response response = await getData(
+          '/recette/one?profileId=${profile!.id}&recipeId=$recipeId');
+      return response.statusCode == 200
+          ? RecetteDTO.fromJson(jsonDecode(response.body))
+          : null;
+    }
+    return null;
   }
 }

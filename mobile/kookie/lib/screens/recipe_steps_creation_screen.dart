@@ -4,20 +4,25 @@ import 'package:kookie/api/recipe_api_client.dart';
 import 'package:kookie/datas/data.dart';
 import 'package:kookie/models/Ustensil/UstensilDTO.dart';
 import 'package:kookie/models/category/CategoryDTO.dart';
+import 'package:kookie/models/ingredient/IngredientDTO.dart';
 import 'package:kookie/models/ingredient/IngredientLineDTO.dart';
 import 'package:kookie/models/recette/RecetteDTO.dart';
 import 'package:kookie/models/step/StepDTO.dart';
+import 'package:kookie/models/step/StepTypeDTO.dart';
 import 'package:kookie/screens/home_screen.dart';
 import 'package:kookie/screens/step_creation_screen.dart';
 import 'package:kookie/widgets/custom_button.dart';
+import 'package:kookie/widgets/custom_dialog.dart';
 
 class RecipesStepsCreationScreen extends StatefulWidget {
   final List<IngredientLineDTO> ingredientLines;
   final String recipeName;
+  final CategoryDTO category;
   final String base64Image;
 
   RecipesStepsCreationScreen(
       {required this.ingredientLines,
+      required this.category,
       required this.recipeName,
       required this.base64Image});
 
@@ -26,6 +31,7 @@ class RecipesStepsCreationScreen extends StatefulWidget {
 }
 
 class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
+  late BuildContext dialogContext;
   List<StepDTO> _steps = [];
 
   RecipeApiClient recipeApiClient = RecipeApiClient();
@@ -33,7 +39,12 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
   @override
   void initState() {
     super.initState();
-    _steps.add(StepDTO(stepNumber: 1, ustensils: List<UstensilDTO>.empty()));
+    _steps.add(StepDTO(
+        stepNumber: 1,
+        ustensils: List<UstensilDTO>.empty(),
+        stepType: StepTypeDTO(name: ''),
+        ingredientLine: IngredientLineDTO(
+            ingredient: IngredientDTO(name: ''), quantity: 0)));
   }
 
   @override
@@ -115,7 +126,11 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
       _steps.insert(
           stepNumber - 1,
           StepDTO(
-              stepNumber: stepNumber, ustensils: List<UstensilDTO>.empty()));
+              stepNumber: stepNumber,
+              ustensils: List<UstensilDTO>.empty(),
+              stepType: StepTypeDTO(name: ''),
+              ingredientLine: IngredientLineDTO(
+                  ingredient: IngredientDTO(name: ''), quantity: 0)));
     });
   }
 
@@ -140,21 +155,36 @@ class _RecipeStepsCreationScreen extends State<RecipesStepsCreationScreen> {
   }
 
   _submitInfo() {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) => CustomDialog(),
+    );
+    dialogContext = context;
     int stepIndex = 1;
     _steps.forEach((element) {
       element.stepNumber = stepIndex;
       stepIndex++;
     });
-    recipeApiClient.createRecipe(RecetteDTO(
-        profile: profile,
-        name: widget.recipeName,
-        image: widget.base64Image,
-        category: CategoryDTO(id: 10, name: "Français"),
-        ingredientLines: widget.ingredientLines,
-        steps: _steps));
-
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => HomeScreen()),
-        (Route<dynamic> route) => false);
+    recipeApiClient
+        .createRecipe(RecetteDTO(
+            profile: profile,
+            name: widget.recipeName,
+            image: widget.base64Image,
+            category: widget.category,
+            ingredientLines: widget.ingredientLines,
+            steps: _steps))
+        .then((v) {
+      if (v != null) {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+            (Route<dynamic> route) => false);
+      } else {
+        SnackBar(
+          content: Text('recipe not saved'),
+          backgroundColor: Colors.red,
+        );
+      }
+    });
   }
 }

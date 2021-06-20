@@ -6,14 +6,14 @@ part 'RecetteThumbnailDTO.g.dart';
 class RecetteThumbnailDTO {
   final int id;
   final String name;
-  final String? imageURL;
+  final String? image;
   final int? note;
   bool isFavorite;
 
   RecetteThumbnailDTO(
       {required this.id,
       required this.name,
-      this.imageURL,
+      this.image,
       this.note,
       required this.isFavorite});
 

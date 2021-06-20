@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kookie/models/recette/RecetteDTO.dart';
-import 'package:kookie/screens/home_screen.dart';
 
 typedef FavoriteItemCallBack = void Function(int id);
 
@@ -24,10 +23,7 @@ class _FavoriteItemState extends State<FavoriteItem> {
       children: [
         GestureDetector(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomeScreen()),
-            );
+            Navigator.pop(context);
           },
           child: Text(widget.recette.name,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),

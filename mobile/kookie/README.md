@@ -92,19 +92,19 @@ Un petit rapelle de guideline d'issues :
 ## Screenshots:
 
  <div style="display: flex; flex-wrap: wrap;">
- <img style="flex: 1 1 auto" src="https://gitlab.com/Elayve/kookie/-/tree/master/archive/media/1.png" />
- <img style="flex: 1 1 auto" src="https://gitlab.com/Elayve/kookie/-/tree/master/archive/media/2.png" />
- <img style="flex: 1 1 auto" src="https://gitlab.com/Elayve/kookie/-/tree/master/archive/media/3.png" />
- <img style="flex: 1 1 auto" src="https://gitlab.com/Elayve/kookie/-/tree/master/archive/media/4.png" />
- <img style="flex: 1 1 auto" src="https://gitlab.com/Elayve/kookie/-/tree/master/archive/media/5.png" />
- <img style="flex: 1 1 auto" src="https://gitlab.com/Elayve/kookie/-/tree/master/archive/media/6.png" />
- <img style="flex: 1 1 auto" src="https://gitlab.com/Elayve/kookie/-/tree/master/archive/media/7.png" />
- <img style="flex: 1 1 auto" src="https://gitlab.com/Elayve/kookie/-/tree/master/archive/media/8.png" />
- <img style="flex: 1 1 auto" src="https://gitlab.com/Elayve/kookie/-/tree/master/archive/media/9.png" />
- <img style="flex: 1 1 auto" src="https://gitlab.com/Elayve/kookie/-/tree/master/archive/media/10.png" />
- <img style="flex: 1 1 auto" src="https://gitlab.com/Elayve/kookie/-/tree/master/archive/media/11.png" />
- <img style="flex: 1 1 auto" src="https://gitlab.com/Elayve/kookie/-/tree/master/archive/media/12.png" />
- <img style="flex: 1 1 auto" src="https://gitlab.com/Elayve/kookie/-/tree/master/archive/media/13.png" />
- <img style="flex: 1 1 auto" src="https://gitlab.com/Elayve/kookie/-/tree/master/archive/media/14.png" />
- <img style="flex: 1 1 auto" src="https://gitlab.com/Elayve/kookie/-/tree/master/archive/media/15.png" />
+ <img style="flex: 1 1 auto" src="../../archive/media/1.png" />
+ <img style="flex: 1 1 auto" src="../../archive/media/2.png" />
+ <img style="flex: 1 1 auto" src="../../archive/media/3.png" />
+ <img style="flex: 1 1 auto" src="../../archive/media/4.png" />
+ <img style="flex: 1 1 auto" src="../../archive/media/5.png" />
+ <img style="flex: 1 1 auto" src="../../archive/media/6.png" />
+ <img style="flex: 1 1 auto" src="../../archive/media/7.png" />
+ <img style="flex: 1 1 auto" src="../../archive/media/8.png" />
+ <img style="flex: 1 1 auto" src="../../rchive/media/9.png" />
+ <img style="flex: 1 1 auto" src="../../archive/media/10.png" />
+ <img style="flex: 1 1 auto" src="../../archive/media/11.png" />
+ <img style="flex: 1 1 auto" src="../../archive/media/12.png" />
+ <img style="flex: 1 1 auto" src="../../archive/media/13.png" />
+ <img style="flex: 1 1 auto" src="../../archive/media/14.png" />
+ <img style="flex: 1 1 auto" src="../../archive/media/15.png" />
  </div>

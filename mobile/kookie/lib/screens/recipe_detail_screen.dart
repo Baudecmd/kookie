@@ -28,19 +28,46 @@ class _RecipeDetailsState extends State<RecipeDetails> {
   }
 
   List<Widget> initTab() {
-    //var ustensils = recette.getAllUstensils();
+    var ustensils = widget.recette.getAllUstensils();
     return <Widget>[
-      ListView.builder(
+      ListView.separated(
+          separatorBuilder: (_, __) => Divider(height: 0.5),
           itemCount: widget.recette.ingredientLines!.length,
           itemBuilder: (BuildContext ctxt, int index) {
-            return new Text(
-                widget.recette.ingredientLines![index].ingredient.name);
+            return new Container(
+                padding: EdgeInsets.only(left: 10, top: 10),
+                child: Text(
+                  widget.recette.ingredientLines![index].ingredient.name,
+                  style: TextStyle(fontSize: 20),
+                ));
           }),
-      Text("Ustensiles"),
-      ListView.builder(
+      ListView.separated(
+          separatorBuilder: (_, __) => Divider(height: 0.5),
+          itemCount: ustensils.length,
+          itemBuilder: (BuildContext ctxt, int index) {
+            return new Container(
+                padding: EdgeInsets.only(left: 10, top: 10),
+                child: Text(
+                  ustensils[index].name!,
+                  style: TextStyle(fontSize: 20),
+                ));
+          }),
+      ListView.separated(
+          separatorBuilder: (_, __) => Divider(height: 0.5),
           itemCount: widget.recette.steps!.length,
           itemBuilder: (BuildContext ctxt, int index) {
-            return new Text(widget.recette.steps![index].name!);
+            return new Container(
+                padding: EdgeInsets.only(left: 10, top: 10, right: 10),
+                child: Card(
+                  child: ListTile(
+                      title: Text("Étape " + (index + 1).toString(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18)),
+                      subtitle: Text(
+                        widget.recette.steps![index].name!,
+                        style: TextStyle(fontSize: 13),
+                      )),
+                ));
           })
     ];
   }

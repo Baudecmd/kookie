@@ -37,8 +37,6 @@ class _StartCookingState extends State<StartCooking> {
             children: [
               Text('Description : ${widget.listStepDTO[currentStep].name!}'),
               Text(
-                  'Durée : ${widget.listStepDTO[currentStep].duration!.toString()}'),
-              Text(
                   'Numéro d\'etape : ${widget.listStepDTO[currentStep].stepNumber.toString()}'),
               Text(
                   'Type d\'etape : ${widget.listStepDTO[currentStep].stepType!.name}'),
